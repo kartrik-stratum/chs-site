@@ -20,6 +20,8 @@ const ROOT = path.join(__dirname, '..');
 const PAGES = require('../data/pages.json');
 const BY_PATH = new Map(PAGES.map((p) => [p.path, p]));
 const APP_PATHS = { '/': 'landing', '/design-tool/': 'builder', '/contact-us/': 'summary' };
+// Views each URL carries. The design tool keeps its board + form step, exactly as before.
+const KEEP_VIEWS = { landing: ['landing'], builder: ['builder', 'summary'], summary: ['summary'] };
 
 const esc = (s) => String(s == null ? '' : s).replace(/[&<>"']/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
 const jsonLd = (obj) => `<script type="application/ld+json">${JSON.stringify(obj).replace(/</g, '\\u003c')}</script>`;
@@ -129,10 +131,12 @@ function renderApp(page, req) {
   // Each URL only carries its own view: no duplicate content and exactly one <h1> per page.
   const VIEWS = { landing: 'VIEW: HOMEPAGE', builder: 'VIEW: BUILDER', summary: 'VIEW: SUMMARY' };
   for (const [name, marker] of Object.entries(VIEWS)) {
-    if (name === view) continue;
+    if (KEEP_VIEWS[view].includes(name)) continue;
     html = html.replace(new RegExp(`\\s*<!-- =+ ${marker}[\\s\\S]*?(?=\\s*<!-- =+ VIEW:|\\s*</div>\\s*<div class="toast")`), '');
   }
   if (view === 'builder') {
+    // The board step's heading stays an <h2> here so the page has a single <h1> (same look: styled by class).
+    html = html.replace('<h1 class="summary__title" id="summary-title">Your Vision Board is Ready!</h1>', '<h2 class="summary__title" id="summary-title">Your Vision Board is Ready!</h2>');
     html = html.replace('<div class="builder__content" id="builder-content" aria-live="polite"></div>', `<div class="builder__content" id="builder-content" aria-live="polite">${DESIGN_TOOL_SSR(page)}</div>`);
   }
   return html;

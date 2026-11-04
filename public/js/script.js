@@ -4,7 +4,8 @@
  *   /                              homepage (with the embedded Caliber Bath Designer)
  *   /design-tool/                  "Pick a Style to Start"
  *   /design-tool/#/builder/step-N  step N of 10
- *   /contact-us/[#/summary?b=...]  board + lead form (b = shared board)
+ *   /design-tool/#/summary         board + lead form (same flow as before, only the URL changed)
+ *   /contact-us/                   the same board + lead form, for "Free Consultation" buttons
  */
 (function () {
   'use strict';
@@ -133,7 +134,7 @@
   }
 
   let lastRouteKey = '';
-  const VIEW_HOME = { builder: '/design-tool/', summary: '/contact-us/', landing: '/' };
+  const VIEW_HOME = { builder: '/design-tool/', summary: '/design-tool/', landing: '/' };
 
   function render() {
     const r = parseRoute();
@@ -209,7 +210,7 @@
       ${complete ? `
       <div class="ready-box">
         <p>${icon('party', 14)} Your vision board is ready!</p>
-        <a href="/contact-us/" class="btn btn--green btn--sm">View My Board ${icon('arrowRight', 12)}</a>
+        <a href="#/summary" class="btn btn--green btn--sm">View My Board ${icon('arrowRight', 12)}</a>
       </div>` : ''}
       <div class="sidebar__section">
         <label class="a11y-toggle ${state.accessible ? 'is-on' : ''}">
@@ -351,7 +352,7 @@
         <div class="step__nav">
           <a href="${n === 1 ? '#/builder' : `#/builder/step-${n - 1}`}" class="step__back">${icon('chevronLeft', 14)} Back</a>
           ${last
-            ? `<a href="/contact-us/" class="btn btn--blue btn--pill">${icon('zap', 14)} Reveal My Board</a>`
+            ? `<a href="#/summary" class="btn btn--blue btn--pill">${icon('zap', 14)} Reveal My Board</a>`
             : `<a href="#/builder/step-${n + 1}" class="btn btn--blue btn--pill">Next ${icon('arrowRight', 14)}</a>`}
         </div>
         <nav class="dots" aria-label="Steps">${dots}</nav>
@@ -411,7 +412,7 @@
   }
 
   function shareUrl() {
-    return `${location.origin}/contact-us/#/summary?b=${encodeBoard()}`;
+    return `${location.origin}${location.pathname}#/summary?b=${encodeBoard()}`;
   }
 
   function renderSummary() {
@@ -444,7 +445,7 @@
         </div>
         <div class="board-card__label"><strong>Bathroom Vision Board</strong><small>${esc(date)}</small></div>
       </header>
-      <div class="mosaic">${tiles || `<p class="mosaic__empty">Your board is empty. <a href="/design-tool/" class="link-blue">Pick a style to start →</a></p>`}</div>
+      <div class="mosaic">${tiles || `<p class="mosaic__empty">Your board is empty. <a href="#/builder" class="link-blue">Pick a style to start →</a></p>`}</div>
       <footer class="board-card__foot"><em>Designed with the Caliber Bath Designer</em><a href="/" class="link-blue">${esc(C.business.website)}</a></footer>`;
 
     $('#selections-list').innerHTML = STEPS.map((s, i) => {
@@ -452,7 +453,7 @@
       const v = valueLabel(s);
       const sub = subLabel(s);
       return `<li>
-        <a href="/design-tool/#/builder/step-${i + 1}" class="sel-row">
+        <a href="#/builder/step-${i + 1}" class="sel-row">
           <span class="sel-row__thumb">${o ? `<img src="${esc(optionImage(s, o))}" alt="" loading="lazy">` : icon(state.picks[s.key] === SKIP ? 'x' : 'image', 12)}</span>
           <span class="sel-row__text"><small>${esc(s.title)}</small><strong>${esc(v) || '<em>Not chosen yet</em>'}</strong>${sub ? `<span class="sel-row__sub">${esc(sub)}</span>` : ''}</span>
           <span class="sel-row__state ${isDone(s) ? 'is-done' : ''}">${icon(isDone(s) ? 'checkCircle' : 'image', 15)}</span>
