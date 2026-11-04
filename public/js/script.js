@@ -546,7 +546,7 @@
       </div>
       <div class="designer__foot">
         <span>${doneCount() ? `${icon('checkCircle', 14)} Saved to your free quote` : 'Your picks save automatically'}</span>
-        <a class="btn btn--blue" href="/contact-us/" target="_blank" rel="noopener" data-open-form>Send to Consultant</a>
+        <a class="btn btn--blue" href="/design-tool/#/summary" target="_blank" rel="noopener" data-open-form>Send to Consultant</a>
       </div>`;
 
     root.querySelectorAll('[data-home-tab]').forEach((b) => b.addEventListener('click', () => {
