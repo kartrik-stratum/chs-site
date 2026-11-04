@@ -456,11 +456,11 @@
     { id: 'review', label: 'Review', icon: 'eye' }
   ];
   /* Homepage-only photos for the designer (the full builder keeps its own option images). */
-  const HOME_DEFAULT_PREVIEW = '/images/home/designer-preview.jpg?v=4';
+  const HOME_DEFAULT_PREVIEW = '/images/home/designer-preview.jpg?v=5';
   const HOME_IMG = {
-    'walk-in-shower': { thumb: '/images/home/designer-thumb-walk-in-shower.jpg?v=4', preview: '/images/home/solution-walk-in-showers.jpg?v=4' },
-    'tub-to-shower-conversion': { thumb: '/images/home/designer-thumb-teal-shower.jpg?v=4', preview: '/images/home/about.jpg?v=4' },
-    'replacement-bathtub': { thumb: '/images/home/designer-thumb-subway-tub.jpg?v=4', preview: '/images/home/solution-walk-in-tubs.jpg?v=4' }
+    'walk-in-shower': { thumb: '/images/home/designer-thumb-walk-in-shower.jpg?v=5', preview: '/images/home/solution-walk-in-showers.jpg?v=5' },
+    'tub-to-shower-conversion': { thumb: '/images/home/designer-thumb-teal-shower.jpg?v=5', preview: '/images/home/about.jpg?v=5' },
+    'replacement-bathtub': { thumb: '/images/home/designer-thumb-subway-tub.jpg?v=5', preview: '/images/home/solution-walk-in-tubs.jpg?v=5' }
   };
   const homeThumb = (step, o) => (HOME_IMG[o.id] && HOME_IMG[o.id].thumb) || optionImage(step, o);
   const homePreview = (step, o) => (HOME_IMG[o.id] && HOME_IMG[o.id].preview) || optionImage(step, o);
