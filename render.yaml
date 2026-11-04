@@ -1,0 +1,32 @@
+# Render Blueprint – free live URL (https://<name>.onrender.com), no domain needed.
+services:
+  - type: web
+    name: superfast-vision-board
+    runtime: node
+    plan: free
+    branch: claude/intelligent-mayer-nv3axy
+    buildCommand: npm ci --omit=dev
+    startCommand: npm start
+    healthCheckPath: /
+    envVars:
+      - key: NODE_ENV
+        value: production
+      - key: TRUST_PROXY
+        value: "1"
+      - key: OWNER_TIMEZONE
+        value: America/Denver
+      - key: SMTP_PORT
+        value: "587"
+      - key: SMTP_REQUIRE_TLS
+        value: "true"
+      # Secrets – Render asks for these values when you create the service
+      - key: OWNER_EMAIL
+        sync: false
+      - key: SMTP_HOST
+        sync: false
+      - key: SMTP_USER
+        sync: false
+      - key: SMTP_PASS
+        sync: false
+      - key: MAIL_FROM
+        sync: false

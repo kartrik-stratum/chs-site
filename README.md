@@ -113,6 +113,17 @@ npm start
 
 Submit the form. Each email is saved to `dev-mail/` as a `.eml` file and a `.html` file. Open the `.html` file in a browser to see exactly what the owner receives.
 
+## Live preview without a domain (Render, free)
+
+GitHub Pages only serves static files, so it cannot run the form's Node server. Render can, and gives a free `https://<name>.onrender.com` URL.
+
+1. Sign in at https://render.com with GitHub, and give Render access to `kartrik-stratum/chs-site`.
+2. Go to **New → Blueprint** and pick this repo. `render.yaml` sets up the service on branch `claude/intelligent-mayer-nv3axy`.
+3. Fill in `OWNER_EMAIL`, `SMTP_HOST`, `SMTP_USER`, `SMTP_PASS` and `MAIL_FROM` when Render prompts for them, then click **Apply**.
+4. After the build, open the `onrender.com` URL. The builder works even before SMTP is set, but form submissions return an error until the email settings are filled in.
+
+The free plan sleeps when idle, so the first visit after a while takes about 30 seconds to load.
+
 ## Configuring the owner's email (production)
 
 All settings are environment variables. Nothing secret is in the source code or sent to the browser.
