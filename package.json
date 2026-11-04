@@ -1,7 +1,7 @@
 {
-  "name": "superfast-vision-board",
+  "name": "caliber-home-solutions",
   "version": "1.0.0",
-  "description": "SuperFast Kitchen & Bath – Bathroom Vision Board builder with lead form and owner email notifications",
+  "description": "Caliber Home Solutions – homepage, Bath Designer with lead form and owner email notifications",
   "main": "server.js",
   "private": true,
   "scripts": {

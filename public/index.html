@@ -3,84 +3,379 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>SuperFast Kitchen &amp; Bath – Remodeling Done Right, Remarkably Fast</title>
-  <meta name="description" content="Design your dream bathroom in about two minutes with the SuperFast Vision Board – pick real products we install and get a head start on your free quote.">
+  <title>Caliber Home Solutions – Aging-in-Place Remodeling &amp; Accessibility</title>
+  <meta name="description" content="Walk-in showers, walk-in tubs, stair lifts and home elevators from Caliber Home Solutions. Design your accessible bathroom online and book a free in-home consultation.">
   <link rel="icon" href="/images/favicon.svg" type="image/svg+xml">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,600;9..144,700&family=Poppins:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,500;0,9..144,600;1,9..144,500;1,9..144,600&family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="/css/style.css">
+  <link rel="stylesheet" href="/css/home.css">
 </head>
 <body>
   <a class="skip-link" href="#app">Skip to content</a>
 
   <div id="app" tabindex="-1">
 
-    <!-- ============ VIEW: LANDING / DESIGN TOOL ============ -->
-    <section id="view-landing" class="view" data-view="landing" hidden>
-      <header class="site-nav">
-        <div class="site-nav__progress" aria-hidden="true"></div>
-        <div class="site-nav__inner">
-          <a class="site-nav__logo" href="#/" aria-label="SuperFast Kitchen &amp; Bath home">
-            <img src="/images/logo.svg" alt="SuperFast Kitchen &amp; Bath" width="104" height="36">
+    <!-- ============ VIEW: HOMEPAGE ============ -->
+    <section id="view-landing" class="view home" data-view="landing" hidden>
+
+      <!-- Promo bar -->
+      <div class="topbar">
+        <div class="container topbar__inner">
+          <p class="topbar__offer"><span class="topbar__tag">Limited time</span> <strong>Save up to $1,500</strong> <span class="hide-sm">on a walk-in shower or walk-in tub.</span> <a href="#offers">See offers →</a></p>
+          <p class="topbar__contact hide-md"><span>Boise, ID · Mon–Fri 8–5</span><a href="tel:+12085523037">Call (208) 552-3037</a></p>
+        </div>
+      </div>
+
+      <!-- Header -->
+      <header class="header" id="site-header">
+        <div class="container header__inner">
+          <a class="header__logo" href="#/" aria-label="Caliber Home Solutions home">
+            <img src="/images/brand/caliber-logo.png" alt="Caliber Home Solutions" width="162" height="43">
           </a>
-          <button class="site-nav__burger" type="button" aria-expanded="false" aria-controls="site-menu" aria-label="Open menu">
-            <span></span><span></span><span></span>
-          </button>
-          <nav id="site-menu" class="site-nav__menu" aria-label="Main">
-            <div class="site-nav__dropdown">
-              <button type="button" class="site-nav__link site-nav__link--drop" aria-expanded="false">Products <span aria-hidden="true">▾</span></button>
-              <ul class="site-nav__submenu">
-                <li><a href="#/builder">Bath Remodels</a></li>
-                <li><a href="#/builder">Shower Conversions</a></li>
-                <li><a href="#/builder">Walk-In Tubs</a></li>
-                <li><a href="#" data-kitchen>Kitchen Remodels</a></li>
+          <nav class="nav" id="site-menu" aria-label="Main">
+            <div class="nav__item nav__item--drop">
+              <button type="button" class="nav__link" aria-expanded="false">Bathrooms <span class="nav__caret" aria-hidden="true"></span></button>
+              <ul class="nav__sub">
+                <li><a href="#solutions">Walk-in showers</a></li>
+                <li><a href="#solutions">Walk-in tubs</a></li>
+                <li><a href="#solutions">Tub-to-shower conversions</a></li>
               </ul>
             </div>
-            <a class="site-nav__link is-active" href="#/">Design Tool</a>
-            <a class="site-nav__link" href="#">Service Areas</a>
-            <a class="site-nav__link" href="#">Reviews</a>
-            <a class="site-nav__link" href="#">Events</a>
-            <a class="site-nav__link" href="#">Offers</a>
-            <a class="site-nav__link" href="#">Refer a Friend</a>
-            <a class="site-nav__link" href="#">Pricing</a>
-            <a class="btn btn--orange site-nav__cta" href="#/builder">Let’s Get Started</a>
+            <div class="nav__item nav__item--drop">
+              <button type="button" class="nav__link" aria-expanded="false">Home lifts <span class="nav__caret" aria-hidden="true"></span></button>
+              <ul class="nav__sub">
+                <li><a href="#solutions">Stair lifts</a></li>
+                <li><a href="#solutions">Home elevators</a></li>
+              </ul>
+            </div>
+            <a class="nav__link" href="#design-tool">Design Tool <span class="nav__new">New</span></a>
+            <a class="nav__link" href="#offers">Offers</a>
+            <a class="nav__link" href="#offers">Financing</a>
+            <a class="nav__link" href="#locations">Locations</a>
+            <a class="btn btn--blue nav__cta" href="/#/summary" target="_blank" rel="noopener" data-open-form>Free Consultation</a>
           </nav>
+          <button class="header__burger" type="button" aria-expanded="false" aria-controls="site-menu" aria-label="Open menu"><span></span><span></span><span></span></button>
         </div>
       </header>
 
-      <main class="hero">
-        <div class="hero__inner">
-          <div class="hero__copy">
-            <p class="hero__kicker">Exclusive Design Tool</p>
-            <h1 class="hero__title">See your new bathroom or kitchen <em>before</em> it’s built.</h1>
-            <p class="hero__lead">Pick your tile, vanity, cabinets, fixtures and more - and watch your dream space come to life in about two minutes. It’s free, there’s no pressure, and it gives your designer a head start on your quote.</p>
-            <ul class="hero__list">
-              <li>Choose from real products we install</li>
-              <li>Get a head start on your free quote</li>
-              <li>No account, no obligation - just fun</li>
+      <main>
+        <!-- Hero -->
+        <section class="hero2">
+          <div class="hero2__bg" aria-hidden="true"><img src="/images/home/hero-banner.jpg" alt="" width="2000" height="1083" fetchpriority="high"></div>
+          <div class="container hero2__inner">
+            <div class="hero2__copy">
+              <span class="chip-glass"><span class="chip-glass__dot"></span>Authorized Jacuzzi® Bath Remodel Dealer</span>
+              <h1 class="hero2__title">Aging-in-Place Home Remodeling, <em>&amp; Accessibility Solutions</em></h1>
+              <p class="hero2__lead">Caliber Home Solutions provides walk-in showers, walk-in tubs, stair lifts and home elevators, installed by local experts. Get professional aging-in-place remodeling and accessibility solutions for your home.</p>
+              <div class="hero2__actions">
+                <a class="btn btn--white btn--lg" href="#/builder">Try the Design Tool <span aria-hidden="true">→</span></a>
+                <a class="hero2__call" href="tel:+12085523037"><svg viewBox="0 0 24 24" width="16" height="16" aria-hidden="true"><path d="M22 16.9v3a2 2 0 0 1-2.2 2 19.8 19.8 0 0 1-8.6-3.1 19.5 19.5 0 0 1-6-6A19.8 19.8 0 0 1 2.1 4.2 2 2 0 0 1 4.1 2h3a2 2 0 0 1 2 1.7c.1.9.4 1.8.7 2.7a2 2 0 0 1-.5 2.1L8 9.8a16 16 0 0 0 6 6l1.3-1.3a2 2 0 0 1 2.1-.4c.9.3 1.8.6 2.7.7a2 2 0 0 1 1.7 2z"/></svg>or call (208) 552-3037</a>
+              </div>
+              <ul class="hero2__trust">
+                <li><span class="stars" aria-hidden="true">★★★★★</span> 5-star Google reviews</li>
+                <li>Free in-home consultation</li>
+                <li>Flexible financing</li>
+              </ul>
+            </div>
+            <div class="hero2__form">
+              <div class="quick-card" data-quick-form-wrap></div>
+            </div>
+          </div>
+        </section>
+
+        <!-- Partners -->
+        <section class="partners" aria-label="Partners and credentials">
+          <div class="container partners__grid">
+            <div class="partner"><span class="partner__label">Authorized dealer</span><span class="partner__logo partner__logo--jacuzzi">Jacuzzi<sup>®</sup><small>Bath Remodel</small></span></div>
+            <div class="partner"><span class="partner__label">Home lift partners</span><span class="partner__logo"><b class="partner__stiltz">stiltz</b><b class="partner__bruno">BRUNO</b></span></div>
+            <div class="partner"><span class="partner__label">Google reviews</span><span class="partner__logo"><span class="stars">★★★★★</span><b>5-star rated</b></span></div>
+            <div class="partner"><span class="partner__label">Proudly serving since</span><span class="partner__logo partner__logo--year">1999</span></div>
+          </div>
+        </section>
+
+        <!-- Solutions -->
+        <section class="section section--tint" id="solutions">
+          <div class="container">
+            <div class="section-head section-head--split">
+              <div>
+                <p class="eyebrow">Our solutions</p>
+                <h2 class="h2">Home Remodeling &amp; Accessibility Solutions</h2>
+              </div>
+              <p class="section-head__aside">Every product we install is built for independence. Here's how we help you keep living safely and comfortably in the home you already love.</p>
+            </div>
+            <div class="bento" data-carousel>
+              <article class="tile2 tile2--xl">
+                <div class="media"><img src="/images/home/solution-walk-in-showers.jpg" alt="Walk-in shower with sliding glass doors" loading="lazy"></div>
+                <div class="tile2__body">
+                  <span class="badge badge--gold">Most requested</span>
+                  <h3 class="tile2__title">Walk-in Showers</h3>
+                  <p>Low thresholds, built-in seating and grab bars. Remodeled in as little as one day.</p>
+                  <a class="btn btn--white btn--sm" href="#/builder">Explore Walk-in Showers <span aria-hidden="true">→</span></a>
+                </div>
+              </article>
+              <article class="tile2 tile2--wide">
+                <div class="media"><img src="/images/home/solution-walk-in-tubs.jpg" alt="Walk-in tub with side door" loading="lazy"></div>
+                <div class="tile2__body"><h3 class="tile2__title">Walk-in Tubs</h3><p>Low-step entry with optional hydrotherapy jets.</p><a class="tile2__link" href="#/builder">Explore →</a></div>
+              </article>
+              <article class="tile2">
+                <div class="media"><img src="/images/home/solution-stair-lifts.jpg" alt="Stair lift" loading="lazy"></div>
+                <div class="tile2__body"><h3 class="tile2__title">Stair Lifts</h3><a class="tile2__link" href="/#/summary" target="_blank" rel="noopener" data-open-form>Explore →</a></div>
+              </article>
+              <article class="tile2">
+                <div class="media"><img src="/images/home/solution-home-elevators.jpg" alt="Home elevator" loading="lazy"></div>
+                <div class="tile2__body"><h3 class="tile2__title">Home Elevators</h3><a class="tile2__link" href="/#/summary" target="_blank" rel="noopener" data-open-form>Explore →</a></div>
+              </article>
+            </div>
+          </div>
+        </section>
+
+        <!-- About -->
+        <section class="section">
+          <div class="container about">
+            <div class="about__media">
+              <div class="media media--rounded"><img src="/images/home/about.jpg" alt="Accessible bathroom remodel" loading="lazy"></div>
+              <div class="about__since"><small>Serving since</small><strong>1999</strong></div>
+            </div>
+            <div class="about__copy">
+              <p class="eyebrow">About Caliber</p>
+              <h2 class="h2">Your Local Aging-in-Place <em>Remodeling Company</em></h2>
+              <ul class="features">
+                <li><span class="features__icon"><svg viewBox="0 0 24 24" width="18" height="18" aria-hidden="true"><path d="M12 2 4 6v6c0 5 3.4 9.3 8 10 4.6-.7 8-5 8-10V6l-8-4z"/><path d="m9 12 2 2 4-4"/></svg></span><div><strong>Quality products</strong><p>Authorized dealer for Jacuzzi®, Stiltz and Bruno: products built to last and backed by strong warranties.</p></div></li>
+                <li><span class="features__icon"><svg viewBox="0 0 24 24" width="18" height="18" aria-hidden="true"><circle cx="12" cy="8" r="5"/><path d="m8.5 12.5-1.5 9 5-3 5 3-1.5-9"/></svg></span><div><strong>Extensive experience</strong><p>Since 1999 our installers have helped families across the Mountain West age safely at home.</p></div></li>
+                <li><span class="features__icon"><svg viewBox="0 0 24 24" width="18" height="18" aria-hidden="true"><path d="M20.8 4.6a5.5 5.5 0 0 0-7.8 0L12 5.7l-1-1a5.5 5.5 0 0 0-7.8 7.8l1 1L12 21l7.8-7.8 1-1a5.5 5.5 0 0 0 0-7.6z"/></svg></span><div><strong>Personalized service</strong><p>A dedicated consultant guides you from your free in-home visit to the final walkthrough.</p></div></li>
+              </ul>
+              <a class="link-arrow" href="#reviews">Why Caliber Home Solutions <span aria-hidden="true">→</span></a>
+            </div>
+          </div>
+        </section>
+
+        <!-- Design tool -->
+        <section class="section section--navy" id="design-tool">
+          <div class="container designer-wrap">
+            <div class="designer" id="home-designer" aria-label="Caliber Bath Designer"></div>
+            <div class="designer-copy">
+              <p class="eyebrow eyebrow--gold">Free online design tool</p>
+              <h2 class="h2 h2--light">See it before we build it.</h2>
+              <p>Pick your shower base, wall pattern, fixtures and safety accessories, and watch your new bathroom come together in about two minutes.</p>
+              <ul class="checks">
+                <li>Real Jacuzzi® products we install</li>
+                <li>No account, no obligation</li>
+                <li>Your design goes straight to your consultant</li>
+              </ul>
+              <div class="designer-copy__actions">
+                <a class="btn btn--gold btn--lg" href="#/builder">Design My Bathroom <span aria-hidden="true">→</span></a>
+                <a class="link-light" href="/#/summary" target="_blank" rel="noopener" data-open-form>Plan a home lift →</a>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <!-- Process -->
+        <section class="section section--tint">
+          <div class="container">
+            <div class="section-head section-head--center">
+              <p class="eyebrow eyebrow--lines">The Caliber difference</p>
+              <h2 class="h2">Four Simple Steps to Your Home Remodeling Project</h2>
+              <p>From your first consultation to final installation, our team guides you through every step of your home improvement project.</p>
+            </div>
+            <ol class="steps4" data-carousel>
+              <li class="card step4"><span class="step4__num step4__num--blue">1</span><h3>Free in-home consultation</h3><p>A local specialist discusses your needs, measures your space, and explains suitable remodeling options and pricing.</p></li>
+              <li class="card step4"><span class="step4__num step4__num--teal">2</span><h3>Design your space</h3><p>Choose your walls, base, fixtures and accessibility features, or discuss the right home lift solution for your property.</p></li>
+              <li class="card step4"><span class="step4__num step4__num--navy">3</span><h3>Expert installation</h3><p>Our experienced installation team handles your project with attention to detail, often in as little as one day.</p></li>
+              <li class="card step4"><span class="step4__num step4__num--gold">4</span><h3>Enjoy, fully supported</h3><p>Relax in your completed space, backed by warranty coverage and support from a team that stays local.</p></li>
+            </ol>
+          </div>
+        </section>
+
+        <!-- Recent transformations -->
+        <section class="section">
+          <div class="container">
+            <div class="section-head section-head--center">
+              <p class="eyebrow eyebrow--lines">Real Caliber projects</p>
+              <h2 class="h2">Recent transformations</h2>
+              <p>See completed bathroom remodeling and home lift installations from Caliber Home Solutions.</p>
+            </div>
+            <div class="gallery" data-carousel>
+              <figure class="shot"><div class="media"><img src="/images/home/transform-1.jpg" alt="" loading="lazy"></div><figcaption><strong>Walk-in shower</strong><span>Curbless entry with glass doors</span></figcaption></figure>
+              <figure class="shot"><div class="media"><img src="/images/home/transform-2.jpg" alt="" loading="lazy"></div><figcaption><strong>Neo-angle shower</strong><span>Space-saving corner design</span></figcaption></figure>
+              <figure class="shot"><div class="media"><img src="/images/home/transform-3.jpg" alt="" loading="lazy"></div><figcaption><strong>Tub-to-shower conversion</strong><span>Low threshold, built-in shelving</span></figcaption></figure>
+              <figure class="shot"><div class="media"><img src="/images/home/transform-4.jpg" alt="" loading="lazy"></div><figcaption><strong>Modern walk-in shower</strong><span>Matte black hardware</span></figcaption></figure>
+              <figure class="shot"><div class="media"><img src="/images/home/transform-5.jpg" alt="" loading="lazy"></div><figcaption><strong>Tub-shower combo</strong><span>Hand-held wand and grab bar</span></figcaption></figure>
+              <figure class="shot"><div class="media"><img src="/images/home/transform-6.jpg" alt="" loading="lazy"></div><figcaption><strong>Safe access shower</strong><span>Seat, grab bars, non-slip floor</span></figcaption></figure>
+            </div>
+          </div>
+        </section>
+
+        <!-- Before / after -->
+        <section class="section section--tight-top">
+          <div class="container">
+            <div class="section-head section-head--center">
+              <p class="eyebrow eyebrow--lines">The Caliber difference</p>
+              <h2 class="h2">See the transformation</h2>
+              <p>Drag the slider to compare outdated bathtubs with modern walk-in showers and accessible bathing spaces.</p>
+            </div>
+            <div class="compare-grid">
+              <figure class="ba" data-ba>
+                <img class="ba__img" src="/images/home/after-1.jpg" alt="After: walk-in shower" draggable="false">
+                <div class="ba__before"><img class="ba__img" src="/images/home/before-1.jpg" alt="Before: bathtub" draggable="false"></div>
+                <span class="ba__tag ba__tag--before">Before</span><span class="ba__tag ba__tag--after">After</span>
+                <span class="ba__handle" aria-hidden="true"><span class="ba__knob">‹ ›</span></span>
+                <input class="ba__range" type="range" min="0" max="100" value="50" step="1" aria-label="Before and after comparison: tub-to-shower conversion">
+                <figcaption class="ba__caption">Tub-to-shower conversion</figcaption>
+              </figure>
+              <figure class="ba" data-ba>
+                <img class="ba__img" src="/images/home/after-2.jpg" alt="After: walk-in tub" draggable="false">
+                <div class="ba__before"><img class="ba__img" src="/images/home/before-2.jpg" alt="Before: standard bathtub" draggable="false"></div>
+                <span class="ba__tag ba__tag--before">Before</span><span class="ba__tag ba__tag--after">After</span>
+                <span class="ba__handle" aria-hidden="true"><span class="ba__knob">‹ ›</span></span>
+                <input class="ba__range" type="range" min="0" max="100" value="50" step="1" aria-label="Before and after comparison: walk-in tub upgrade">
+                <figcaption class="ba__caption">Walk-in tub upgrade</figcaption>
+              </figure>
+            </div>
+            <div class="center"><a class="btn btn--outline" href="#/builder">See more transformations <span aria-hidden="true">→</span></a></div>
+          </div>
+        </section>
+
+        <!-- Offers -->
+        <section class="section section--tint" id="offers">
+          <div class="container">
+            <div class="section-head section-head--center">
+              <p class="eyebrow eyebrow--lines">Offers &amp; specials</p>
+              <h2 class="h2">Special Offers on Bathroom Remodeling &amp; Home Lifts</h2>
+              <p>Ask about current savings on walk-in showers, walk-in tubs and home lift installations. Book a free in-home consultation to confirm available offers and project pricing.</p>
+            </div>
+            <div class="offers" data-carousel>
+              <article class="offer">
+                <header class="offer__head offer__head--blue"><span>Bathroom remodel</span><span>Most popular</span></header>
+                <div class="offer__body"><p class="offer__big">$1,500 <small>off</small></p><h3>Your new Jacuzzi® walk-in shower or walk-in tub</h3><p>Valid on complete projects. Cannot be combined with other offers.</p>
+                  <a class="btn btn--blue btn--block" href="/#/summary" target="_blank" rel="noopener" data-open-form data-interest="walk-in-shower">Claim This Offer <span aria-hidden="true">→</span></a></div>
+              </article>
+              <article class="offer">
+                <header class="offer__head offer__head--navy"><span>Home lifts</span><span>New</span></header>
+                <div class="offer__body"><p class="offer__big">10% <small>off</small></p><h3>Bruno stair lifts and Stiltz home elevators</h3><p>Includes professional installation. Limited time.</p>
+                  <a class="btn btn--outline btn--block" href="/#/summary" target="_blank" rel="noopener" data-open-form data-interest="stair-lift">Claim This Offer <span aria-hidden="true">→</span></a></div>
+              </article>
+              <article class="offer">
+                <header class="offer__head offer__head--navy"><span>Financing</span><span>Flexible</span></header>
+                <div class="offer__body"><p class="offer__big">0% <small>APR</small></p><h3>For up to 18 months for qualified buyers</h3><p>Subject to credit approval. Ask your consultant for details.</p>
+                  <a class="btn btn--outline btn--block" href="/#/summary" target="_blank" rel="noopener" data-open-form>See Financing <span aria-hidden="true">→</span></a></div>
+              </article>
+            </div>
+            <div class="referral">
+              <span class="referral__icon"><svg viewBox="0 0 24 24" width="20" height="20" aria-hidden="true"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M22 21v-2a4 4 0 0 0-3-3.9M16 3.1a4 4 0 0 1 0 7.8"/></svg></span>
+              <div class="referral__text"><strong>Refer a friend, earn up to $300</strong><p>Know someone who could use a walk-in shower, tub or home lift? Ask your consultant about our referral program.</p></div>
+              <a class="btn btn--white" href="/#/summary" target="_blank" rel="noopener" data-open-form>Refer a Friend <span aria-hidden="true">→</span></a>
+            </div>
+            <p class="fineprint">*Offers are subject to change and may not be combined. Ask your Caliber consultant for full details.</p>
+          </div>
+        </section>
+
+        <!-- Reviews -->
+        <section class="section" id="reviews">
+          <div class="container">
+            <div class="section-head section-head--split">
+              <div><p class="eyebrow">Testimonials</p><h2 class="h2">What our customers are saying</h2></div>
+              <div class="google-badge"><span class="google-badge__g" aria-hidden="true">G</span><div><span class="stars">★★★★★</span><strong>5-star Google reviews</strong><a href="#reviews">Read them on Google →</a></div></div>
+            </div>
+            <div class="reviews" data-carousel id="reviews-grid"></div>
+          </div>
+        </section>
+
+        <!-- Consultation CTA -->
+        <section class="section section--navy cta-consult" id="consultation">
+          <div class="cta-consult__bg" aria-hidden="true"><img src="/images/home/consultation-bg.jpg" alt="" loading="lazy"></div>
+          <div class="container cta-consult__inner">
+            <div class="cta-consult__copy">
+              <p class="eyebrow eyebrow--gold">Schedule your visit today</p>
+              <h2 class="h2 h2--light">Get a Free Home Accessibility Consultation</h2>
+              <p>Book a free, no-obligation consultation. A local Caliber specialist will discuss your project, assess your space, and explain suitable options.</p>
+              <ul class="cta-points">
+                <li><span>📏</span>In-home measurement and project assessment</li>
+                <li><span>💲</span>Clear pricing and affordable financing options</li>
+                <li><span>🛁</span>Authorized Jacuzzi®, Stiltz and Bruno products</li>
+              </ul>
+              <p class="cta-consult__call">Prefer to talk? Call our local team<br><a href="tel:+12085523037">(208) 552-3037</a></p>
+            </div>
+            <div class="quick-card" data-quick-form-wrap></div>
+          </div>
+        </section>
+
+        <!-- FAQ -->
+        <section class="section">
+          <div class="container faq">
+            <div class="faq__intro">
+              <p class="eyebrow">Good questions</p>
+              <h2 class="h2">Frequently asked</h2>
+              <p>The answers to common questions about installation, pricing, financing and our home accessibility services.</p>
+              <div class="faq__help"><strong>Still have a question?</strong><span>Real answers from a local team, today.</span><a href="tel:+12085523037">(208) 552-3037</a></div>
+            </div>
+            <div class="faq__list">
+              <details open><summary>How long does a walk-in shower or tub installation take?</summary><p>Installation timelines depend on the product, project scope and site conditions. Your Caliber consultant will provide an estimated timeline for your project, and many bathroom remodels are completed in as little as one day.</p></details>
+              <details><summary>How much does aging-in-place remodeling cost?</summary><p>Every home is different. After a free in-home consultation we give you clear, itemized pricing with no obligation.</p></details>
+              <details><summary>Do you offer financing?</summary><p>Yes. Flexible financing is available, including 0% APR options for qualified buyers.</p></details>
+              <details><summary>Can a stair lift fit a curved staircase?</summary><p>Yes. We install straight and custom curved-rail stair lifts. We measure your staircase during the consultation.</p></details>
+              <details><summary>Do I need a shaft for a home elevator?</summary><p>Not always. Through-floor home elevators such as Stiltz don't need a shaft or machine room, which makes installation simpler.</p></details>
+              <details><summary>What areas do you serve?</summary><p>We serve Idaho and the surrounding Mountain West, including Montana, Utah, Wyoming, Nevada, Oregon and Washington.</p></details>
+            </div>
+          </div>
+        </section>
+
+        <!-- Locations -->
+        <section class="section section--tint" id="locations">
+          <div class="container areas">
+            <div class="areas__copy">
+              <p class="eyebrow">Service areas</p>
+              <h2 class="h2">Local Home Remodeling &amp; Lift Services Across the Mountain West</h2>
+              <p>Our local teams provide bathroom remodeling, walk-in showers, walk-in tubs, stair lifts and home elevators across seven states.</p>
+              <p class="areas__hq"><span aria-hidden="true">📍</span> Headquartered in Boise, Idaho</p>
+            </div>
+            <ul class="states">
+              <li class="is-active"><strong>ID</strong><span>Idaho · HQ</span></li>
+              <li><strong>MT</strong><span>Montana</span></li>
+              <li><strong>UT</strong><span>Utah</span></li>
+              <li><strong>WY</strong><span>Wyoming</span></li>
+              <li><strong>NV</strong><span>Nevada</span></li>
+              <li><strong>OR</strong><span>Oregon</span></li>
+              <li><strong>WA</strong><span>Washington</span></li>
+              <li><strong>+</strong><span>Ask about your area</span></li>
             </ul>
-            <div class="hero__actions">
-              <a class="btn btn--navy btn--lg" href="#/builder">Design Your Dream Bathroom <span aria-hidden="true">→</span></a>
-              <a class="btn btn--ghost btn--lg" href="#" data-kitchen>Design Your Dream Kitchen <span aria-hidden="true">→</span></a>
-            </div>
           </div>
-          <div class="hero__media">
-            <div class="hero__frame">
-              <img src="/images/hero/bathroom-hero.jpg" alt="Bright walk-in shower with Calcutta marble wall panels and a floating vanity" width="864" height="642">
-            </div>
-            <span class="hero__chip hero__chip--tl"><span aria-hidden="true">◌</span> Calcutta Marble</span>
-            <span class="hero__chip hero__chip--r"><span aria-hidden="true">🚿</span> Walk-In Shower</span>
-            <span class="hero__chip hero__chip--bl"><span aria-hidden="true">🛁</span> Soaking Tub</span>
-            <span class="hero__seal" aria-label="Good Housekeeping">
-              <span class="hero__seal-ring"><small>QUALITY TESTED</small><strong>GOOD<br>HOUSEKEEPING</strong><small>★ ★ ★</small></span>
-            </span>
-          </div>
-        </div>
+        </section>
       </main>
 
-      <footer class="site-footer">
-        <p>© <span data-year></span> SuperFast Kitchen &amp; Bath · 917 Main St, Grand Junction CO 81501 · (970) 361-3404</p>
+      <!-- Footer -->
+      <footer class="footer">
+        <div class="container">
+          <div class="footer__cta">
+            <h2 class="footer__title">Ready when <em>you are.</em></h2>
+            <div class="footer__cta-side">
+              <a class="footer__phone" href="tel:+12085523037">(208) 552-3037</a>
+              <a class="btn btn--white" href="/#/summary" target="_blank" rel="noopener" data-open-form>Book a Free Consultation <span aria-hidden="true">→</span></a>
+            </div>
+          </div>
+          <div class="footer__cols">
+            <div class="footer__brand">
+              <span class="footer__logo"><img src="/images/brand/caliber-logo.png" alt="Caliber Home Solutions" width="140" height="37" loading="lazy"></span>
+              <p class="footer__label">Contact info</p>
+              <p>Boise, Idaho<br>Serving the Mountain West</p>
+              <p><a href="tel:+12085523037">(208) 552-3037</a></p>
+            </div>
+            <div><p class="footer__label">Quick links</p><ul><li><a href="#solutions">Bathroom remodeling</a></li><li><a href="#solutions">Home lift systems</a></li><li><a href="#/builder">Design tool</a></li><li><a href="#offers">Offers</a></li><li><a href="#locations">Locations</a></li><li><a href="#offers">Financing</a></li><li><a href="#reviews">Reviews</a></li></ul></div>
+            <div><p class="footer__label">Bathrooms</p><ul><li><a href="#solutions">Walk-in tubs</a></li><li><a href="#solutions">Walk-in showers</a></li></ul></div>
+            <div><p class="footer__label">Home lifts</p><ul><li><a href="#solutions">Stair lifts</a></li><li><a href="#solutions">Elevator lifts</a></li><li><a href="#solutions">Stiltz lift systems</a></li></ul></div>
+            <div><p class="footer__label">Hours</p><ul><li>Mon–Fri · 8am–5pm</li><li>Sat · By appointment</li></ul></div>
+          </div>
+          <div class="footer__areas">
+            <span>We serve:</span>
+            <a href="#locations">Idaho</a><a href="#locations">Montana</a><a href="#locations">Utah</a><a href="#locations">Wyoming</a><a href="#locations">Nevada</a><a href="#locations">Oregon</a><a href="#locations">Washington</a>
+          </div>
+          <div class="footer__bottom">
+            <p>© <span data-year></span> Caliber Home Solutions. All rights reserved.</p>
+            <p><a href="#">Privacy Policy</a> · <a href="#">Terms &amp; Conditions</a></p>
+          </div>
+        </div>
       </footer>
     </section>
 
@@ -95,6 +390,12 @@
 
     <!-- ============ VIEW: SUMMARY + LEAD FORM ============ -->
     <section id="view-summary" class="view summary" data-view="summary" hidden>
+      <div class="mini-header">
+        <div class="mini-header__inner">
+          <a href="#/" class="mini-header__logo" aria-label="Caliber Home Solutions home"><img src="/images/brand/caliber-logo.png" alt="Caliber Home Solutions" width="132" height="35"></a>
+          <a href="tel:+12085523037" class="mini-header__phone">(208) 552-3037</a>
+        </div>
+      </div>
       <header class="summary__banner">
         <div class="summary__banner-inner">
           <div>
@@ -124,7 +425,7 @@
         <div class="summary__right">
           <article class="lead-card" id="lead-card">
             <div id="lead-form-wrap">
-              <span class="pill pill--blue">
+              <span class="pill pill--teal">
                 <svg viewBox="0 0 24 24" width="12" height="12" aria-hidden="true"><path d="M12 3v4M12 17v4M3 12h4M17 12h4M6 6l2.5 2.5M15.5 15.5 18 18M6 18l2.5-2.5M15.5 8.5 18 6"/></svg>
                 Free | Instant Render of Your Bathroom
               </span>
@@ -156,12 +457,12 @@
                 <div class="form-row">
                   <div class="field">
                     <label for="phone">Phone</label>
-                    <input id="phone" name="phone" type="tel" placeholder="(970) 555-0100" autocomplete="tel-national" inputmode="tel" maxlength="20" required>
+                    <input id="phone" name="phone" type="tel" placeholder="(208) 555-0100" autocomplete="tel-national" inputmode="tel" maxlength="20" required>
                     <p class="field__error" id="phone-error"></p>
                   </div>
                   <div class="field">
                     <label for="zip">Zip Code</label>
-                    <input id="zip" name="zip" type="text" placeholder="81501" autocomplete="postal-code" inputmode="numeric" maxlength="10" required>
+                    <input id="zip" name="zip" type="text" placeholder="83702" autocomplete="postal-code" inputmode="numeric" maxlength="10" required>
                     <p class="field__error" id="zip-error"></p>
                   </div>
                 </div>
@@ -169,12 +470,12 @@
                 <div class="form-row">
                   <div class="field">
                     <label for="city">City</label>
-                    <input id="city" name="city" type="text" value="Grand Junction" autocomplete="address-level2" maxlength="80" required>
+                    <input id="city" name="city" type="text" value="Boise" autocomplete="address-level2" maxlength="80" required>
                     <p class="field__error" id="city-error"></p>
                   </div>
                   <div class="field">
                     <label for="state">State</label>
-                    <input id="state" name="state" type="text" value="CO" autocomplete="address-level1" maxlength="2" required>
+                    <input id="state" name="state" type="text" value="ID" autocomplete="address-level1" maxlength="2" required>
                     <p class="field__error" id="state-error"></p>
                   </div>
                 </div>
@@ -184,6 +485,11 @@
                   <select id="bestTime" name="bestTime"></select>
                   <p class="field__error" id="bestTime-error"></p>
                 </div>
+
+                <fieldset class="field field--chips">
+                  <legend>I’m interested in <small>(optional)</small></legend>
+                  <div class="interest-chips" id="interest-chips"></div>
+                </fieldset>
 
                 <!-- Spam protection: honeypot (humans never see or fill this) -->
                 <div class="hp" aria-hidden="true">
@@ -199,25 +505,25 @@
                   <span class="btn__spinner" aria-hidden="true"></span>
                 </button>
 
-                <p class="lead-form__legal">By submitting, you agree SuperFast Kitchen &amp; Bath may contact you by phone, text, or email about your project. Msg &amp; data rates may apply. <a href="#" class="link-blue">Privacy Policy</a></p>
-                <p class="lead-form__spam">No spam - ever. Your info goes directly to your local SuperFast designer.</p>
+                <p class="lead-form__legal">By submitting, you agree Caliber Home Solutions may contact you by phone, text, or email about your project. Msg &amp; data rates may apply. <a href="#" class="link-blue">Privacy Policy</a></p>
+                <p class="lead-form__spam">No spam - ever. Your info goes directly to your local Caliber consultant.</p>
               </form>
             </div>
 
             <div class="lead-success" id="lead-success" hidden tabindex="-1"></div>
 
             <p class="lead-card__contact">
-              <span><svg viewBox="0 0 24 24" width="11" height="11" aria-hidden="true"><path d="M12 22s7-6.2 7-12a7 7 0 1 0-14 0c0 5.8 7 12 7 12z"/><circle cx="12" cy="10" r="2.5"/></svg>917 Main St, Grand Junction CO 81501</span>
-              <span><svg viewBox="0 0 24 24" width="11" height="11" aria-hidden="true"><path d="M22 16.9v3a2 2 0 0 1-2.2 2 19.8 19.8 0 0 1-8.6-3.1 19.5 19.5 0 0 1-6-6A19.8 19.8 0 0 1 2.1 4.2 2 2 0 0 1 4.1 2h3a2 2 0 0 1 2 1.7c.1.9.4 1.8.7 2.7a2 2 0 0 1-.5 2.1L8 9.8a16 16 0 0 0 6 6l1.3-1.3a2 2 0 0 1 2.1-.4c.9.3 1.8.6 2.7.7a2 2 0 0 1 1.7 2z"/></svg>(970) 361-3404</span>
-              <span><svg viewBox="0 0 24 24" width="11" height="11" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg>Mon-Fri 9-5</span>
+              <span><svg viewBox="0 0 24 24" width="11" height="11" aria-hidden="true"><path d="M12 22s7-6.2 7-12a7 7 0 1 0-14 0c0 5.8 7 12 7 12z"/><circle cx="12" cy="10" r="2.5"/></svg>Boise, Idaho</span>
+              <span><svg viewBox="0 0 24 24" width="11" height="11" aria-hidden="true"><path d="M22 16.9v3a2 2 0 0 1-2.2 2 19.8 19.8 0 0 1-8.6-3.1 19.5 19.5 0 0 1-6-6A19.8 19.8 0 0 1 2.1 4.2 2 2 0 0 1 4.1 2h3a2 2 0 0 1 2 1.7c.1.9.4 1.8.7 2.7a2 2 0 0 1-.5 2.1L8 9.8a16 16 0 0 0 6 6l1.3-1.3a2 2 0 0 1 2.1-.4c.9.3 1.8.6 2.7.7a2 2 0 0 1 1.7 2z"/></svg>(208) 552-3037</span>
+              <span><svg viewBox="0 0 24 24" width="11" height="11" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg>Mon-Fri 8-5</span>
             </p>
           </article>
 
           <ul class="trust-badges" aria-label="Accreditations">
-            <li>BBB A+ Rated</li>
-            <li>Houzz 5.0★</li>
-            <li>Bath Planet Dealer</li>
-            <li>HBA Western Colorado</li>
+            <li>Authorized Jacuzzi® Dealer</li>
+            <li>5-Star Google Reviews</li>
+            <li>Stiltz &amp; Bruno Lifts</li>
+            <li>Serving Since 1999</li>
           </ul>
         </div>
       </div>
@@ -226,11 +532,12 @@
 
   <div class="toast" id="toast" role="status" aria-live="polite" hidden></div>
 
-  <noscript><p class="noscript">The Vision Board needs JavaScript enabled. Please call us at (970) 361-3404.</p></noscript>
+  <noscript><p class="noscript">The design tool needs JavaScript enabled. Please call us at (208) 552-3037.</p></noscript>
 
   <script src="/js/catalog.js"></script>
   <script src="/js/icons.js"></script>
   <script src="/js/form.js"></script>
   <script src="/js/script.js"></script>
+  <script src="/js/home.js"></script>
 </body>
 </html>

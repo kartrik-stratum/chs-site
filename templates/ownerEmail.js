@@ -15,8 +15,11 @@ function subject(s) {
   return `New Form Submission – Website Inquiry: ${s.customer.fullName} (Bathroom Vision Board)`;
 }
 
-const BLUE = '#1a6bd0';
-const INK = '#0f172a';
+const BLUE = '#0B6FB6';
+const NAVY = '#0A2540';
+const TEAL = '#14A39A';
+const GOLD = '#F6B23C';
+const INK = '#0A2540';
 const MUTED = '#6b7280';
 const LINE = '#e7eaf0';
 
@@ -53,7 +56,8 @@ function renderHtml(s, o = {}) {
     row('City', esc(c.city)),
     row('State', esc(c.state)),
     row('Zip Code', esc(c.zip)),
-    row('Best Time to Call', esc(c.bestTime))
+    row('Best Time to Call', esc(c.bestTime)),
+    row('Interested In', c.interests.length ? esc(c.interests.join(', ')) : 'Not specified')
   ].join('');
 
   const selectionRows = s.selections.map((sel) => {
@@ -61,7 +65,7 @@ function renderHtml(s, o = {}) {
       const cid = cidFor(it.imageFile);
       return cid ? `<img src="cid:${cid}" width="64" height="48" alt="${esc(it.name)}" style="display:inline-block;width:64px;height:48px;object-fit:cover;border-radius:6px;border:1px solid ${LINE};margin:0 6px 4px 0;">` : '';
     }).join('');
-    const statusColor = sel.status === 'selected' ? '#15803d' : sel.status === 'skipped' ? MUTED : '#b45309';
+    const statusColor = sel.status === 'selected' ? TEAL : sel.status === 'skipped' ? MUTED : '#b45309';
     const details = sel.details.map((d) => `<div style="font:400 12px/1.5 Arial,Helvetica,sans-serif;color:${MUTED};">${esc(d.label)}: <strong style="color:${INK};">${esc(d.value)}</strong></div>`).join('');
     const descs = sel.items.length === 1 ? `<div style="font:400 12px/1.5 Arial,Helvetica,sans-serif;color:${MUTED};">${esc(sel.items[0].desc)}</div>` : '';
     return `<tr>
@@ -80,7 +84,7 @@ function renderHtml(s, o = {}) {
   const extraRows = [
     row('Board Progress', `${s.completedCount} of ${s.totalSteps} categories completed`),
     row('Starting Style', esc(s.preset)),
-    row('Make it Accessible', s.accessible ? '<strong style="color:#15803d;">Yes</strong> – walk-in tub, grab bars, non-slip &amp; more' : 'No'),
+    row('Make it Accessible', s.accessible ? `<strong style="color:${TEAL};">Yes</strong> – walk-in tub, grab bars, non-slip &amp; more` : 'No'),
     row('Shareable Board Link', s.shareUrl ? `<a href="${esc(s.shareUrl)}" style="color:${BLUE};word-break:break-all;">Open the customer’s vision board</a>` : '—'),
     row('Contact Consent', esc(s.consent))
   ].join('');
@@ -102,15 +106,15 @@ function renderHtml(s, o = {}) {
 <table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="background:#f5f7fa;padding:24px 10px;">
 <tr><td align="center">
 <table role="presentation" width="640" cellpadding="0" cellspacing="0" style="width:100%;max-width:640px;background:#ffffff;border-radius:12px;overflow:hidden;border:1px solid ${LINE};">
-  <tr><td style="background:${BLUE};padding:24px 28px;">
-    <div style="font:700 11px/1.3 Arial,Helvetica,sans-serif;color:#dbeafe;letter-spacing:.12em;text-transform:uppercase;">SuperFast Kitchen &amp; Bath · Vision Board</div>
-    <h1 style="margin:6px 0 4px;font:800 22px/1.25 Arial,Helvetica,sans-serif;color:#ffffff;">New Form Submission – Website Inquiry</h1>
-    <div style="font:400 13px/1.5 Arial,Helvetica,sans-serif;color:#e0ecff;">${esc(c.fullName)} wants a bathroom render &amp; free quote · ${esc(formatDate(s.submittedAt, tz))}</div>
+  <tr><td style="background:${NAVY};padding:24px 28px;border-bottom:4px solid ${GOLD};">
+    <div style="font:700 11px/1.3 Arial,Helvetica,sans-serif;color:${TEAL};letter-spacing:.12em;text-transform:uppercase;">Caliber Home Solutions · Bath Designer</div>
+    <h1 style="margin:6px 0 4px;font:600 24px/1.25 Georgia,'Times New Roman',serif;color:#ffffff;">New Form Submission – Website Inquiry</h1>
+    <div style="font:400 13px/1.5 Arial,Helvetica,sans-serif;color:#c9d6e6;">${esc(c.fullName)} wants a bathroom render &amp; free quote · ${esc(formatDate(s.submittedAt, tz))}</div>
   </td></tr>
   <tr><td style="padding:20px 28px 0;">
     <table role="presentation" cellpadding="0" cellspacing="0"><tr>
       <td style="padding-right:8px;"><a href="${esc(phoneHref)}" style="display:inline-block;background:${BLUE};color:#fff;text-decoration:none;font:700 13px Arial,Helvetica,sans-serif;padding:10px 16px;border-radius:999px;">Call ${esc(c.phone)}</a></td>
-      <td><a href="mailto:${esc(c.email)}" style="display:inline-block;background:#eaf2fd;color:${BLUE};text-decoration:none;font:700 13px Arial,Helvetica,sans-serif;padding:10px 16px;border-radius:999px;">Email ${esc(c.firstName)}</a></td>
+      <td><a href="mailto:${esc(c.email)}" style="display:inline-block;background:#e7f6f4;color:${TEAL};text-decoration:none;font:700 13px Arial,Helvetica,sans-serif;padding:10px 16px;border-radius:999px;">Email ${esc(c.firstName)}</a></td>
     </tr></table>
   </td></tr>
   ${section('Customer Information', customerRows)}
@@ -131,7 +135,7 @@ function renderText(s, o = {}) {
   const c = s.customer;
   const lines = [
     'NEW FORM SUBMISSION – WEBSITE INQUIRY',
-    'SuperFast Kitchen & Bath – Bathroom Vision Board',
+    'Caliber Home Solutions – Bath Designer',
     '',
     'CUSTOMER INFORMATION',
     `Customer Name:     ${c.fullName}`,
@@ -141,6 +145,7 @@ function renderText(s, o = {}) {
     `State:             ${c.state}`,
     `Zip Code:          ${c.zip}`,
     `Best Time to Call: ${c.bestTime}`,
+    `Interested In:     ${c.interests.length ? c.interests.join(', ') : 'Not specified'}`,
     '',
     'BATHROOM VISION BOARD SELECTIONS'
   ];

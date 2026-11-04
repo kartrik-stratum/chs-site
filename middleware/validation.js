@@ -94,6 +94,14 @@ const submitFormRules = [
   body('bestTime')
     .customSanitizer((v) => stripCtl(v) || 'no-preference')
     .isIn(catalog.bestTimes.map((b) => b.id)).withMessage('Please choose a time.'),
+  body('interests')
+    .optional({ values: 'null' })
+    .isArray({ max: catalog.interests.length }).withMessage('Invalid interest selection.').bail()
+    .custom((v) => {
+      if (v.some((id) => !catalog.interests.some((i) => i.id === id))) throw new Error('Invalid interest selection.');
+      if (new Set(v).size !== v.length) throw new Error('Duplicate interest selection.');
+      return true;
+    }),
   body('board').custom(validateBoard),
   body('submissionId').optional({ values: 'falsy' }).isUUID().withMessage('Invalid submission id.'),
   body('shareUrl').optional({ values: 'falsy' }).isString().isLength({ max: 4000 })

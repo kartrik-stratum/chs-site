@@ -31,7 +31,7 @@ let inbox = [];
 
 function setMailEnv(overrides = {}) {
   Object.assign(process.env, {
-    OWNER_EMAIL: 'owner@superfast.test',
+    OWNER_EMAIL: 'owner@caliber.test',
     SMTP_HOST: '127.0.0.1',
     SMTP_PORT: String(smtpPort),
     SMTP_USER: 'mailer',
@@ -39,7 +39,7 @@ function setMailEnv(overrides = {}) {
     SMTP_SECURE: 'false',
     SMTP_IGNORE_TLS: 'true',
     SMTP_REQUIRE_TLS: 'false',
-    MAIL_FROM: 'Vision Board <no-reply@superfast.test>',
+    MAIL_FROM: 'Vision Board <no-reply@caliber.test>',
     OWNER_TIMEZONE: 'America/Denver',
     ...overrides
   });
@@ -103,11 +103,12 @@ function validBody(extra = {}) {
     firstName: 'Jane',
     lastName: 'Smith',
     email: 'Jane.Smith@Example.com',
-    phone: '970 555 0100',
-    zip: '81501',
-    city: 'Grand Junction',
-    state: 'co',
+    phone: '208 555 0142',
+    zip: '83702',
+    city: 'Boise',
+    state: 'id',
     bestTime: 'afternoon',
+    interests: ['walk-in-shower', 'stair-lift'],
     website: '',
     formStartedAt: Date.now() - 60000,
     board: fullBoard(),
@@ -134,14 +135,14 @@ test('valid submission e-mails the owner with every field and selection', async 
   const mail = inbox[0];
   assert.match(mail.subject, /^New Form Submission – Website Inquiry/);
   assert.match(mail.subject, /Jane Smith/);
-  assert.equal(mail.to.text, 'owner@superfast.test');
+  assert.equal(mail.to.text, 'owner@caliber.test');
   assert.match(mail.replyTo.text, /jane\.smith@example\.com/);
 
   const html = mail.html;
   const text = mail.text;
   for (const body of [html, text]) {
     // customer fields
-    for (const s of ['Jane Smith', 'jane.smith@example.com', '(970) 555-0100', 'Grand Junction', 'CO', '81501', 'Afternoon']) {
+    for (const s of ['Walk-in shower, Stair lift', 'Jane Smith', 'jane.smith@example.com', '(208) 555-0142', 'Boise', 'ID', '83702', 'Afternoon']) {
       assert.ok(body.includes(s), `missing "${s}"`);
     }
     // every category + its chosen value
@@ -212,6 +213,22 @@ test('tampered board option -> 422', async () => {
   const res = await post(validBody({ board }));
   assert.equal(res.status, 422);
   assert.equal(inbox.length, 0);
+});
+
+test('unknown interest -> 422', async () => {
+  const res = await post(validBody({ interests: ['jacuzzi-party'] }));
+  const json = await res.json();
+  assert.equal(res.status, 422);
+  assert.ok(json.errors.some((e) => e.field === 'interests'));
+  assert.equal(inbox.length, 0);
+});
+
+test('interests are optional', async () => {
+  const body = validBody();
+  delete body.interests;
+  const res = await post(body);
+  assert.equal(res.status, 200);
+  assert.match(inbox[0].text, /Interested In:\s+Not specified/);
 });
 
 test('empty board -> 422', async () => {
@@ -304,7 +321,8 @@ test('frontend and shared catalog are served; secrets are not', async () => {
   const page = await fetch(`${base}/`);
   assert.equal(page.status, 200);
   const html = await page.text();
-  assert.match(html, /Design Your Dream Bathroom/);
+  assert.match(html, /Aging-in-Place Home Remodeling/);
+  assert.match(html, /id="home-designer"/);
   const cat = await fetch(`${base}/js/catalog.js`);
   assert.equal(cat.status, 200);
   const js = await cat.text();
@@ -312,7 +330,7 @@ test('frontend and shared catalog are served; secrets are not', async () => {
   for (const f of ['/.env', '/server.js', '/config/emailConfig.js']) {
     assert.equal((await fetch(base + f)).status, 404, f);
   }
-  for (const s of ['owner@superfast.test', 'secret']) assert.ok(!html.includes(s) && !js.includes(s));
+  for (const s of ['owner@caliber.test', 'secret']) assert.ok(!html.includes(s) && !js.includes(s));
   const health = await fetch(`${base}/api/health`);
   assert.equal(health.status, 200);
 });

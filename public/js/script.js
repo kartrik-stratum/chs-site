@@ -1,7 +1,7 @@
 /**
- * SuperFast Vision Board – builder application.
+ * Caliber Home Solutions – homepage design tool + full bathroom builder.
  * Hash routes:
- *   #/                 landing (design tool intro)
+ *   #/ (or #section)   homepage (with the embedded Caliber Bath Designer)
  *   #/builder          "Pick a Style to Start"
  *   #/builder/step-N   step N of 10
  *   #/summary[?b=...]  finished board + lead form (b = shared board)
@@ -14,7 +14,7 @@
   const STEPS = C.steps;
   const TOTAL = STEPS.length;
   const SKIP = C.SKIP;
-  const STORAGE_KEY = 'sf-vision-board-v1';
+  const STORAGE_KEY = 'caliber-vision-board-v1';
 
   const $ = (sel, root = document) => root.querySelector(sel);
   const esc = (s) => String(s == null ? '' : s).replace(/[&<>"']/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
@@ -134,6 +134,8 @@
       if (r.step === 0) renderStylePicker(); else renderStep(r.step);
     } else if (r.view === 'summary') {
       renderSummary();
+    } else {
+      renderHomeDesigner();
     }
     if (key !== lastRouteKey) {
       window.scrollTo(0, 0);
@@ -173,9 +175,9 @@
 
     $('#sidebar').innerHTML = `
       <div class="sidebar__head">
-        <a href="#/" class="sidebar__logo" aria-label="Back to SuperFast home"><img src="/images/logo.svg" alt="" width="58" height="20"></a>
+        <a href="#/" class="sidebar__logo" aria-label="Back to Caliber Home Solutions home"><img src="/images/brand/caliber-logo.png" alt="Caliber Home Solutions" width="84" height="22"></a>
         <div class="sidebar__titles">
-          <span class="sidebar__brand">SuperFast Kitchen &amp; Bath</span>
+          <span class="sidebar__brand">Caliber Bath Designer</span>
           <span class="sidebar__title">Your Vision Board</span>
         </div>
         <span class="ring ${complete ? 'is-complete' : ''}" role="img" aria-label="${p}% complete">
@@ -419,16 +421,15 @@
 
     $('#board-card').innerHTML = `
       <header class="board-card__head">
-        <img src="/images/logo.svg" alt="" width="52" height="18">
+        <img src="/images/brand/caliber-logo.png" alt="Caliber Home Solutions" width="96" height="26">
         <div class="board-card__brand">
-          <strong>SuperFast</strong>
           <span>${esc(C.business.tagline)}</span>
-          <small>Kitchen &amp; Bath &nbsp; Grand Junction, CO &nbsp; ${esc(C.business.phone)}</small>
+          <small>${esc(C.business.address)} &nbsp;·&nbsp; ${esc(C.business.phone)}</small>
         </div>
         <div class="board-card__label"><strong>Bathroom Vision Board</strong><small>${esc(date)}</small></div>
       </header>
       <div class="mosaic">${tiles || `<p class="mosaic__empty">Your board is empty. <a href="#/builder" class="link-blue">Pick a style to start →</a></p>`}</div>
-      <footer class="board-card__foot"><em>Designed with SuperFast Kitchen &amp; Bath</em><a href="#/" class="link-blue">${esc(C.business.website)}</a></footer>`;
+      <footer class="board-card__foot"><em>Designed with the Caliber Bath Designer</em><a href="#/" class="link-blue">${esc(C.business.website)}</a></footer>`;
 
     $('#selections-list').innerHTML = STEPS.map((s, i) => {
       const o = displayOption(s);
@@ -443,6 +444,105 @@
     }).join('');
 
     if (window.VBForm) window.VBForm.init();
+  }
+
+  /* ------------------------------------------------ homepage bath designer */
+
+  const HOME_TABS = [
+    { id: 'base', label: 'Base', icon: 'bath', step: 'shower', options: ['walk-in-shower', 'tub-to-shower-conversion', 'walk-in-tub', 'replacement-bathtub'] },
+    { id: 'walls', label: 'Walls', icon: 'grid', step: 'wallColor', options: ['calcutta-marble', 'bianco-travertine', 'galena', 'tuscany'] },
+    { id: 'fixtures', label: 'Fixtures', icon: 'drop', step: 'faucet', options: ['chrome', 'brushed-nickel', 'matte-black', 'brushed-bronzed-gold'] },
+    { id: 'safety', label: 'Safety', icon: 'hand', step: 'accessories', options: ['grab-bars', 'folding-shower-seat', 'hand-held-wand', 'recessed-niche'] },
+    { id: 'review', label: 'Review', icon: 'eye' }
+  ];
+  let homeTab = 'base';
+  let homeTimer = null;
+
+  function homeCaption() {
+    const parts = [];
+    ['shower', 'wallColor', 'faucet'].forEach((k) => {
+      const o = displayOption(C.findStep(k));
+      if (o) parts.push(o.name);
+    });
+    const acc = state.picks.accessories.map((id) => C.findOption('accessories', id).name);
+    if (acc.length) parts.push(acc.length > 2 ? `${acc.slice(0, 2).join(' · ')} +${acc.length - 2}` : acc.join(' · '));
+    return parts.length ? parts.join(' · ') : 'Pick a base to start your design';
+  }
+
+  function renderHomeDesigner() {
+    const root = $('#home-designer');
+    if (!root) return;
+    const idx = HOME_TABS.findIndex((t) => t.id === homeTab);
+    const tab = HOME_TABS[idx];
+    const step = tab.step ? C.findStep(tab.step) : null;
+
+    let preview = '/images/home/solution-walk-in-showers.jpg';
+    if (step) {
+      const o = displayOption(step);
+      preview = o ? optionImage(step, o) : C.findOption(step.key, tab.options[0]).image;
+    } else {
+      const o = displayOption(C.findStep('shower'));
+      if (o) preview = o.image;
+    }
+
+    let panel;
+    if (step) {
+      panel = `<div class="designer__thumbs" role="${step.multi ? 'group' : 'radiogroup'}" aria-label="${esc(tab.label)} options">${tab.options.map((id) => {
+        const o = C.findOption(step.key, id);
+        const sel = step.multi ? state.picks[step.key].includes(id) : state.picks[step.key] === id;
+        return `<button type="button" class="designer__thumb ${sel ? 'is-selected' : ''}" role="${step.multi ? 'checkbox' : 'radio'}" aria-checked="${sel}" data-home-opt="${id}">
+            <img src="${esc(optionImage(step, o))}" alt="" loading="lazy"><span>${esc(o.name)}</span></button>`;
+      }).join('')}</div>`;
+    } else {
+      const rows = HOME_TABS.filter((t) => t.step).map((t) => {
+        const s2 = C.findStep(t.step);
+        return `<li><span>${esc(t.label)}</span><strong>${esc(valueLabel(s2)) || '<em>Not chosen</em>'}</strong></li>`;
+      }).join('');
+      panel = `<div class="designer__review"><ul>${rows}</ul>
+          <p>${doneCount()} of ${TOTAL} categories chosen · <a href="#/builder/step-1">Fine-tune all 10 steps →</a></p></div>`;
+    }
+
+    root.innerHTML = `
+      <div class="designer__bar">
+        <span class="designer__dots" aria-hidden="true"><i></i><i></i><i></i></span>
+        <strong>Caliber Bath Designer</strong>
+        <span class="designer__step">Step ${idx + 1} of ${HOME_TABS.length} · ${esc(tab.label)}</span>
+      </div>
+      <div class="designer__body">
+        <nav class="designer__tabs" aria-label="Design steps">${HOME_TABS.map((t) => `
+          <button type="button" class="designer__tab ${t.id === homeTab ? 'is-active' : ''}" data-home-tab="${t.id}" aria-current="${t.id === homeTab ? 'step' : 'false'}">${icon(t.icon, 16)}<span>${esc(t.label)}</span></button>`).join('')}
+        </nav>
+        <div class="designer__stage">
+          <div class="designer__preview media"><img src="${esc(preview)}" alt="" ><span class="designer__caption">${esc(homeCaption())}</span></div>
+          ${panel}
+        </div>
+      </div>
+      <div class="designer__foot">
+        <span>${doneCount() ? `${icon('checkCircle', 14)} Saved to your free quote` : 'Your picks save automatically'}</span>
+        <a class="btn btn--blue" href="/#/summary" target="_blank" rel="noopener" data-open-form>Send to Consultant</a>
+      </div>`;
+
+    root.querySelectorAll('[data-home-tab]').forEach((b) => b.addEventListener('click', () => {
+      clearTimeout(homeTimer);
+      homeTab = b.dataset.homeTab;
+      renderHomeDesigner();
+    }));
+    root.querySelectorAll('[data-home-opt]').forEach((b) => b.addEventListener('click', () => {
+      const id = b.dataset.homeOpt;
+      clearTimeout(homeTimer);
+      if (step.multi) {
+        const arr = state.picks[step.key];
+        const i = arr.indexOf(id);
+        if (i >= 0) arr.splice(i, 1); else { arr.push(id); state.lastAccessory = id; }
+        if (!arr.includes(state.lastAccessory)) state.lastAccessory = arr[arr.length - 1] || null;
+      } else {
+        state.picks[step.key] = id;
+        homeTimer = setTimeout(() => { homeTab = HOME_TABS[idx + 1].id; renderHomeDesigner(); }, 600);
+      }
+      state.preset = null;
+      save();
+      renderHomeDesigner();
+    }));
   }
 
   /* ------------------------------------------------------------------ misc */
@@ -485,42 +585,8 @@
       if (!ok) history.replaceState(null, '', `#/summary?b=${encodeBoard()}`);
     });
 
-    document.querySelectorAll('[data-kitchen]').forEach((a) => a.addEventListener('click', (e) => {
-      e.preventDefault();
-      toast('The kitchen designer is coming soon - start with your dream bathroom!');
-    }));
-
-    const burger = $('.site-nav__burger');
-    const menu = $('#site-menu');
-    burger.addEventListener('click', () => {
-      const open = burger.getAttribute('aria-expanded') !== 'true';
-      burger.setAttribute('aria-expanded', String(open));
-      menu.classList.toggle('is-open', open);
-    });
-    const drop = $('.site-nav__link--drop');
-    drop.addEventListener('click', () => {
-      const open = drop.getAttribute('aria-expanded') !== 'true';
-      drop.setAttribute('aria-expanded', String(open));
-      drop.parentElement.classList.toggle('is-open', open);
-    });
-    document.addEventListener('click', (e) => {
-      if (!drop.parentElement.contains(e.target)) {
-        drop.setAttribute('aria-expanded', 'false');
-        drop.parentElement.classList.remove('is-open');
-      }
-    });
-    menu.addEventListener('click', (e) => {
-      if (e.target.closest('a')) { menu.classList.remove('is-open'); burger.setAttribute('aria-expanded', 'false'); }
-    });
-
     document.querySelectorAll('[data-year]').forEach((el) => { el.textContent = new Date().getFullYear(); });
 
-    window.addEventListener('scroll', () => {
-      const bar = $('.site-nav__progress');
-      if (!bar) return;
-      const max = document.documentElement.scrollHeight - innerHeight;
-      bar.style.width = max > 0 ? `${(scrollY / max) * 100}%` : '0';
-    }, { passive: true });
   }
 
   /* Public API used by form.js */
@@ -534,5 +600,11 @@
 
   bindStatic();
   window.addEventListener('hashchange', render);
+  // Keep tabs in sync (e.g. the form opened in a new tab edits the same board).
+  window.addEventListener('storage', (e) => {
+    if (e.key !== STORAGE_KEY) return;
+    state = load();
+    render();
+  });
   render();
 })();

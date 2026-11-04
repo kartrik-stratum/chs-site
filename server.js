@@ -1,5 +1,5 @@
 /**
- * SuperFast Vision Board – Express server.
+ * Caliber Home Solutions – Express server.
  *   npm start           -> http://localhost:3000
  */
 'use strict';

@@ -9,6 +9,7 @@
   const C = window.VB_CATALOG;
   const ENDPOINT = '/api/submit-form';
   const FIELDS = ['firstName', 'lastName', 'email', 'phone', 'zip', 'city', 'state', 'bestTime'];
+  const PREFILL_KEY = 'caliber-lead-prefill';
 
   const NAME_RE = /^[\p{L}][\p{L}\p{M}' .-]*$/u;
   const EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/;
@@ -124,6 +125,7 @@
       city: value('city'),
       state: value('state').toUpperCase(),
       bestTime: value('bestTime'),
+      interests: Array.from(form.querySelectorAll('input[name="interests"]:checked')).map((i) => i.value),
       website: form.elements.website.value, // honeypot
       formStartedAt: startedAt,
       board: app.getBoard(),
@@ -137,7 +139,7 @@
     return `
       <div class="lead-success__icon">${window.VB_ICONS('check', 30)}</div>
       <h2>You’re all set, ${esc(data.firstName)}!</h2>
-      <p>Your vision board is on its way to your local SuperFast designer. We’ll create your bathroom render and reach out ${data.bestTime && data.bestTime !== 'no-preference' ? `in the <strong>${esc(C.bestTimes.find((b) => b.id === data.bestTime).name.split(' (')[0].toLowerCase())}</strong>` : 'soon'} at <strong>${esc(data.phone)}</strong> or <strong>${esc(data.email)}</strong>.</p>
+      <p>Your design is on its way to your local Caliber consultant. We’ll create your bathroom render and reach out ${data.bestTime && data.bestTime !== 'no-preference' ? `in the <strong>${esc(C.bestTimes.find((b) => b.id === data.bestTime).name.split(' (')[0].toLowerCase())}</strong>` : 'soon'} at <strong>${esc(data.phone)}</strong> or <strong>${esc(data.email)}</strong>.</p>
       <ul class="lead-success__steps">
         <li><span>1</span> A designer reviews your ${window.VBApp.doneCount()} selections</li>
         <li><span>2</span> You receive your bathroom render + high-res board</li>
@@ -177,7 +179,7 @@
       body = await res.json().catch(() => ({}));
     } catch (err) {
       setLoading(false);
-      showAlert('We couldn’t reach our server. Please check your connection and try again, or call us at <a href="tel:+19703613404">(970) 361-3404</a>.');
+      showAlert('We couldn’t reach our server. Please check your connection and try again, or call us at <a href="tel:+12085523037">(208) 552-3037</a>.');
       return;
     }
 
@@ -206,7 +208,7 @@
       showAlert('Too many attempts - please wait a few minutes and try again.');
     } else {
       // 5xx / email delivery failure: never show success.
-      showAlert(esc2(body.message) || 'Something went wrong sending your board. Please try again in a moment, or call us at <a href="tel:+19703613404">(970) 361-3404</a>.');
+      showAlert(esc2(body.message) || 'Something went wrong sending your board. Please try again in a moment, or call us at <a href="tel:+12085523037">(208) 552-3037</a>.');
     }
   }
 
@@ -214,13 +216,36 @@
     return s ? String(s).replace(/[&<>"']/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c])) : '';
   }
 
+  /** Applies details handed over from a homepage quick form (same-origin localStorage). */
+  function applyPrefill() {
+    let d = null;
+    try { d = JSON.parse(localStorage.getItem(PREFILL_KEY)); localStorage.removeItem(PREFILL_KEY); } catch (_) { d = null; }
+    if (!d || typeof d !== 'object' || Date.now() - Number(d.at || 0) > 30 * 60 * 1000) return;
+    const setIfEmpty = (name, v) => { const el = form.elements[name]; if (el && v && !el.value) { el.value = String(v).slice(0, 100); touched.add(name); validateField(name); } };
+    if (typeof d.fullName === 'string') {
+      const parts = d.fullName.trim().split(/\s+/);
+      setIfEmpty('firstName', parts.shift());
+      setIfEmpty('lastName', parts.join(' '));
+    }
+    setIfEmpty('phone', d.phone);
+    setIfEmpty('zip', d.zip);
+    if (Array.isArray(d.interests)) {
+      form.querySelectorAll('input[name="interests"]').forEach((cb) => { cb.checked = d.interests.includes(cb.value); });
+    }
+    const next = ['firstName', 'lastName', 'email', 'phone', 'zip'].find((f) => !value(f));
+    if (next) setTimeout(() => form.elements[next].focus({ preventScroll: true }), 50);
+  }
+
   function init() {
     if (!startedAt) startedAt = Date.now();
-    if (bound) return;
+    if (bound) { applyPrefill(); return; }
     form = document.getElementById('lead-form');
     btn = document.getElementById('submit-btn');
     alertBox = document.getElementById('form-alert');
     if (!form) return;
+
+    document.getElementById('interest-chips').innerHTML = C.interests.map((it) =>
+      `<label class="ichip"><input type="checkbox" name="interests" value="${it.id}"><span>${it.name}</span></label>`).join('');
 
     const sel = form.elements.bestTime;
     sel.innerHTML = C.bestTimes.map((b) => `<option value="${b.id}">${b.name}</option>`).join('');
@@ -242,6 +267,8 @@
 
     form.addEventListener('submit', onSubmit);
     bound = true;
+    applyPrefill();
+    window.addEventListener('storage', (e) => { if (e.key === PREFILL_KEY && e.newValue && !submitted) applyPrefill(); });
   }
 
   window.VBForm = { init, _rules: rules };

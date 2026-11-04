@@ -1,7 +1,7 @@
 # Render Blueprint – free live URL (https://<name>.onrender.com), no domain needed.
 services:
   - type: web
-    name: superfast-vision-board
+    name: caliber-home-solutions
     runtime: node
     plan: free
     branch: claude/intelligent-mayer-nv3axy

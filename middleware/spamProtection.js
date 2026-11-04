@@ -21,7 +21,7 @@ function spamGuard(req, res, next) {
   const b = req.body || {};
   const reject = (reason) => {
     logger.submission('rejected-spam', { reason, ip: req.ip });
-    return res.status(400).json({ ok: false, message: 'Your submission could not be accepted. Please call us at (970) 361-3404.' });
+    return res.status(400).json({ ok: false, message: 'Your submission could not be accepted. Please call us at (208) 552-3037.' });
   };
   if (typeof b.website === 'string' && b.website.trim() !== '') return reject('honeypot');
   const started = Number(b.formStartedAt);

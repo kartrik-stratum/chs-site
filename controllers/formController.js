@@ -28,14 +28,14 @@ async function submitForm(req, res) {
     const info = await sendOwnerNotification(submission);
     duplicates.markCompleted(data, submission.reference);
     logger.submission('sent', { ...logMeta, reference: submission.reference, messageId: info.messageId, selections: submission.completedCount });
-    return res.status(200).json({ ok: true, reference: submission.reference, message: 'Thanks! Your vision board was sent to your SuperFast designer.' });
+    return res.status(200).json({ ok: true, reference: submission.reference, message: 'Thanks! Your vision board was sent to your Caliber consultant.' });
   } catch (err) {
     const configProblem = err instanceof EmailConfigError;
     logger.submission('email-failed', { ...logMeta, reference: submission.reference, error: err.message, code: err.code, responseCode: err.responseCode });
     logger.failedSubmission({ reference: submission.reference, error: err.message, body: { ...data, website: undefined } });
     return res.status(configProblem ? 503 : 502).json({
       ok: false,
-      message: 'We couldn’t send your vision board right now. Please try again in a moment, or call us at (970) 361-3404.'
+      message: 'We couldn’t send your vision board right now. Please try again in a moment, or call us at (208) 552-3037.'
     });
   } finally {
     duplicates.end(data);

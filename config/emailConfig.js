@@ -20,7 +20,7 @@ function getEmailSettings(env = process.env) {
     ignoreTLS: bool(env.SMTP_IGNORE_TLS, false),
     ownerEmail: env.OWNER_EMAIL || '',
     ownerCc: env.OWNER_CC || '',
-    from: env.MAIL_FROM || (env.SMTP_USER ? `"SuperFast Vision Board" <${env.SMTP_USER}>` : ''),
+    from: env.MAIL_FROM || (env.SMTP_USER ? `"Caliber Bath Designer" <${env.SMTP_USER}>` : ''),
     timezone: env.OWNER_TIMEZONE || 'America/Denver',
     includeImages: bool(env.EMAIL_INCLUDE_IMAGES, true)
   };

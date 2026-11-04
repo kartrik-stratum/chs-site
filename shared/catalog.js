@@ -283,15 +283,25 @@
     { id: 'evening', name: 'Evening (5pm – 8pm)' }
   ];
 
+  /** "I'm interested in" choices on the consultation forms. */
+  const interests = [
+    { id: 'walk-in-shower', name: 'Walk-in shower' },
+    { id: 'walk-in-tub', name: 'Walk-in tub' },
+    { id: 'stair-lift', name: 'Stair lift' },
+    { id: 'home-elevator', name: 'Home elevator' },
+    { id: 'other', name: 'Other' }
+  ];
+
   const business = {
-    name: 'SuperFast Kitchen & Bath',
-    tagline: 'Fast. Affordable. Stylish.',
-    address: '917 Main St, Grand Junction CO 81501',
-    phone: '(970) 361-3404',
-    hours: 'Mon-Fri 9-5',
-    website: 'superfastkitchenandbath.com',
-    defaultCity: 'Grand Junction',
-    defaultState: 'CO'
+    name: 'Caliber Home Solutions',
+    tagline: 'Aging-in-place remodeling & accessibility solutions',
+    address: 'Boise, Idaho',
+    phone: '(208) 552-3037',
+    phoneHref: 'tel:+12085523037',
+    hours: 'Mon-Fri 8-5',
+    website: 'caliberhomesolutions.com',
+    defaultCity: 'Boise',
+    defaultState: 'ID'
   };
 
   const findStep = (key) => steps.find((s) => s.key === key);
@@ -300,5 +310,5 @@
     return s ? s.options.find((o) => o.id === id) : undefined;
   };
 
-  return { steps, presets, accessibleKit, bestTimes, business, findStep, findOption, SKIP: '__skip__' };
+  return { steps, presets, accessibleKit, bestTimes, interests, business, findStep, findOption, SKIP: '__skip__' };
 });

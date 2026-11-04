@@ -73,14 +73,15 @@ function buildSubmission(body, meta = {}) {
       zip: body.zip,
       city: body.city,
       state: body.state,
-      bestTime: bestTime ? bestTime.name : 'No preference'
+      bestTime: bestTime ? bestTime.name : 'No preference',
+      interests: (Array.isArray(body.interests) ? body.interests : []).map((id) => (catalog.interests.find((i) => i.id === id) || {}).name).filter(Boolean)
     },
     selections,
     completedCount: selections.filter((s) => s.status !== 'not-chosen').length,
     totalSteps: catalog.steps.length,
     accessible: !!board.accessible,
     preset: preset ? preset.name : 'Started from scratch',
-    consent: 'Customer agreed SuperFast Kitchen & Bath may contact them by phone, text, or email about their project.',
+    consent: 'Customer agreed Caliber Home Solutions may contact them by phone, text, or email about their project.',
     shareUrl: body.shareUrl || '',
     meta: {
       ip: meta.ip || '',

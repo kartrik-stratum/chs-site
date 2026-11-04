@@ -1,12 +1,52 @@
-# SuperFast Kitchen & Bath – Bathroom Vision Board
+# Caliber Home Solutions – Homepage & Bath Designer
 
-A recreation of the SuperFast "Design Tool" flow from the reference video, built with Node.js and Express:
+The Caliber Home Solutions homepage (aging-in-place remodeling, walk-in showers and tubs, stair lifts, home elevators), with the original design tool kept inside it.
 
-1. **Landing / Design Tool section**: "See your new bathroom or kitchen *before* it's built."
-2. **Pick a Style to Start**: four presets (Spa Retreat, Timeless Classic, Modern Luxe, Accessible Comfort). One tap fills the whole board. You can also choose **Start from Scratch**.
-3. **10-step builder** with a live "Your Vision Board" sidebar. The sidebar has a progress ring and bar, a 10-tile thumbnail board, a **Make it Accessible** toggle, a categories list, and a "Your vision board is ready!" box that appears when the board is complete.
-   | # | Step | Options | Extras |
-   |---|------|---------|--------|
+**Homepage sections:** promo bar · header with dropdowns · hero with a quick consultation card · partner strip · solutions bento · about · **Caliber Bath Designer** (design tool, on the left) · four-step process · recent transformations · **before/after sliders** · offers + referral banner · testimonials · consultation CTA (second quick card) · FAQ accordion · service areas · footer.
+
+**Design tool (kept and rebranded):**
+- The homepage designer has five tabs: Base, Walls, Fixtures, Safety and Review. It reads and writes the same saved board as the full 10-step builder at `#/builder`, with its style presets, accessibility toggle, sub-options and share link.
+- Picks are stored in `localStorage` and stay in sync across open tabs.
+
+**Forms open in a new tab:** every "Free Consultation", "Send to Consultant", "Claim This Offer" and "Book a Free Consultation" button opens the full lead form (`/#/summary`) in a new tab. The homepage and its design state stay where they were.
+- The quick consultation cards check name, phone and zip first, then open the full form in a new tab with those details already filled in. The hand-off uses `localStorage` (key `caliber-lead-prefill`), so no personal details go in the URL.
+- That form submits to `POST /api/submit-form`, and the owner email now includes the **"I'm interested in"** selections.
+
+**Mobile:** multi-card grids marked `data-carousel` (solutions, steps, transformations, offers, reviews) become swipeable carousels at widths of 720 px and below. They auto-advance every 4 s while on screen, pause when touched or focused, and have dot navigation. The before/after sliders stack vertically instead of using a carousel, so dragging the divider never fights with swiping.
+
+## Brand tokens
+
+All colours and fonts are CSS variables in `public/css/style.css` (`:root`):
+
+| Token | Value | Use |
+|---|---|---|
+| `--navy` | `#0A2540` | headings, dark sections, footer |
+| `--gold` | `#F6B23C` | primary CTAs, badges, highlights |
+| `--blue` | `#0B6FB6` | links, buttons, selected states |
+| `--teal` | `#14A39A` | accents, italic headline words, progress |
+| `--serif` | Fraunces | headings |
+| `--font` | Poppins | body, buttons, labels |
+| `--grad-media`, `--grad-overlay`, `--grad-navy` | gradients | image boxes and cards |
+
+Homepage styles are in `public/css/home.css`. Builder and summary styles are in `style.css`.
+
+## Replacing images
+
+Every homepage image has its own named file. Overwrite a file with the same name, and the layout, rounded corners and gradient stay the same. The current files are temporary placeholders.
+
+| File (`public/images/home/`) | Where it's used |
+|---|---|
+| `hero-banner.jpg` | hero background (from the supplied banner) |
+| `solution-walk-in-showers.jpg`, `solution-walk-in-tubs.jpg`, `solution-stair-lifts.jpg`, `solution-home-elevators.jpg` | solutions bento |
+| `about.jpg` | About Caliber |
+| `transform-1.jpg` … `transform-6.jpg` | Recent transformations |
+| `before-1.jpg` / `after-1.jpg`, `before-2.jpg` / `after-2.jpg` | before/after sliders (use matching framing) |
+| `consultation-bg.jpg` | consultation CTA background |
+
+- **Logo:** `public/images/brand/caliber-logo.png`
+- **Placeholder content:** the testimonials in `public/js/home.js` (`REVIEWS`) are placeholder copy. Replace them with real, verified customer reviews before launch. Offer amounts, FAQ answers and service states should also be confirmed with the client.
+
+---|------|---------|--------|
    | 1 | Shower / Tub Style | 7 | |
    | 2 | Wall Pattern | 9 | Panel Etch Design: Othello / Grayline |
    | 3 | Wall Color | 9 | |
@@ -102,7 +142,7 @@ SMTP_USER=
 SMTP_PASS=
 SMTP_SECURE=false
 SMTP_IGNORE_TLS=true
-MAIL_FROM="SuperFast Vision Board <no-reply@localhost>"
+MAIL_FROM="Caliber Vision Board <no-reply@localhost>"
 ```
 
 In terminal 2:
@@ -216,6 +256,3 @@ The product photos and the style and hero images were cropped from frames of the
 
 The wall-pattern tiles are vector SVGs created by `npm run build:patterns`. That script also renders PNG copies for the emails, using Playwright and Chromium if they are installed.
 
-`logo.svg` and the "Good Housekeeping" seal are stand-ins. Swap in the official brand files.
-
-The **Design Your Dream Kitchen** button currently shows a "coming soon" message, because the video only demonstrates the bathroom flow.
