@@ -476,7 +476,7 @@
     const tab = HOME_TABS[idx];
     const step = tab.step ? C.findStep(tab.step) : null;
 
-    let preview = '/images/home/solution-walk-in-showers.jpg?v=2';
+    let preview = '/images/home/solution-walk-in-showers.jpg?v=3';
     if (step) {
       const o = displayOption(step);
       preview = o ? optionImage(step, o) : C.findOption(step.key, tab.options[0]).image;
