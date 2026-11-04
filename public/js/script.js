@@ -455,6 +455,15 @@
     { id: 'safety', label: 'Safety', icon: 'hand', step: 'accessories', options: ['grab-bars', 'folding-shower-seat', 'hand-held-wand', 'recessed-niche'] },
     { id: 'review', label: 'Review', icon: 'eye' }
   ];
+  /* Homepage-only photos for the designer (the full builder keeps its own option images). */
+  const HOME_DEFAULT_PREVIEW = '/images/home/designer-preview.jpg?v=4';
+  const HOME_IMG = {
+    'walk-in-shower': { thumb: '/images/home/designer-thumb-walk-in-shower.jpg?v=4', preview: '/images/home/solution-walk-in-showers.jpg?v=4' },
+    'tub-to-shower-conversion': { thumb: '/images/home/designer-thumb-teal-shower.jpg?v=4', preview: '/images/home/about.jpg?v=4' },
+    'replacement-bathtub': { thumb: '/images/home/designer-thumb-subway-tub.jpg?v=4', preview: '/images/home/solution-walk-in-tubs.jpg?v=4' }
+  };
+  const homeThumb = (step, o) => (HOME_IMG[o.id] && HOME_IMG[o.id].thumb) || optionImage(step, o);
+  const homePreview = (step, o) => (HOME_IMG[o.id] && HOME_IMG[o.id].preview) || optionImage(step, o);
   let homeTab = 'base';
   let homeTimer = null;
 
@@ -476,13 +485,14 @@
     const tab = HOME_TABS[idx];
     const step = tab.step ? C.findStep(tab.step) : null;
 
-    let preview = '/images/home/solution-walk-in-showers.jpg?v=3';
+    let preview = HOME_DEFAULT_PREVIEW;
     if (step) {
       const o = displayOption(step);
-      preview = o ? optionImage(step, o) : C.findOption(step.key, tab.options[0]).image;
+      if (o) preview = homePreview(step, o);
     } else {
-      const o = displayOption(C.findStep('shower'));
-      if (o) preview = o.image;
+      const sh = C.findStep('shower');
+      const o = displayOption(sh);
+      if (o) preview = homePreview(sh, o);
     }
 
     let panel;
@@ -491,7 +501,7 @@
         const o = C.findOption(step.key, id);
         const sel = step.multi ? state.picks[step.key].includes(id) : state.picks[step.key] === id;
         return `<button type="button" class="designer__thumb ${sel ? 'is-selected' : ''}" role="${step.multi ? 'checkbox' : 'radio'}" aria-checked="${sel}" data-home-opt="${id}">
-            <img src="${esc(optionImage(step, o))}" alt="" loading="lazy"><span>${esc(o.name)}</span></button>`;
+            <img src="${esc(homeThumb(step, o))}" alt="" loading="lazy"><span>${esc(o.name)}</span></button>`;
       }).join('')}</div>`;
     } else {
       const rows = HOME_TABS.filter((t) => t.step).map((t) => {
