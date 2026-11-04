@@ -1,0 +1,236 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>SuperFast Kitchen &amp; Bath – Remodeling Done Right, Remarkably Fast</title>
+  <meta name="description" content="Design your dream bathroom in about two minutes with the SuperFast Vision Board – pick real products we install and get a head start on your free quote.">
+  <link rel="icon" href="/images/favicon.svg" type="image/svg+xml">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,600;9..144,700&family=Poppins:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/css/style.css">
+</head>
+<body>
+  <a class="skip-link" href="#app">Skip to content</a>
+
+  <div id="app" tabindex="-1">
+
+    <!-- ============ VIEW: LANDING / DESIGN TOOL ============ -->
+    <section id="view-landing" class="view" data-view="landing" hidden>
+      <header class="site-nav">
+        <div class="site-nav__progress" aria-hidden="true"></div>
+        <div class="site-nav__inner">
+          <a class="site-nav__logo" href="#/" aria-label="SuperFast Kitchen &amp; Bath home">
+            <img src="/images/logo.svg" alt="SuperFast Kitchen &amp; Bath" width="104" height="36">
+          </a>
+          <button class="site-nav__burger" type="button" aria-expanded="false" aria-controls="site-menu" aria-label="Open menu">
+            <span></span><span></span><span></span>
+          </button>
+          <nav id="site-menu" class="site-nav__menu" aria-label="Main">
+            <div class="site-nav__dropdown">
+              <button type="button" class="site-nav__link site-nav__link--drop" aria-expanded="false">Products <span aria-hidden="true">▾</span></button>
+              <ul class="site-nav__submenu">
+                <li><a href="#/builder">Bath Remodels</a></li>
+                <li><a href="#/builder">Shower Conversions</a></li>
+                <li><a href="#/builder">Walk-In Tubs</a></li>
+                <li><a href="#" data-kitchen>Kitchen Remodels</a></li>
+              </ul>
+            </div>
+            <a class="site-nav__link is-active" href="#/">Design Tool</a>
+            <a class="site-nav__link" href="#">Service Areas</a>
+            <a class="site-nav__link" href="#">Reviews</a>
+            <a class="site-nav__link" href="#">Events</a>
+            <a class="site-nav__link" href="#">Offers</a>
+            <a class="site-nav__link" href="#">Refer a Friend</a>
+            <a class="site-nav__link" href="#">Pricing</a>
+            <a class="btn btn--orange site-nav__cta" href="#/builder">Let’s Get Started</a>
+          </nav>
+        </div>
+      </header>
+
+      <main class="hero">
+        <div class="hero__inner">
+          <div class="hero__copy">
+            <p class="hero__kicker">Exclusive Design Tool</p>
+            <h1 class="hero__title">See your new bathroom or kitchen <em>before</em> it’s built.</h1>
+            <p class="hero__lead">Pick your tile, vanity, cabinets, fixtures and more - and watch your dream space come to life in about two minutes. It’s free, there’s no pressure, and it gives your designer a head start on your quote.</p>
+            <ul class="hero__list">
+              <li>Choose from real products we install</li>
+              <li>Get a head start on your free quote</li>
+              <li>No account, no obligation - just fun</li>
+            </ul>
+            <div class="hero__actions">
+              <a class="btn btn--navy btn--lg" href="#/builder">Design Your Dream Bathroom <span aria-hidden="true">→</span></a>
+              <a class="btn btn--ghost btn--lg" href="#" data-kitchen>Design Your Dream Kitchen <span aria-hidden="true">→</span></a>
+            </div>
+          </div>
+          <div class="hero__media">
+            <div class="hero__frame">
+              <img src="/images/hero/bathroom-hero.jpg" alt="Bright walk-in shower with Calcutta marble wall panels and a floating vanity" width="864" height="642">
+            </div>
+            <span class="hero__chip hero__chip--tl"><span aria-hidden="true">◌</span> Calcutta Marble</span>
+            <span class="hero__chip hero__chip--r"><span aria-hidden="true">🚿</span> Walk-In Shower</span>
+            <span class="hero__chip hero__chip--bl"><span aria-hidden="true">🛁</span> Soaking Tub</span>
+            <span class="hero__seal" aria-label="Good Housekeeping">
+              <span class="hero__seal-ring"><small>QUALITY TESTED</small><strong>GOOD<br>HOUSEKEEPING</strong><small>★ ★ ★</small></span>
+            </span>
+          </div>
+        </div>
+      </main>
+
+      <footer class="site-footer">
+        <p>© <span data-year></span> SuperFast Kitchen &amp; Bath · 917 Main St, Grand Junction CO 81501 · (970) 361-3404</p>
+      </footer>
+    </section>
+
+    <!-- ============ VIEW: BUILDER (style picker + 10 steps) ============ -->
+    <section id="view-builder" class="view builder" data-view="builder" hidden>
+      <aside class="sidebar" id="sidebar" aria-label="Your vision board"></aside>
+      <main class="builder__main" id="builder-main">
+        <div class="builder__topbar" aria-hidden="true"><span id="topbar-fill"></span></div>
+        <div class="builder__content" id="builder-content" aria-live="polite"></div>
+      </main>
+    </section>
+
+    <!-- ============ VIEW: SUMMARY + LEAD FORM ============ -->
+    <section id="view-summary" class="view summary" data-view="summary" hidden>
+      <header class="summary__banner">
+        <div class="summary__banner-inner">
+          <div>
+            <span class="pill pill--glass" id="summary-pill"></span>
+            <h1 class="summary__title" id="summary-title">Your Vision Board is Ready!</h1>
+            <p class="summary__sub" id="summary-sub"></p>
+          </div>
+          <button type="button" class="btn btn--glass" id="copy-share">
+            <svg viewBox="0 0 24 24" width="14" height="14" aria-hidden="true"><circle cx="18" cy="5" r="3"/><circle cx="6" cy="12" r="3"/><circle cx="18" cy="19" r="3"/><path d="m8.6 13.5 6.8 4M15.4 6.5l-6.8 4"/></svg>
+            Copy Share Link
+          </button>
+        </div>
+      </header>
+
+      <div class="summary__body">
+        <div class="summary__left">
+          <article class="board-card" id="board-card" aria-label="Bathroom vision board"></article>
+          <article class="selections-card">
+            <div class="selections-card__head">
+              <h2>Your Selections</h2>
+              <a href="#/builder/step-1" class="link-blue">Edit Board →</a>
+            </div>
+            <ul class="selections-list" id="selections-list"></ul>
+          </article>
+        </div>
+
+        <div class="summary__right">
+          <article class="lead-card" id="lead-card">
+            <div id="lead-form-wrap">
+              <span class="pill pill--blue">
+                <svg viewBox="0 0 24 24" width="12" height="12" aria-hidden="true"><path d="M12 3v4M12 17v4M3 12h4M17 12h4M6 6l2.5 2.5M15.5 15.5 18 18M6 18l2.5-2.5M15.5 8.5 18 6"/></svg>
+                Free | Instant Render of Your Bathroom
+              </span>
+              <h2 class="lead-card__title">See Your New Bathroom Come to Life</h2>
+              <p class="lead-card__lead">Enter your info and we’ll instantly turn your picks into a visual render of your exact bathroom, yours to keep, plus your high-res vision board and a free quote. No obligation.</p>
+
+              <form id="lead-form" class="lead-form" novalidate>
+                <div class="form-alert" id="form-alert" role="alert" hidden></div>
+
+                <div class="form-row">
+                  <div class="field">
+                    <label for="firstName">First Name</label>
+                    <input id="firstName" name="firstName" type="text" placeholder="Jane" autocomplete="given-name" maxlength="50" required>
+                    <p class="field__error" id="firstName-error"></p>
+                  </div>
+                  <div class="field">
+                    <label for="lastName">Last Name</label>
+                    <input id="lastName" name="lastName" type="text" placeholder="Smith" autocomplete="family-name" maxlength="50" required>
+                    <p class="field__error" id="lastName-error"></p>
+                  </div>
+                </div>
+
+                <div class="field">
+                  <label for="email">Email</label>
+                  <input id="email" name="email" type="email" placeholder="jane@example.com" autocomplete="email" maxlength="254" required>
+                  <p class="field__error" id="email-error"></p>
+                </div>
+
+                <div class="form-row">
+                  <div class="field">
+                    <label for="phone">Phone</label>
+                    <input id="phone" name="phone" type="tel" placeholder="(970) 555-0100" autocomplete="tel-national" inputmode="tel" maxlength="20" required>
+                    <p class="field__error" id="phone-error"></p>
+                  </div>
+                  <div class="field">
+                    <label for="zip">Zip Code</label>
+                    <input id="zip" name="zip" type="text" placeholder="81501" autocomplete="postal-code" inputmode="numeric" maxlength="10" required>
+                    <p class="field__error" id="zip-error"></p>
+                  </div>
+                </div>
+
+                <div class="form-row">
+                  <div class="field">
+                    <label for="city">City</label>
+                    <input id="city" name="city" type="text" value="Grand Junction" autocomplete="address-level2" maxlength="80" required>
+                    <p class="field__error" id="city-error"></p>
+                  </div>
+                  <div class="field">
+                    <label for="state">State</label>
+                    <input id="state" name="state" type="text" value="CO" autocomplete="address-level1" maxlength="2" required>
+                    <p class="field__error" id="state-error"></p>
+                  </div>
+                </div>
+
+                <div class="field">
+                  <label for="bestTime">Best Time to Call</label>
+                  <select id="bestTime" name="bestTime"></select>
+                  <p class="field__error" id="bestTime-error"></p>
+                </div>
+
+                <!-- Spam protection: honeypot (humans never see or fill this) -->
+                <div class="hp" aria-hidden="true">
+                  <label for="website">Leave this field empty</label>
+                  <input id="website" name="website" type="text" tabindex="-1" autocomplete="off">
+                </div>
+
+                <button type="submit" class="btn btn--blue btn--block btn--submit" id="submit-btn">
+                  <span class="btn__label">
+                    <svg viewBox="0 0 24 24" width="16" height="16" aria-hidden="true"><path d="M22 2 11 13M22 2l-7 20-4-9-9-4 20-7z"/></svg>
+                    Show Me My Bathroom Render
+                  </span>
+                  <span class="btn__spinner" aria-hidden="true"></span>
+                </button>
+
+                <p class="lead-form__legal">By submitting, you agree SuperFast Kitchen &amp; Bath may contact you by phone, text, or email about your project. Msg &amp; data rates may apply. <a href="#" class="link-blue">Privacy Policy</a></p>
+                <p class="lead-form__spam">No spam - ever. Your info goes directly to your local SuperFast designer.</p>
+              </form>
+            </div>
+
+            <div class="lead-success" id="lead-success" hidden tabindex="-1"></div>
+
+            <p class="lead-card__contact">
+              <span><svg viewBox="0 0 24 24" width="11" height="11" aria-hidden="true"><path d="M12 22s7-6.2 7-12a7 7 0 1 0-14 0c0 5.8 7 12 7 12z"/><circle cx="12" cy="10" r="2.5"/></svg>917 Main St, Grand Junction CO 81501</span>
+              <span><svg viewBox="0 0 24 24" width="11" height="11" aria-hidden="true"><path d="M22 16.9v3a2 2 0 0 1-2.2 2 19.8 19.8 0 0 1-8.6-3.1 19.5 19.5 0 0 1-6-6A19.8 19.8 0 0 1 2.1 4.2 2 2 0 0 1 4.1 2h3a2 2 0 0 1 2 1.7c.1.9.4 1.8.7 2.7a2 2 0 0 1-.5 2.1L8 9.8a16 16 0 0 0 6 6l1.3-1.3a2 2 0 0 1 2.1-.4c.9.3 1.8.6 2.7.7a2 2 0 0 1 1.7 2z"/></svg>(970) 361-3404</span>
+              <span><svg viewBox="0 0 24 24" width="11" height="11" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg>Mon-Fri 9-5</span>
+            </p>
+          </article>
+
+          <ul class="trust-badges" aria-label="Accreditations">
+            <li>BBB A+ Rated</li>
+            <li>Houzz 5.0★</li>
+            <li>Bath Planet Dealer</li>
+            <li>HBA Western Colorado</li>
+          </ul>
+        </div>
+      </div>
+    </section>
+  </div>
+
+  <div class="toast" id="toast" role="status" aria-live="polite" hidden></div>
+
+  <noscript><p class="noscript">The Vision Board needs JavaScript enabled. Please call us at (970) 361-3404.</p></noscript>
+
+  <script src="/js/catalog.js"></script>
+  <script src="/js/icons.js"></script>
+  <script src="/js/form.js"></script>
+  <script src="/js/script.js"></script>
+</body>
+</html>

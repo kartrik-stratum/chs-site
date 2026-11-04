@@ -1,0 +1,210 @@
+# SuperFast Kitchen & Bath – Bathroom Vision Board
+
+A recreation of the SuperFast "Design Tool" flow from the reference video, built with Node.js and Express:
+
+1. **Landing / Design Tool section**: "See your new bathroom or kitchen *before* it's built."
+2. **Pick a Style to Start**: four presets (Spa Retreat, Timeless Classic, Modern Luxe, Accessible Comfort). One tap fills the whole board. You can also choose **Start from Scratch**.
+3. **10-step builder** with a live "Your Vision Board" sidebar. The sidebar has a progress ring and bar, a 10-tile thumbnail board, a **Make it Accessible** toggle, a categories list, and a "Your vision board is ready!" box that appears when the board is complete.
+   | # | Step | Options | Extras |
+   |---|------|---------|--------|
+   | 1 | Shower / Tub Style | 7 | |
+   | 2 | Wall Pattern | 9 | Panel Etch Design: Othello / Grayline |
+   | 3 | Wall Color | 9 | |
+   | 4 | Flooring | 6 | |
+   | 5 | Vanity | 6 | |
+   | 6 | Countertop | 6 | |
+   | 7 | Shower Door | 6 | Glass Type (Clear/Rain/Frost/Corrugated), V-Groove Pattern (None/Arrow/Hopscotch/Roman Block/Vertical Block) |
+   | 8 | Faucet & Hardware Finish | 5 | |
+   | 9 | Mirror | 4 | |
+   | 10 | Accessories | 8 (multi-select) | |
+
+   Single-choice steps move ahead on their own after a pick. Every single-choice step also has a **Not in my project** card for skipping it. Navigation uses Back/Next buttons and step dots. Steps 1–9 have a **Next** button; step 10 has **Reveal My Board**.
+4. **Summary**: a "Your Vision Board is Ready!" banner, a **Copy Share Link** button, a printable vision-board mosaic, and the **Your Selections** list with Edit Board.
+5. **Lead form** (First/Last name, Email, Phone, Zip, City, State, Best Time to Call), with validation, a loading state, duplicate-submission protection, and a success screen.
+
+Each submission sends **one HTML email to the owner**. It contains:
+- every form field
+- all 10 selections with their sub-options and thumbnails embedded inline
+- whether the accessible option was on, and the starting style
+- the shareable board link
+- the date and time in the owner's time zone
+- the IP address and browser
+- a JSON copy of the submission
+
+The success message is shown **only after** the SMTP server accepts the email.
+
+---
+
+## Project structure
+
+```
+├── public/                 # Frontend (static)
+│   ├── index.html
+│   ├── 404.html
+│   ├── css/style.css
+│   ├── js/script.js        # router, state, builder, sidebar, summary
+│   ├── js/form.js          # lead form validation + submission
+│   ├── js/icons.js
+│   └── images/             # options/, patterns/, styles/, hero/, logo.svg
+├── shared/catalog.js       # steps/options/presets – used by browser AND server validation
+├── routes/formRoutes.js    # POST /api/submit-form, GET /api/health
+├── controllers/formController.js
+├── middleware/validation.js      # express-validator rules + board validation
+├── middleware/spamProtection.js  # rate limit, honeypot, time-on-form check
+├── middleware/errorHandler.js
+├── services/submissionService.js # builds the full submission record
+├── services/emailService.js      # Nodemailer send + attachments
+├── templates/ownerEmail.js       # HTML + plain-text email
+├── config/emailConfig.js         # SMTP settings from environment variables
+├── utils/logger.js, utils/duplicateGuard.js
+├── scripts/dev-mail-server.js    # local SMTP mail catcher for testing
+├── scripts/generate-pattern-assets.js
+├── tests/api.test.js             # end-to-end API + email tests
+├── .env.example
+└── server.js
+```
+
+## Install & run locally
+
+Requires Node.js 18.18 or newer (tested on Node 22).
+
+```bash
+npm install
+```
+
+```bash
+cp .env.example .env
+```
+
+Edit `.env` (see below), then:
+
+```bash
+npm start
+```
+
+Open http://localhost:3000. Use `npm run dev` to auto-restart the server when files change.
+
+### Try the full email flow without a real mailbox
+
+In terminal 1, start the local mail catcher (listens on `127.0.0.1:1025`):
+
+```bash
+npm run mail:dev
+```
+
+Point `.env` at it:
+
+```
+OWNER_EMAIL=owner@example.com
+SMTP_HOST=127.0.0.1
+SMTP_PORT=1025
+SMTP_USER=
+SMTP_PASS=
+SMTP_SECURE=false
+SMTP_IGNORE_TLS=true
+MAIL_FROM="SuperFast Vision Board <no-reply@localhost>"
+```
+
+In terminal 2:
+
+```bash
+npm start
+```
+
+Submit the form. Each email is saved to `dev-mail/` as a `.eml` file and a `.html` file. Open the `.html` file in a browser to see exactly what the owner receives.
+
+## Configuring the owner's email (production)
+
+All settings are environment variables. Nothing secret is in the source code or sent to the browser.
+
+| Variable | Purpose |
+|---|---|
+| `OWNER_EMAIL` | **Where submissions are sent.** Lives on the server only. |
+| `OWNER_CC` | Optional extra recipients (comma separated) |
+| `SMTP_HOST`, `SMTP_PORT` | SMTP server, e.g. `smtp.gmail.com` / `587` |
+| `SMTP_USER`, `SMTP_PASS` | SMTP login. For Gmail or Google Workspace, use an **App Password**. |
+| `SMTP_SECURE` | `true` for port 465. Leave empty to detect it from the port. |
+| `SMTP_REQUIRE_TLS` | `true` forces STARTTLS on port 587 (recommended) |
+| `MAIL_FROM` | Sender address. Your provider must allow it (usually the same as `SMTP_USER`). |
+| `OWNER_TIMEZONE` | Time zone for the date/time shown in the email (default `America/Denver`) |
+| `EMAIL_INCLUDE_IMAGES` | Embed the selected product images in the email (default `true`) |
+| `PORT`, `NODE_ENV`, `TRUST_PROXY` | Server settings. Set `TRUST_PROXY=1` behind Nginx, Render, Heroku, etc. |
+| `RATE_LIMIT_MAX`, `MIN_FORM_FILL_MS` | Spam-protection limits |
+
+Common SMTP providers:
+- **Gmail / Google Workspace:** `smtp.gmail.com:587`. Turn on 2-Step Verification, then create an App Password.
+- **Microsoft 365:** `smtp.office365.com:587`
+- **SendGrid:** `smtp.sendgrid.net:587`, user `apikey`, password = your API key
+- **Mailgun:** `smtp.mailgun.org:587`
+
+When the server starts, it checks the SMTP connection and logs whether it succeeded. `GET /api/health` reports whether email is configured.
+
+## API
+
+`POST /api/submit-form` (JSON)
+
+| Status | Meaning |
+|---|---|
+| 200 `{ ok: true, reference }` | Validated, and the owner email was accepted by SMTP. A repeat of an already-sent submission returns `duplicate: true` and no new email is sent. |
+| 400 | Malformed JSON, or the spam check failed (honeypot filled, or the form was submitted too quickly) |
+| 409 | The same submission is already being processed |
+| 422 `{ errors: [{ field, message }] }` | Validation failed. The form shows the message next to each field. |
+| 429 | Rate limit reached (8 requests per 15 minutes per IP by default) |
+| 502 | Email delivery failed (SMTP unreachable, login rejected, etc.). **No success is shown.** |
+| 503 | Email is not configured |
+
+Every attempt is logged as one JSON line to stdout and to `logs/submissions.log`. If email delivery fails, the full submission is saved to `logs/failed-submissions.jsonl` so the lead is not lost. The customer can also retry the same submission once SMTP is back.
+
+## Security & spam protection
+
+- SMTP credentials and the owner's address exist only on the server (`.env`, which git ignores).
+- The server re-validates everything, including each board option against the shared catalog, so tampered option IDs are rejected.
+- All user input is HTML-escaped before it goes into the email.
+- Spam protection: a hidden honeypot field, a minimum time on the form, and per-IP rate limiting.
+- Duplicate prevention: the client disables the button and sends an idempotency key (`submissionId`). The server also ignores the same email + board content sent within 2 minutes.
+- Helmet security headers with a strict Content-Security-Policy, and a 32 KB JSON body limit.
+- The duplicate guard keeps its data in memory. If you run several server instances, move it to a shared store such as Redis.
+
+## Testing
+
+### Automated
+
+```bash
+npm test
+```
+
+There are 16 end-to-end tests. They start the real Express app and a real SMTP server in the same process, then parse the email that the owner actually receives. They cover:
+- all fields, selections, sub-options, images, the JSON attachment, the date/time, and reply-to
+- skipped and unchosen categories
+- missing or invalid name, email, phone, zip, and state
+- a tampered board and an empty board
+- HTML escaping
+- the honeypot and the too-fast check
+- duplicate submissions
+- SMTP down (502, plus the recovery log, plus a successful retry)
+- SMTP login rejected (502)
+- email not configured (503)
+- malformed JSON
+- that static files are served and no secrets leak
+
+### Manual checklist
+
+1. Run `npm run mail:dev` and `npm start`, then open http://localhost:3000.
+2. Click **Design Your Dream Bathroom**. Try a style preset and the **Make it Accessible** toggle.
+3. Go through all 10 steps. Check auto-advance, sub-option chips, **Not in my project**, the multi-select accessories, and that Back/Next and the dots work.
+4. On the summary page, click **Submit** with the form empty. Each field should show an error.
+5. Enter an invalid email (`jane@`) and a short phone number. Both should show errors. The phone number formats itself as you type.
+6. Submit valid details. The button should show a spinner and ignore extra clicks, then the success screen should appear.
+7. Open the newest file in `dev-mail/*.html` and confirm every answer is there.
+8. Stop `mail:dev` and submit again. You should see an error message and no success screen.
+9. Use DevTools device mode to check phone (~390 px), tablet (~768 px), and desktop widths.
+
+## Asset notes
+
+The product photos and the style and hero images were cropped from frames of the reference video. They are lower resolution than the originals, and some had the reference's badges and the mouse cursor painted out. Before launch, replace them with the client's original high-resolution files, keeping the same filenames in `public/images/`.
+
+The wall-pattern tiles are vector SVGs created by `npm run build:patterns`. That script also renders PNG copies for the emails, using Playwright and Chromium if they are installed.
+
+`logo.svg` and the "Good Housekeeping" seal are stand-ins. Swap in the official brand files.
+
+The **Design Your Dream Kitchen** button currently shows a "coming soon" message, because the video only demonstrates the bathroom flow.
