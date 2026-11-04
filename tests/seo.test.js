@@ -1,0 +1,107 @@
+/**
+ * SEO tests: every page from the client's metadata document is served at its
+ * exact URL with the exact title/description, a canonical, one <h1>, and the
+ * right robots directive. Also covers redirects, sitemap and robots.txt.
+ */
+'use strict';
+
+const { test, before, after } = require('node:test');
+const assert = require('node:assert/strict');
+
+process.env.NODE_ENV = 'test';
+process.env.SITE_URL = 'https://caliberhsolutions.com';
+process.env.DISABLE_FILE_LOGS = 'true';
+
+const { createApp } = require('../server');
+const PAGES = require('../data/pages.json');
+
+let http; let base;
+before(async () => {
+  http = createApp().listen(0, '127.0.0.1');
+  await new Promise((r) => http.once('listening', r));
+  base = `http://127.0.0.1:${http.address().port}`;
+});
+after(() => new Promise((r) => http.close(r)));
+
+const nodeHttp = require('node:http');
+const PROD = { host: 'caliberhsolutions.com' };
+const decode = (s) => s.replace(/&amp;/g, '&').replace(/&#39;/g, "'").replace(/&quot;/g, '"');
+/** Minimal GET (fetch() drops a custom Host header). Returns a fetch-like response. */
+const get = (u, o = {}) => new Promise((resolve, reject) => {
+  const url = new URL(base + u);
+  nodeHttp.get({ hostname: url.hostname, port: url.port, path: url.pathname + url.search, headers: o.host ? { Host: o.host } : {} }, (res) => {
+    let body = '';
+    res.setEncoding('utf8');
+    res.on('data', (c) => { body += c; });
+    res.on('end', () => resolve({ status: res.statusCode, headers: { get: (k) => res.headers[k.toLowerCase()] }, text: async () => body }));
+  }).on('error', reject);
+});
+
+test('registry covers every sitemap URL (56 from the doc + Washington)', () => {
+  assert.equal(PAGES.length, 57);
+  assert.equal(new Set(PAGES.map((p) => p.path)).size, 57);
+  for (const p of PAGES) assert.match(p.path, /^\/([a-z0-9-]+\/)*$/);
+});
+
+test('every page: 200, exact title + description, canonical, single h1', async () => {
+  for (const p of PAGES) {
+    const res = await get(p.path, PROD);
+    assert.equal(res.status, 200, p.path);
+    const html = await res.text();
+    assert.equal(decode(html.match(/<title>([^<]*)<\/title>/)[1]), p.title, `${p.path} title`);
+    assert.equal(decode(html.match(/<meta name="description" content="([^"]*)"/)[1]), p.description, `${p.path} description`);
+    assert.ok(html.includes(`<link rel="canonical" href="https://caliberhsolutions.com${p.path}">`), `${p.path} canonical`);
+    assert.ok(html.includes(`<meta property="og:title" content="`), `${p.path} og`);
+    assert.equal((html.match(/<h1[\s>]/g) || []).length, 1, `${p.path} exactly one h1`);
+    const robots = html.match(/<meta name="robots" content="([^"]*)"/)[1];
+    assert.equal(robots.startsWith('index'), p.ready, `${p.path} robots=${robots}`);
+    const ld = JSON.parse(html.match(/<script type="application\/ld\+json">([\s\S]*?)<\/script>/)[1]);
+    assert.ok(ld['@graph'].length >= 1, `${p.path} json-ld`);
+  }
+});
+
+test('header and footer links follow the navigation document', async () => {
+  const html = await (await get('/services/walk-in-tubs/', PROD)).text();
+  for (const href of ['/service/bathroom-remodeling/', '/services/walk-in-tubs/', '/services/walk-in-showers/', '/service/lifts/',
+    '/services/stairlifts/', '/services/elevator-lifts/', '/design-tool/', '/offers/', '/financing/', '/locations/', '/contact-us/',
+    '/careers/', '/blog/', '/privacy-policy/', '/terms-and-conditions/', '/offer-terms/']) {
+    assert.ok(html.includes(`href="${href}"`), href);
+  }
+});
+
+test('internal links only point at real pages', async () => {
+  const known = new Set(PAGES.map((p) => p.path));
+  for (const u of ['/', '/locations/', '/locations/boise-id/']) {
+    const html = await (await get(u, PROD)).text();
+    for (const [, href] of html.matchAll(/href="(\/[^"#?]*)/g)) {
+      if (/\.(css|svg|png|jpg|js)$/.test(href) || href.startsWith('/images/')) continue;
+      assert.ok(known.has(href), `${u} links to unknown ${href}`);
+    }
+  }
+});
+
+test('design tool page is server-rendered and crawlable', async () => {
+  const html = await (await get('/design-tool/', PROD)).text();
+  assert.match(html, /<h1 class="styles__title">Walk-In Shower &amp; Bathroom Design Tool<\/h1>/);
+  assert.match(html, /"@type":"WebApplication"/);
+  assert.ok(!html.includes('id="view-landing"'), 'no duplicate homepage markup');
+  assert.match(html, /data-view="builder">/);
+});
+
+test('missing trailing slash -> 301; unknown -> 404', async () => {
+  const r = await get('/services/stairlifts');
+  assert.equal(r.status, 301);
+  assert.equal(r.headers.get('location'), '/services/stairlifts/');
+  assert.equal((await get('/index.html')).status, 301);
+  assert.equal((await get('/not-a-page/')).status, 404);
+});
+
+test('sitemap lists finished pages; robots allows only on production host', async () => {
+  const sm = await (await get('/sitemap.xml', PROD)).text();
+  const locs = [...sm.matchAll(/<loc>([^<]+)<\/loc>/g)].map((m) => m[1]);
+  assert.deepEqual(locs.sort(), PAGES.filter((p) => p.ready).map((p) => 'https://caliberhsolutions.com' + p.path).sort());
+  assert.match(await (await get('/robots.txt', PROD)).text(), /Allow: \/[\s\S]*Sitemap: https:\/\/caliberhsolutions\.com\/sitemap\.xml/);
+  assert.match(await (await get('/robots.txt')).text(), /Disallow: \/\n/);
+  const preview = await (await get('/')).text();
+  assert.match(preview, /<meta name="robots" content="noindex, follow">/, 'preview hosts are never indexed');
+});

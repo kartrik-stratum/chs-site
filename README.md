@@ -14,6 +14,29 @@ The Caliber Home Solutions homepage (aging-in-place remodeling, walk-in showers 
 
 **Mobile:** multi-card grids marked `data-carousel` (solutions, steps, transformations, offers, reviews) become swipeable carousels at widths of 720 px and below. They auto-advance every 4 s while on screen, pause when touched or focused, and have dot navigation. The before/after sliders stack vertically instead of using a carousel, so dragging the divider never fights with swiping.
 
+## Pages, URLs & SEO
+
+Every URL from the client's sitemap is listed in **`data/pages.json`**: path, meta title, meta description, `<h1>`, breadcrumb parent and a `ready` flag. The titles and descriptions are copied word for word from the metadata document. The server (`services/seoService.js`) renders each page with:
+
+- `<title>`, meta description, canonical (`SITE_URL` + path), Open Graph and Twitter tags
+- JSON-LD: `HomeAndConstructionBusiness` + `WebSite` on the homepage, `WebApplication` on the design tool, and `BreadcrumbList` on inner pages
+- exactly one `<h1>`, and a 301 redirect to the trailing-slash URL (`/services/stairlifts` → `/services/stairlifts/`)
+
+| URL | What it is |
+|---|---|
+| `/` | Homepage (finished) |
+| `/design-tool/` | Bath Designer: style picker, then `#/builder/step-1` … `step-10` (finished) |
+| `/contact-us/` | Board summary + lead form; all "Free Consultation" buttons open it in a new tab (finished) |
+| all other pages | **Placeholder** with the shared header and footer, breadcrumbs, `<h1>`, intro and child links. Waiting for designs. |
+
+**Indexing rules:**
+- Placeholder pages are `noindex, follow` and left out of `/sitemap.xml` until their design is built. When one is built, set its `"ready": true` in `data/pages.json`.
+- Search engines may only index pages on the production host (`SITE_URL`, default `https://caliberhsolutions.com`). Preview links (trycloudflare, Render, localhost) always send `noindex`, and their `robots.txt` blocks all crawling, so test links never show up in Google.
+
+**Header and footer:** these come from `public/index.html` (between the `HEADER-START/END` and `FOOTER-START/END` comments) and are reused on every placeholder page. The menu links follow the navigation document.
+
+**To build a placeholder page:** add an HTML file for it and have `pagesMiddleware` render it, or extend `templates/page.html`. Then set `ready: true`.
+
 ## Brand tokens
 
 All colours and fonts are CSS variables in `public/css/style.css` (`:root`):
@@ -179,6 +202,7 @@ All settings are environment variables. Nothing secret is in the source code or 
 | `MAIL_FROM` | Sender address. Your provider must allow it (usually the same as `SMTP_USER`). |
 | `OWNER_TIMEZONE` | Time zone for the date/time shown in the email (default `America/Denver`) |
 | `EMAIL_INCLUDE_IMAGES` | Embed the selected product images in the email (default `true`) |
+| `SITE_URL` | Production address for canonicals and sitemap; only this host is indexable |
 | `PORT`, `NODE_ENV`, `TRUST_PROXY` | Server settings. Set `TRUST_PROXY=1` behind Nginx, Render, Heroku, etc. |
 | `RATE_LIMIT_MAX`, `MIN_FORM_FILL_MS` | Spam-protection limits |
 

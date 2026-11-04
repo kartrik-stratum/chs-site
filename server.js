@@ -10,6 +10,7 @@ const path = require('path');
 const express = require('express');
 const helmet = require('helmet');
 const formRoutes = require('./routes/formRoutes');
+const { pagesMiddleware, sitemap, robots } = require('./services/seoService');
 const { notFound, errorHandler } = require('./middleware/errorHandler');
 const { getEmailSettings, validateEmailSettings, getTransporter } = require('./config/emailConfig');
 const logger = require('./utils/logger');
@@ -43,8 +44,13 @@ function createApp() {
   // The catalog is shared with the backend; serve it to the browser from one source.
   app.get('/js/catalog.js', (req, res) => res.type('application/javascript').sendFile(path.join(__dirname, 'shared', 'catalog.js')));
 
+  // SEO pages (every URL in data/pages.json), sitemap and robots.txt
+  app.get('/sitemap.xml', sitemap);
+  app.get('/robots.txt', robots);
+  app.use(pagesMiddleware);
+
   app.use(express.static(path.join(__dirname, 'public'), {
-    extensions: ['html'],
+    index: false,
     maxAge: process.env.NODE_ENV === 'production' ? '7d' : 0,
     setHeaders(res, file) { if (file.endsWith('.html')) res.setHeader('Cache-Control', 'no-cache'); }
   }));

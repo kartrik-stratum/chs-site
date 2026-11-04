@@ -14,7 +14,7 @@
   const $$ = (s, r = document) => Array.from(r.querySelectorAll(s));
   const esc = (s) => String(s == null ? '' : s).replace(/[&<>"']/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
   const PREFILL_KEY = 'caliber-lead-prefill';
-  const FORM_URL = '/#/summary';
+  const FORM_URL = '/contact-us/';
   const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)');
 
   function storePrefill(data) {

@@ -299,7 +299,7 @@
     phone: '(208) 552-3037',
     phoneHref: 'tel:+12085523037',
     hours: 'Mon-Fri 8-5',
-    website: 'caliberhomesolutions.com',
+    website: 'caliberhsolutions.com',
     defaultCity: 'Boise',
     defaultState: 'ID'
   };

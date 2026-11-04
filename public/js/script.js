@@ -1,10 +1,10 @@
 /**
  * Caliber Home Solutions – homepage design tool + full bathroom builder.
- * Hash routes:
- *   #/ (or #section)   homepage (with the embedded Caliber Bath Designer)
- *   #/builder          "Pick a Style to Start"
- *   #/builder/step-N   step N of 10
- *   #/summary[?b=...]  finished board + lead form (b = shared board)
+ * Real URLs (SEO) decide the default view; hash routes drive the builder steps:
+ *   /                              homepage (with the embedded Caliber Bath Designer)
+ *   /design-tool/                  "Pick a Style to Start"
+ *   /design-tool/#/builder/step-N  step N of 10
+ *   /contact-us/[#/summary?b=...]  board + lead form (b = shared board)
  */
 (function () {
   'use strict';
@@ -102,8 +102,17 @@
 
   /* ----------------------------------------------------------------- router */
 
+  const PATH_VIEW = { '/design-tool/': 'builder', '/contact-us/': 'summary' };
+
   function parseRoute() {
-    const h = location.hash.replace(/^#/, '') || '/';
+    let h = location.hash.replace(/^#/, '');
+    // Only "#/..." hashes are routes; "#section" anchors and an empty/"#/" hash fall back to the URL path.
+    if (!h.startsWith('/') || h === '/') {
+      const v = PATH_VIEW[location.pathname] || 'landing';
+      if (v === 'builder') return { view: 'builder', step: 0 };
+      if (v === 'summary') return { view: 'summary' };
+      return { view: 'landing' };
+    }
     const [path, query] = h.split('?');
     const params = new URLSearchParams(query || '');
     const m = path.match(/^\/builder\/step-(\d+)$/);
@@ -124,8 +133,15 @@
   }
 
   let lastRouteKey = '';
+  const VIEW_HOME = { builder: '/design-tool/', summary: '/contact-us/', landing: '/' };
+
   function render() {
     const r = parseRoute();
+    // A hash route for a view this URL doesn't contain (e.g. an old "/#/summary" link) -> its real page.
+    if (!document.querySelector(`[data-view="${r.view}"]`)) {
+      location.replace(VIEW_HOME[r.view] + location.hash);
+      return;
+    }
     const key = r.view + ':' + (r.step || '');
     if (r.view === 'summary' && r.shared) importShared(r.shared);
     showView(r.view);
@@ -175,7 +191,7 @@
 
     $('#sidebar').innerHTML = `
       <div class="sidebar__head">
-        <a href="#/" class="sidebar__logo" aria-label="Back to Caliber Home Solutions home"><img src="/images/brand/caliber-logo.png" alt="Caliber Home Solutions" width="84" height="22"></a>
+        <a href="/" class="sidebar__logo" aria-label="Back to Caliber Home Solutions home"><img src="/images/brand/caliber-logo.png" alt="Caliber Home Solutions" width="84" height="22"></a>
         <div class="sidebar__titles">
           <span class="sidebar__brand">Caliber Bath Designer</span>
           <span class="sidebar__title">Your Vision Board</span>
@@ -193,7 +209,7 @@
       ${complete ? `
       <div class="ready-box">
         <p>${icon('party', 14)} Your vision board is ready!</p>
-        <a href="#/summary" class="btn btn--green btn--sm">View My Board ${icon('arrowRight', 12)}</a>
+        <a href="/contact-us/" class="btn btn--green btn--sm">View My Board ${icon('arrowRight', 12)}</a>
       </div>` : ''}
       <div class="sidebar__section">
         <label class="a11y-toggle ${state.accessible ? 'is-on' : ''}">
@@ -335,7 +351,7 @@
         <div class="step__nav">
           <a href="${n === 1 ? '#/builder' : `#/builder/step-${n - 1}`}" class="step__back">${icon('chevronLeft', 14)} Back</a>
           ${last
-            ? `<a href="#/summary" class="btn btn--blue btn--pill">${icon('zap', 14)} Reveal My Board</a>`
+            ? `<a href="/contact-us/" class="btn btn--blue btn--pill">${icon('zap', 14)} Reveal My Board</a>`
             : `<a href="#/builder/step-${n + 1}" class="btn btn--blue btn--pill">Next ${icon('arrowRight', 14)}</a>`}
         </div>
         <nav class="dots" aria-label="Steps">${dots}</nav>
@@ -395,7 +411,7 @@
   }
 
   function shareUrl() {
-    return `${location.origin}${location.pathname}#/summary?b=${encodeBoard()}`;
+    return `${location.origin}/contact-us/#/summary?b=${encodeBoard()}`;
   }
 
   function renderSummary() {
@@ -428,15 +444,15 @@
         </div>
         <div class="board-card__label"><strong>Bathroom Vision Board</strong><small>${esc(date)}</small></div>
       </header>
-      <div class="mosaic">${tiles || `<p class="mosaic__empty">Your board is empty. <a href="#/builder" class="link-blue">Pick a style to start →</a></p>`}</div>
-      <footer class="board-card__foot"><em>Designed with the Caliber Bath Designer</em><a href="#/" class="link-blue">${esc(C.business.website)}</a></footer>`;
+      <div class="mosaic">${tiles || `<p class="mosaic__empty">Your board is empty. <a href="/design-tool/" class="link-blue">Pick a style to start →</a></p>`}</div>
+      <footer class="board-card__foot"><em>Designed with the Caliber Bath Designer</em><a href="/" class="link-blue">${esc(C.business.website)}</a></footer>`;
 
     $('#selections-list').innerHTML = STEPS.map((s, i) => {
       const o = displayOption(s);
       const v = valueLabel(s);
       const sub = subLabel(s);
       return `<li>
-        <a href="#/builder/step-${i + 1}" class="sel-row">
+        <a href="/design-tool/#/builder/step-${i + 1}" class="sel-row">
           <span class="sel-row__thumb">${o ? `<img src="${esc(optionImage(s, o))}" alt="" loading="lazy">` : icon(state.picks[s.key] === SKIP ? 'x' : 'image', 12)}</span>
           <span class="sel-row__text"><small>${esc(s.title)}</small><strong>${esc(v) || '<em>Not chosen yet</em>'}</strong>${sub ? `<span class="sel-row__sub">${esc(sub)}</span>` : ''}</span>
           <span class="sel-row__state ${isDone(s) ? 'is-done' : ''}">${icon(isDone(s) ? 'checkCircle' : 'image', 15)}</span>
@@ -509,7 +525,7 @@
         return `<li><span>${esc(t.label)}</span><strong>${esc(valueLabel(s2)) || '<em>Not chosen</em>'}</strong></li>`;
       }).join('');
       panel = `<div class="designer__review"><ul>${rows}</ul>
-          <p>${doneCount()} of ${TOTAL} categories chosen · <a href="#/builder/step-1">Fine-tune all 10 steps →</a></p></div>`;
+          <p>${doneCount()} of ${TOTAL} categories chosen · <a href="/design-tool/#/builder/step-1">Fine-tune all 10 steps →</a></p></div>`;
     }
 
     root.innerHTML = `
@@ -529,7 +545,7 @@
       </div>
       <div class="designer__foot">
         <span>${doneCount() ? `${icon('checkCircle', 14)} Saved to your free quote` : 'Your picks save automatically'}</span>
-        <a class="btn btn--blue" href="/#/summary" target="_blank" rel="noopener" data-open-form>Send to Consultant</a>
+        <a class="btn btn--blue" href="/contact-us/" target="_blank" rel="noopener" data-open-form>Send to Consultant</a>
       </div>`;
 
     root.querySelectorAll('[data-home-tab]').forEach((b) => b.addEventListener('click', () => {
@@ -589,7 +605,8 @@
   }
 
   function bindStatic() {
-    $('#copy-share').addEventListener('click', async () => {
+    const share = $('#copy-share');
+    if (share) share.addEventListener('click', async () => {
       const ok = await copyText(shareUrl());
       toast(ok ? 'Share link copied - send it to anyone!' : 'Could not copy automatically - please copy the link from the address bar.');
       if (!ok) history.replaceState(null, '', `#/summary?b=${encodeBoard()}`);

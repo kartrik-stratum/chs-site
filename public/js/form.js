@@ -146,7 +146,7 @@
         <li><span>3</span> Get your free, no-obligation quote</li>
       </ul>
       <p class="lead-success__ref">Reference #${esc(String(data.reference || '').slice(0, 8).toUpperCase())}</p>
-      <a href="#/builder/step-1" class="btn btn--outline-blue btn--block">Keep Customizing My Board</a>`;
+      <a href="/design-tool/#/builder/step-1" class="btn btn--outline-blue btn--block">Keep Customizing My Board</a>`;
   }
 
   async function onSubmit(e) {
