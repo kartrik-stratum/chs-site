@@ -119,10 +119,16 @@ test('missing trailing slash -> 301; unknown -> 404', async () => {
   assert.equal((await get('/not-a-page/')).status, 404);
 });
 
-test('sitemap lists finished pages; robots allows only on production host', async () => {
-  const sm = await (await get('/sitemap.xml', PROD)).text();
-  const locs = [...sm.matchAll(/<loc>([^<]+)<\/loc>/g)].map((m) => m[1]);
-  assert.deepEqual(locs.sort(), PAGES.filter((p) => p.ready).map((p) => 'https://caliberhsolutions.com' + p.path).sort());
+test('sitemap is the supplied file; every URL loads; robots allows only on production host', async () => {
+  const res = await get('/sitemap.xml', PROD);
+  assert.equal(res.status, 200);
+  assert.match(res.headers.get('content-type'), /xml/);
+  const sm = await res.text();
+  const expected = require('fs').readFileSync(require('path').join(__dirname, '..', 'public', 'sitemap.xml'), 'utf8');
+  assert.equal(sm, expected, 'serves the supplied sitemap file unchanged');
+  const locs = [...sm.matchAll(/<loc>https:\/\/caliberhsolutions\.com([^<]+)<\/loc>/g)].map((m) => m[1]);
+  assert.equal(locs.length, 57);
+  for (const l of locs) assert.equal((await get(l, PROD)).status, 200, `sitemap URL ${l} must load`);
   assert.match(await (await get('/robots.txt', PROD)).text(), /Allow: \/[\s\S]*Sitemap: https:\/\/caliberhsolutions\.com\/sitemap\.xml/);
   assert.match(await (await get('/robots.txt')).text(), /Disallow: \/\n/);
   const preview = await (await get('/')).text();

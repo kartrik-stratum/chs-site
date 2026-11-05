@@ -10,7 +10,7 @@ const path = require('path');
 const express = require('express');
 const helmet = require('helmet');
 const formRoutes = require('./routes/formRoutes');
-const { pagesMiddleware, sitemap, robots } = require('./services/seoService');
+const { pagesMiddleware, robots } = require('./services/seoService');
 const { notFound, errorHandler } = require('./middleware/errorHandler');
 const { getEmailSettings, validateEmailSettings, getTransporter } = require('./config/emailConfig');
 const logger = require('./utils/logger');
@@ -45,7 +45,8 @@ function createApp() {
   app.get('/js/catalog.js', (req, res) => res.type('application/javascript').sendFile(path.join(__dirname, 'shared', 'catalog.js')));
 
   // SEO pages (every URL in data/pages.json), sitemap and robots.txt
-  app.get('/sitemap.xml', sitemap);
+  // The client's sitemap file, served exactly as supplied (public/sitemap.xml).
+  app.get('/sitemap.xml', (req, res) => res.type('application/xml').set('Cache-Control', 'no-cache').sendFile(path.join(__dirname, 'public', 'sitemap.xml')));
   app.get('/robots.txt', robots);
   app.use(pagesMiddleware);
 
