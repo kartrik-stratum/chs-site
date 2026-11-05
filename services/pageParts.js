@@ -69,8 +69,8 @@ const GALLERY = {
 };
 // Per-page photos live in /images/pages/gallery/<name>.jpg; numbers are the shared g1–g12 tiles.
 const GFILE = (n) => (typeof n === 'number' ? `/images/pages/g${n}.jpg` : `/images/pages/gallery/${n}.jpg?v=1`);
-GALLERY.financing = ['financing-1', 'financing-2', 'financing-3', 'financing-4', 'financing-5', 'financing-6', 'financing-7', 'financing-8', 'financing-9', 'financing-10', 1, 6, 9, 12, 4, 2];
-const GSIZE = {1:[700,381],2:[700,654],3:[400,544],4:[700,433],5:[400,544],6:[700,438],7:[700,518],8:[700,518],9:[700,581],10:[700,525],11:[700,518],12:[700,518], 'financing-1':[546,328], 'financing-2':[546,388], 'financing-3':[546,346], 'financing-4':[546,362], 'financing-5':[546,334], 'financing-6':[546,466], 'financing-7':[546,386], 'financing-8':[546,386], 'financing-9':[546,356], 'financing-10':[546,384]};
+GALLERY.financing = ['financing-1', 'financing-2', 'financing-3', 'financing-4', 'financing-5', 'financing-6', 'financing-7', 'financing-8', 'financing-9', 'financing-10', 'financing-11', 'financing-12', 'financing-13', 'financing-14', 'financing-15', 9];
+const GSIZE = {1:[700,381],2:[700,654],3:[400,544],4:[700,433],5:[400,544],6:[700,438],7:[700,518],8:[700,518],9:[700,581],10:[700,525],11:[700,518],12:[700,518], 'financing-1':[546,328], 'financing-2':[546,388], 'financing-3':[546,346], 'financing-4':[546,362], 'financing-5':[546,334], 'financing-6':[546,466], 'financing-7':[546,386], 'financing-8':[546,386], 'financing-9':[546,356], 'financing-10':[546,384], 'financing-11':[546,462], 'financing-12':[546,486], 'financing-13':[546,602], 'financing-14':[546,362], 'financing-15':[546,346]};
 const gallery = ({ set = 'bath', eyebrow = 'Real Caliber projects', title = 'Inspiration Gallery', aside = '' }) => `
   <section class="section pg-gallery" id="inspiration-gallery">
     <div class="container">
