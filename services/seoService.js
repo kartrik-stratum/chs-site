@@ -21,6 +21,9 @@ const PAGES = require('../data/pages.json');
 const BY_PATH = new Map(PAGES.map((p) => [p.path, p]));
 const APP_PATHS = { '/': 'landing', '/design-tool/': 'builder' };
 const parts = require('./pageParts');
+// Cache-busting: every server start gets a new version, so browsers always load the latest CSS/JS.
+const BUILD = Date.now().toString(36);
+const bust = (html) => html.replace(/((?:href|src)="\/(?:css|js)\/[^"?]+)"/g, `$1?v=${BUILD}"`);
 // Views each URL carries. The design tool keeps its board + form step, exactly as before.
 const KEEP_VIEWS = { landing: ['landing'], builder: ['builder', 'summary'], summary: ['summary'] };
 
@@ -213,7 +216,7 @@ function pagesMiddleware(req, res, next) {
   const page = BY_PATH.get(p);
   if (!page) return next();
   res.set('Cache-Control', 'no-cache');
-  res.type('html').send(APP_PATHS[page.path] ? renderApp(page, req) : renderPage(page, req));
+  res.type('html').send(bust(APP_PATHS[page.path] ? renderApp(page, req) : renderPage(page, req)));
 }
 
 function sitemap(req, res) {
