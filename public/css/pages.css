@@ -456,3 +456,11 @@
   .refer .carousel-dots button { background: rgba(255, 255, 255, .3); }
   .refer .carousel-dots button.is-active { background: var(--gold); }
 }
+
+/* Financing: the two promotion cards slide on mobile */
+@media (max-width: 720px) {
+  .promos.is-carousel { align-items: stretch; }
+  .promos.is-carousel > .promo { flex-basis: 88%; display: flex; flex-direction: column; min-height: 0; }
+  .promos.is-carousel > .promo .promo__media { order: -1; min-height: 200px; flex: none; }
+  .promos.is-carousel > .promo .promo__body { padding: 22px 20px; flex: 1; }
+}
