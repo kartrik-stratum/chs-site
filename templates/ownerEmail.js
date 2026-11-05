@@ -51,12 +51,13 @@ function renderHtml(s, o = {}) {
     row('Customer Name', esc(c.fullName)),
     row('First Name', esc(c.firstName)),
     row('Last Name', esc(c.lastName)),
-    row('Email Address', `<a href="mailto:${esc(c.email)}" style="color:${BLUE};">${esc(c.email)}</a>`),
+    row('Email Address', c.email ? `<a href="mailto:${esc(c.email)}" style="color:${BLUE};">${esc(c.email)}</a>` : 'Not provided'),
     row('Phone Number', `<a href="${esc(phoneHref)}" style="color:${BLUE};">${esc(c.phone)}</a>`),
-    row('City', esc(c.city)),
-    row('State', esc(c.state)),
+    row('City', esc(c.city) || 'Not provided'),
+    row('State', esc(c.state) || 'Not provided'),
     row('Zip Code', esc(c.zip)),
     row('Best Time to Call', esc(c.bestTime)),
+    row('Form', esc(c.source)),
     row('Interested In', c.interests.length ? esc(c.interests.join(', ')) : 'Not specified')
   ].join('');
 
@@ -102,7 +103,7 @@ function renderHtml(s, o = {}) {
   return `<!doctype html>
 <html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>${esc(subject(s))}</title></head>
 <body style="margin:0;padding:0;background:#f5f7fa;">
-<div style="display:none;max-height:0;overflow:hidden;">${esc(c.fullName)} · ${esc(c.phone)} · ${esc(c.city)}, ${esc(c.state)} – ${s.completedCount}/${s.totalSteps} board selections</div>
+<div style="display:none;max-height:0;overflow:hidden;">${esc(c.fullName)} · ${esc(c.phone)} · ${esc([c.city, c.state].filter(Boolean).join(', ') || c.zip)} – ${s.completedCount}/${s.totalSteps} board selections</div>
 <table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="background:#f5f7fa;padding:24px 10px;">
 <tr><td align="center">
 <table role="presentation" width="640" cellpadding="0" cellspacing="0" style="width:100%;max-width:640px;background:#ffffff;border-radius:12px;overflow:hidden;border:1px solid ${LINE};">
@@ -114,7 +115,7 @@ function renderHtml(s, o = {}) {
   <tr><td style="padding:20px 28px 0;">
     <table role="presentation" cellpadding="0" cellspacing="0"><tr>
       <td style="padding-right:8px;"><a href="${esc(phoneHref)}" style="display:inline-block;background:${BLUE};color:#fff;text-decoration:none;font:700 13px Arial,Helvetica,sans-serif;padding:10px 16px;border-radius:999px;">Call ${esc(c.phone)}</a></td>
-      <td><a href="mailto:${esc(c.email)}" style="display:inline-block;background:#e7f6f4;color:${TEAL};text-decoration:none;font:700 13px Arial,Helvetica,sans-serif;padding:10px 16px;border-radius:999px;">Email ${esc(c.firstName)}</a></td>
+      ${c.email ? '' : '<!--'}<td><a href="mailto:${esc(c.email)}" style="display:inline-block;background:#e7f6f4;color:${TEAL};text-decoration:none;font:700 13px Arial,Helvetica,sans-serif;padding:10px 16px;border-radius:999px;">Email ${esc(c.firstName)}</a></td>${c.email ? '' : '-->'}
     </tr></table>
   </td></tr>
   ${section('Customer Information', customerRows)}
@@ -139,10 +140,11 @@ function renderText(s, o = {}) {
     '',
     'CUSTOMER INFORMATION',
     `Customer Name:     ${c.fullName}`,
-    `Email Address:     ${c.email}`,
+    `Email Address:     ${c.email || 'Not provided'}`,
     `Phone Number:      ${c.phone}`,
-    `City:              ${c.city}`,
-    `State:             ${c.state}`,
+    `City:              ${c.city || 'Not provided'}`,
+    `State:             ${c.state || 'Not provided'}`,
+    `Form:              ${c.source}`,
     `Zip Code:          ${c.zip}`,
     `Best Time to Call: ${c.bestTime}`,
     `Interested In:     ${c.interests.length ? c.interests.join(', ') : 'Not specified'}`,

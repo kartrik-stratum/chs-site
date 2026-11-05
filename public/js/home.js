@@ -14,7 +14,13 @@
   const $$ = (s, r = document) => Array.from(r.querySelectorAll(s));
   const esc = (s) => String(s == null ? '' : s).replace(/[&<>"']/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
   const PREFILL_KEY = 'caliber-lead-prefill';
-  const FORM_URL = '/design-tool/#/summary';
+  const FORM_URL = '/contact-us/';
+  const ON_CONTACT = location.pathname === '/contact-us/';
+  const BOARD_KEY = 'caliber-vision-board-v1';
+  const uuid = () => (crypto.randomUUID ? crypto.randomUUID() : 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, (c) => {
+    const r = crypto.getRandomValues(new Uint8Array(1))[0] & 15;
+    return (c === 'x' ? r : (r & 3) | 8).toString(16);
+  }));
   const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)');
 
   function storePrefill(data) {
@@ -84,6 +90,7 @@
         <fieldset class="qfield"><legend>I’m interested in</legend><div class="qchips">${chips}</div></fieldset>
         <button type="submit" class="btn btn--gold btn--block btn--lg">Get My Free Quote <span aria-hidden="true">→</span></button>
         <p class="quick-card__note" role="status"></p>
+        <div class="hp" aria-hidden="true"><label for="q${n}-website">Leave empty</label><input id="q${n}-website" name="website" tabindex="-1" autocomplete="off"></div>
         <p class="quick-card__fine">No obligation. We never share your details.</p>
       </form>`;
   }
@@ -115,6 +122,77 @@
         if (msg) el.setAttribute('aria-invalid', 'true'); else el.removeAttribute('aria-invalid');
       };
 
+      const startedAt = Date.now();
+      let sending = false;
+      let sent = false;
+      let submissionId = null;
+      const btn = $('button[type="submit"]', form);
+      form.addEventListener('input', () => { if (!sent) submissionId = null; });
+
+      // On the Contact page, take over details handed on from another page's quick form.
+      if (ON_CONTACT && n === 0) {
+        let d = null;
+        try { d = JSON.parse(localStorage.getItem(PREFILL_KEY)); localStorage.removeItem(PREFILL_KEY); } catch (_) { d = null; }
+        if (d && Date.now() - Number(d.at || 0) < 30 * 60 * 1000) {
+          if (d.fullName) form.elements.fullName.value = String(d.fullName).slice(0, 100);
+          if (d.phone) phone.value = String(d.phone).slice(0, 20);
+          if (d.zip) form.elements.zip.value = String(d.zip).slice(0, 10);
+          if (Array.isArray(d.interests)) $$('input[name="interests"]', form).forEach((cb) => { cb.checked = d.interests.includes(cb.value); });
+          note.textContent = 'Your details are filled in. Tap “Get My Free Quote” to send them.';
+        }
+      }
+
+      const savedBoard = () => {
+        try {
+          const b = JSON.parse(localStorage.getItem(BOARD_KEY));
+          if (b && b.picks && typeof b.picks === 'object') return { picks: b.picks, sub: b.sub || {}, accessible: !!b.accessible, preset: b.preset || null };
+        } catch (_) { /* none */ }
+        return { picks: {} };
+      };
+
+      async function send(fullName, zip) {
+        if (sending || sent) return;
+        sending = true;
+        btn.disabled = true;
+        btn.classList.add('is-loading');
+        note.textContent = 'Sending…';
+        if (!submissionId) submissionId = uuid();
+        const parts = fullName.split(' ');
+        const body = {
+          source: 'consultation', submissionId,
+          firstName: parts.shift(), lastName: parts.join(' '),
+          phone: phone.value, zip, bestTime: 'no-preference',
+          interests: $$('input[name="interests"]:checked', form).map((i) => i.value),
+          website: form.elements.website.value, formStartedAt: startedAt,
+          board: savedBoard(), pageUrl: location.href.split('#')[0]
+        };
+        let res; let json = {};
+        try {
+          res = await fetch('/api/submit-form', { method: 'POST', headers: { 'Content-Type': 'application/json', Accept: 'application/json' }, body: JSON.stringify(body) });
+          json = await res.json().catch(() => ({}));
+        } catch (_) { res = null; }
+        sending = false;
+        btn.disabled = false;
+        btn.classList.remove('is-loading');
+        if (res && res.ok && json.ok) {
+          sent = true;
+          wrap.innerHTML = `<div class="quick-done" role="status" tabindex="-1"><span class="quick-done__icon">✓</span><h2 class="quick-card__title">Thank you, ${esc(body.firstName)}!</h2><p class="quick-card__sub">A local Caliber specialist will call you at <strong>${esc(body.phone)}</strong> within 1 business day.</p><p class="quick-card__fine">Reference #${esc(String(json.reference || '').slice(0, 8).toUpperCase())}</p></div>`;
+          $('.quick-done', wrap).focus();
+          return;
+        }
+        if (res && res.status === 422 && Array.isArray(json.errors)) {
+          json.errors.forEach((er) => {
+            if (er.field === 'firstName' || er.field === 'lastName') setErr('fullName', er.message);
+            else if (form.elements[er.field]) setErr(er.field, er.message);
+          });
+          note.textContent = json.message || 'Please check the highlighted fields.';
+        } else if (res && res.status === 429) {
+          note.textContent = 'Too many attempts. Please wait a few minutes or call (208) 552-3037.';
+        } else {
+          note.innerHTML = 'We couldn’t send your request right now. Please try again or call <a href="tel:+12085523037">(208) 552-3037</a>.';
+        }
+      }
+
       form.addEventListener('submit', (e) => {
         e.preventDefault();
         const fullName = form.elements.fullName.value.trim().replace(/\s+/g, ' ');
@@ -129,12 +207,13 @@
         const bad = Object.keys(errs).find((k) => errs[k]);
         if (bad) { form.elements[bad].focus(); return; }
 
+        if (ON_CONTACT) { send(fullName, zip); return; }
         storePrefill({ fullName, phone: phone.value, zip, interests: $$('input[name="interests"]:checked', form).map((i) => i.value) });
         // Open the full form in a new tab so this page (and the design tool) stays put.
         const w = window.open(FORM_URL, '_blank');
         if (w) {
           try { w.opener = null; } catch (_) { /* ignore */ }
-          note.innerHTML = '✓ Your quote form opened in a new tab. Finish your details there.';
+          note.innerHTML = '✓ The Contact Us page opened in a new tab with your details. Tap “Get My Free Quote” there to send.';
           form.reset();
           $('input[name="interests"]', form).checked = true;
         } else {

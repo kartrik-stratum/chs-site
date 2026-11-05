@@ -64,6 +64,8 @@ const submitFormRules = [
   name('firstName', 'first name'),
   name('lastName', 'last name'),
   body('email')
+    // Quick consultation forms (source: 'consultation') don't ask for email, city or state.
+    .if((v, { req }) => req.body.source !== 'consultation' || (v != null && String(v).trim() !== ''))
     .customSanitizer(stripCtl)
     .notEmpty().withMessage('Please enter your email address.').bail()
     .isLength({ max: 254 }).withMessage('Email address is too long.').bail()
@@ -84,11 +86,15 @@ const submitFormRules = [
     .notEmpty().withMessage('Please enter your zip code.').bail()
     .matches(/^\d{5}(-\d{4})?$/).withMessage('Please enter a 5-digit zip code.'),
   body('city')
+    // Quick consultation forms (source: 'consultation') don't ask for email, city or state.
+    .if((v, { req }) => req.body.source !== 'consultation' || (v != null && String(v).trim() !== ''))
     .customSanitizer(stripCtl)
     .notEmpty().withMessage('Please enter your city.').bail()
     .isLength({ min: 2, max: 80 }).withMessage('Please enter a valid city.').bail()
     .matches(/^[\p{L}\p{M}0-9' .,-]+$/u).withMessage('Please enter a valid city.'),
   body('state')
+    // Quick consultation forms (source: 'consultation') don't ask for email, city or state.
+    .if((v, { req }) => req.body.source !== 'consultation' || (v != null && String(v).trim() !== ''))
     .customSanitizer((v) => stripCtl(v).toUpperCase())
     .notEmpty().withMessage('Required.').bail()
     .custom((v) => { if (!US_STATES.has(v)) throw new Error('Use a 2-letter state, e.g. CO.'); return true; }),
@@ -103,6 +109,7 @@ const submitFormRules = [
       if (new Set(v).size !== v.length) throw new Error('Duplicate interest selection.');
       return true;
     }),
+  body('source').optional({ values: 'falsy' }).isIn(['design-tool', 'consultation']).withMessage('Invalid form source.'),
   body('board').custom(validateBoard),
   body('submissionId').optional({ values: 'falsy' }).isUUID().withMessage('Invalid submission id.'),
   body('shareUrl').optional({ values: 'falsy' }).isString().isLength({ max: 4000 })

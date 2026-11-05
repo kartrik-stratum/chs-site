@@ -497,3 +497,5 @@ h1, h2, h3, .h2, .styles__title, .step__title, .summary__title, .lead-card__titl
 /* label-style headings stay in Poppins; chips are not field labels */
 .selections-card__head h2 { font-family: var(--font); font-weight: 700; }
 .field label.ichip { text-transform: none; letter-spacing: 0; margin: 0; font-size: inherit; font-weight: inherit; }
+
+.summary__banner-actions { display: flex; gap: 10px; flex-wrap: wrap; }

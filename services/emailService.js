@@ -55,7 +55,7 @@ async function sendOwnerNotification(submission) {
     from: settings.from,
     to: settings.ownerEmail,
     cc: settings.ownerCc || undefined,
-    replyTo: { name: submission.customer.fullName, address: submission.customer.email },
+    replyTo: submission.customer.email ? { name: submission.customer.fullName, address: submission.customer.email } : undefined,
     subject: template.subject(submission),
     text: template.renderText(submission, opts),
     html: template.renderHtml(submission, opts),

@@ -69,7 +69,7 @@ const GALLERY = {
 };
 const GSIZE = {1:[700,381],2:[700,654],3:[400,544],4:[700,433],5:[400,544],6:[700,438],7:[700,518],8:[700,518],9:[700,581],10:[700,525],11:[700,518],12:[700,518]};
 const gallery = ({ set = 'bath', eyebrow = 'Real Caliber projects', title = 'Inspiration Gallery', aside = '' }) => `
-  <section class="section pg-gallery">
+  <section class="section pg-gallery" id="inspiration-gallery">
     <div class="container">
       ${aside ? `<div class="section-head section-head--split"><div><p class="eyebrow eyebrow--plain">${esc(eyebrow)}</p><h2 class="h2">${esc(title)}</h2></div><p class="section-head__aside">${esc(aside)}</p></div>` : `<div class="section-head section-head--center">
         <p class="eyebrow eyebrow--plain">${esc(eyebrow)}</p>
@@ -132,6 +132,7 @@ const locationCards = () => `
       <p class="loc__label">${esc(l.label)}</p>
       <p class="loc__addr">${svg(I.pin, 14)}<span>${esc(l.street)}<br>${esc(l.locality)}</span></p>
       <a class="loc__phone" href="${telOf(l.phone)}">${svg(I.phone, 14)}${esc(l.phone)}</a>
+      <a class="loc__more" href="${esc(l.href)}">View location ${svg(I.arrow, 12)}</a>
     </li>`).join('')}
   </ol>`;
 

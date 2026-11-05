@@ -165,6 +165,13 @@ function childLinks(page) {
   return `<ul class="page-links">${kids.map((k) => `<li><a href="${esc(k.path)}">${esc(k.type === 'location' ? k.city : k.h1)}</a></li>`).join('')}</ul>`;
 }
 
+// Extra CTAs for placeholder pages (CTA Link Mapping document)
+const EXTRA_CTA = {
+  '/about-us/': '<a class="hero2__call" href="/locations/">Our locations →</a>',
+  '/service-area/': '<a class="hero2__call" href="/locations/">Find your local office →</a>',
+  '/pricing/': '<a class="hero2__call" href="/contact-us/">Request pricing →</a>'
+};
+
 function renderPage(page, req) {
   const t = templates();
   const crumbs = breadcrumbs(page);
@@ -190,7 +197,8 @@ function renderPage(page, req) {
     .replace('<!--H1-->', esc(page.h1))
     .replace('<!--INTRO-->', esc(page.description))
     .replace('<!--CHILDREN-->', childLinks(page))
-    .replace('<!--PATH-->', esc(page.path));
+    .replace('<!--PATH-->', esc(page.path))
+    .replace('<!--EXTRA-->', EXTRA_CTA[page.path] || '');
 }
 
 /** Express middleware: renders any page from the registry; 301s missing trailing slashes. */

@@ -333,3 +333,18 @@ test('frontend and shared catalog are served; secrets are not', async () => {
   const health = await fetch(`${base}/api/health`);
   assert.equal(health.status, 200);
 });
+
+test('quick consultation (no email, city or state) is accepted and labelled', async () => {
+  const body = validBody({ source: 'consultation', email: '', city: '', state: '', board: { picks: {} } });
+  const res = await post(body);
+  assert.equal(res.status, 200, JSON.stringify(await res.clone().json()));
+  const t = inbox[0].text;
+  assert.match(t, /Email Address:\s+Not provided/);
+  assert.match(t, /Form:\s+Quick consultation form/);
+  assert.equal(inbox[0].replyTo, undefined);
+});
+
+test('design tool form still requires email', async () => {
+  const res = await post(validBody({ email: '' }));
+  assert.equal(res.status, 422);
+});
