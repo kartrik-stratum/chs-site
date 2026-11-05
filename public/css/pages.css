@@ -477,3 +477,9 @@
 
 /* Grid columns must be allowed to shrink so carousels inside them stay phone-width */
 .split__copy, .split__media, .featbox, .feature__body, .promo__body, .duo__card, .gs__copy, .ph__copy { min-width: 0; }
+
+/* Real map images (Contact + Locations) */
+.map-img { display: block; width: 100%; height: 100%; object-fit: cover; }
+.office__map .map-img { min-height: 340px; object-position: 40% 35%; }
+.locmap .map-img { height: auto; }
+@media (max-width: 720px) { .office__map .map-img { min-height: 260px; } }
