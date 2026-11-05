@@ -45,7 +45,8 @@ function validateBoard(board) {
       chosen++;
     }
   }
-  if (!chosen) throw new Error('Please choose at least one item for your vision board before submitting.');
+  // An empty board is fine: consultation requests from the quick forms may come without a design.
+  void chosen;
 
   const sub = board.sub || {};
   if (typeof sub !== 'object') throw new Error('Invalid board options.');

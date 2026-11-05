@@ -19,7 +19,8 @@ const path = require('path');
 const ROOT = path.join(__dirname, '..');
 const PAGES = require('../data/pages.json');
 const BY_PATH = new Map(PAGES.map((p) => [p.path, p]));
-const APP_PATHS = { '/': 'landing', '/design-tool/': 'builder', '/contact-us/': 'summary' };
+const APP_PATHS = { '/': 'landing', '/design-tool/': 'builder' };
+const parts = require('./pageParts');
 // Views each URL carries. The design tool keeps its board + form step, exactly as before.
 const KEEP_VIEWS = { landing: ['landing'], builder: ['builder', 'summary'], summary: ['summary'] };
 
@@ -44,8 +45,13 @@ function templates() {
     app,
     header: cut('<!--HEADER-START-->', '<!--HEADER-END-->'),
     footer: cut('<!--FOOTER-START-->', '<!--FOOTER-END-->'),
-    page: fs.readFileSync(path.join(ROOT, 'templates', 'page.html'), 'utf8')
+    page: fs.readFileSync(path.join(ROOT, 'templates', 'page.html'), 'utf8'),
+    designed: {}
   };
+  // Designed page bodies: templates/pages/<template>.html (see data/pages.json "template")
+  for (const p of PAGES.filter((x) => x.template)) {
+    cache.designed[p.path] = fs.readFileSync(path.join(ROOT, 'templates', 'pages', `${p.template}.html`), 'utf8');
+  }
   return cache;
 }
 
@@ -64,7 +70,7 @@ const ORG = () => ({
   logo: `${siteUrl()}/images/brand/caliber-logo.png`,
   image: `${siteUrl()}/images/home/hero-banner.jpg`,
   telephone: '+1-208-552-3037',
-  address: { '@type': 'PostalAddress', addressLocality: 'Boise', addressRegion: 'ID', addressCountry: 'US' },
+  address: { '@type': 'PostalAddress', streetAddress: '6025 South Yellowstone Highway', addressLocality: 'Idaho Falls', addressRegion: 'ID', postalCode: '83402', addressCountry: 'US' },
   areaServed: ['Idaho', 'Montana', 'Utah', 'Wyoming', 'Nevada', 'Oregon', 'Washington'],
   foundingDate: '1999',
   openingHours: 'Mo-Fr 08:00-17:00'
@@ -81,6 +87,17 @@ function structuredData(page) {
       '@type': 'WebApplication', name: 'Caliber Bath Designer', url, applicationCategory: 'DesignApplication', operatingSystem: 'Any',
       description: page.description, offers: { '@type': 'Offer', price: '0', priceCurrency: 'USD' }, provider: { '@id': `${siteUrl()}/#business` }
     });
+  }
+  if (page.path === '/contact-us/') {
+    graph.push({ '@type': 'ContactPage', url, name: page.title, about: { '@id': `${siteUrl()}/#business` } });
+  }
+  if (page.path === '/locations/') {
+    parts.LOCATIONS.forEach((l) => graph.push({
+      '@type': 'HomeAndConstructionBusiness', name: `Caliber Home Solutions – ${l.city}, ${l.st}`, parentOrganization: { '@id': `${siteUrl()}/#business` },
+      telephone: l.phone, url: siteUrl() + l.href,
+      address: { '@type': 'PostalAddress', streetAddress: l.street, addressLocality: l.city, addressRegion: l.st, addressCountry: 'US' },
+      geo: { '@type': 'GeoCoordinates', latitude: l.lat, longitude: l.lon }
+    }));
   }
   const crumbs = breadcrumbs(page);
   if (crumbs.length > 1) {
@@ -151,6 +168,17 @@ function childLinks(page) {
 function renderPage(page, req) {
   const t = templates();
   const crumbs = breadcrumbs(page);
+  if (t.designed[page.path]) {
+    const crumbLight = `<nav class="crumbs crumbs--slash" aria-label="Breadcrumb"><ol>${crumbs.map((c, i) => (i === crumbs.length - 1
+      ? `<li aria-current="page">${esc(c.crumb)}</li>`
+      : `<li><a href="${esc(c.path)}">${esc(c.crumb)}</a></li>`)).join('')}</ol></nav>`;
+    const body = parts.render(t.designed[page.path], { crumbs: crumbLight });
+    return t.page
+      .replace('<!--SEO-->', headTags(page, req))
+      .replace('<!--HEADER-->', t.header)
+      .replace('<!--FOOTER-->', t.footer)
+      .replace(/<main id="content" class="page-blank"[\s\S]*?<\/main>/, () => `<main id="content" class="page-designed">${body}\n  </main>`);
+  }
   const crumbHtml = `<nav class="crumbs" aria-label="Breadcrumb"><ol>${crumbs.map((c, i) => (i === crumbs.length - 1
     ? `<li aria-current="page">${esc(c.crumb)}</li>`
     : `<li><a href="${esc(c.path)}">${esc(c.crumb)}</a></li>`)).join('')}</ol></nav>`;

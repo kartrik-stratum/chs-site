@@ -231,11 +231,10 @@ test('interests are optional', async () => {
   assert.match(inbox[0].text, /Interested In:\s+Not specified/);
 });
 
-test('empty board -> 422', async () => {
+test('consultation without a design (empty board) is accepted', async () => {
   const res = await post(validBody({ board: { picks: {} } }));
-  const json = await res.json();
-  assert.equal(res.status, 422);
-  assert.match(json.message, /at least one/);
+  assert.equal(res.status, 200);
+  assert.match(inbox[0].text, /0 of 10 categories completed/);
 });
 
 test('user input is HTML-escaped in the e-mail', async () => {

@@ -37,6 +37,24 @@ Every URL from the client's sitemap is listed in **`data/pages.json`**: path, me
 
 **To build a placeholder page:** add an HTML file for it and have `pagesMiddleware` render it, or extend `templates/page.html`. Then set `ready: true`.
 
+## Designed inner pages
+
+| URL | Template |
+|---|---|
+| `/offers/` | `templates/pages/offers.html` |
+| `/financing/` | `templates/pages/financing.html` |
+| `/contact-us/` | `templates/pages/contact-us.html` |
+| `/locations/` | `templates/pages/locations.html` |
+| `/services/elevator-lifts/` | `templates/pages/elevator-lifts.html` |
+
+Page templates use shared sections from `services/pageParts.js`: `{{quickForm}}`, `{{getStarted title="…"}}`, `{{finBanner …}}`, `{{gallery set="bath|mixed|lift"}}`, `{{map mode="all|hq"}}`, `{{locationCards}}`, `{{reviews}}`, `{{brands}}`, `{{call}}` and `{{icon name="…"}}`. Styles live in `public/css/pages.css`.
+
+**To add a designed page:** create `templates/pages/<name>.html`, then in `data/pages.json` set `"template": "<name>"` and `"ready": true` for that URL.
+
+- **Office details:** `data/locations.json`. Read off the design at low resolution, so please confirm them.
+- **Images:** `public/images/pages/` (heroes, promos, option cards, `g1`–`g12` gallery tiles). Overwrite a file to swap a photo.
+- **On mobile** every card grid (rules excluded) becomes an auto-sliding carousel.
+
 ## Brand tokens
 
 All colours and fonts are CSS variables in `public/css/style.css` (`:root`):

@@ -88,6 +88,24 @@ test('design tool page is server-rendered and crawlable', async () => {
   assert.match(html, /data-view="builder">/);
 });
 
+test('designed pages render their sections, carousels and quick forms', async () => {
+  const expect = {
+    '/offers/': ['Sweepstakes / Giveaway', 'Requesting Rules or a Winners List', 'Refer a Friend', 'Get Started Today'],
+    '/financing/': ['Jacuzzi Bath Remodel Showers', '$2,500', 'It’s easy to get a custom shower', 'Inspiration Gallery'],
+    '/contact-us/': ['Our Corporate Office', 'Our Home Lift Brands', 'About Us', 'Stormie Grogan', 'Call Today'],
+    '/locations/': ['Our Locations', 'Evansville, WY', 'Walk In Bath Upgrade Options', 'Home Lift Upgrade Options'],
+    '/services/elevator-lifts/': ['Elevate Your Home with Stiltz Elevators', 'Why Choose Caliber', 'Home Elevator Lifts for Everyone', 'Learn More Today']
+  };
+  for (const [u, texts] of Object.entries(expect)) {
+    const html = (await (await get(u, PROD)).text()).replace(/&amp;/g, '&');
+    assert.ok(!html.includes('{{'), `${u} unresolved tag`);
+    assert.ok(html.includes('data-quick-form-wrap'), `${u} quick form`);
+    for (const t of texts) assert.ok(html.includes(t), `${u} missing "${t}"`);
+  }
+  const loc = await (await get('/locations/', PROD)).text();
+  assert.equal((loc.match(/class="loc[ "]/g) || []).length, 12, '12 office cards');
+});
+
 test('missing trailing slash -> 301; unknown -> 404', async () => {
   const r = await get('/services/stairlifts');
   assert.equal(r.status, 301);

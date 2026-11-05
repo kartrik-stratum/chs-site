@@ -14,7 +14,7 @@
   const $$ = (s, r = document) => Array.from(r.querySelectorAll(s));
   const esc = (s) => String(s == null ? '' : s).replace(/[&<>"']/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
   const PREFILL_KEY = 'caliber-lead-prefill';
-  const FORM_URL = '/contact-us/';
+  const FORM_URL = '/design-tool/#/summary';
   const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)');
 
   function storePrefill(data) {
@@ -74,17 +74,17 @@
       <label class="qchip"><input type="checkbox" name="interests" value="${it.id}" ${i === 0 ? 'checked' : ''}><span>${esc(it.name)}</span></label>`).join('');
     return `
       <h2 class="quick-card__title">Book a free consultation</h2>
-      <p class="quick-card__sub">A local specialist will call you to schedule within 1 business day.</p>
+      <p class="quick-card__sub">A local specialist calls you back within 1 business day.</p>
       <form class="quick-form" novalidate data-quick-form>
         <div class="qfield"><label for="q${n}-name">Full name</label><input id="q${n}-name" name="fullName" autocomplete="name" placeholder="Jane Smith" maxlength="100"><p class="qerr"></p></div>
         <div class="qrow">
           <div class="qfield"><label for="q${n}-phone">Phone</label><input id="q${n}-phone" name="phone" type="tel" inputmode="tel" autocomplete="tel-national" placeholder="(208) 555-0142" maxlength="20"><p class="qerr"></p></div>
-          <div class="qfield"><label for="q${n}-zip">Zip code</label><input id="q${n}-zip" name="zip" inputmode="numeric" autocomplete="postal-code" placeholder="83702" maxlength="10"><p class="qerr"></p></div>
+          <div class="qfield"><label for="q${n}-zip">Zip code</label><input id="q${n}-zip" name="zip" inputmode="numeric" autocomplete="postal-code" placeholder="83402" maxlength="10"><p class="qerr"></p></div>
         </div>
         <fieldset class="qfield"><legend>I’m interested in</legend><div class="qchips">${chips}</div></fieldset>
         <button type="submit" class="btn btn--gold btn--block btn--lg">Get My Free Quote <span aria-hidden="true">→</span></button>
         <p class="quick-card__note" role="status"></p>
-        <p class="quick-card__fine">No obligation. Opens your full quote form in a new tab, and your design is included.</p>
+        <p class="quick-card__fine">No obligation. We never share your details.</p>
       </form>`;
   }
 
@@ -145,14 +145,14 @@
   }
 
   /* ----------------------------------------------------------------- reviews */
-  // PLACEHOLDER testimonials for layout only: replace with real, verified customer reviews before launch.
+  // Real Google reviews (supplied with the Contact page design).
   const REVIEWS = [
-    ['Caliber Home Solutions did a great job installing my Stiltz home lift. The finishing work was great, and the team cleaned up after themselves.', 'Eric S.', 'Stiltz home lift'],
-    ['Our tub-to-shower conversion was finished in a day. My mother can shower safely on her own again. We couldn’t be happier.', 'Margaret L.', 'Walk-in shower'],
-    ['From the consultation to the install, everyone was professional and on time. The price we were quoted is the price we paid.', 'Tom R.', 'Walk-in tub'],
-    ['Caliber has been a great company to work with. Very responsive, and they offer a great quality product with service after the sale.', 'Danielle G.', 'Bruno stair lift'],
-    ['The design tool helped us decide before the consultant even arrived. The finished bathroom looks exactly like what we picked.', 'Ken & Sue P.', 'Bathroom remodel'],
-    ['Grab bars, a fold-down seat and a hand-held wand. Small changes that made a huge difference for my husband.', 'Linda M.', 'Accessibility upgrades']
+    ['Caliber Home Solutions did a great job installing my Stiltz Home Lift Trio System. The finishing work had great detail and their contract price was honored!', 'Eric S.', 'Stiltz home lift'],
+    ['I love my new Walk-in Shower. It is beautiful. The installer knew what he was doing and he finished the job quickly. The shower is worth the price and I no longer fear falling in the bathtub.', 'Mitzi Beller', 'Walk-in shower'],
+    ['The Walk-in Showers are amazing; the surface is so easy to clean and beautiful. The customer service is informative and will go the extra mile to ensure you are satisfied.', 'Cynthia Higley', 'Walk-in shower'],
+    ['Happy with every thing.', 'Gary Fuhriman', 'Google review'],
+    ['Great experience with purchase & install of Stiltz Trio home lift!', 'Barb Clarke', 'Stiltz home lift'],
+    ['Caliber has been a great company to work with. Very responsive and offer a great quality product with service after the sale.', 'Stormie Grogan', 'Google review']
   ];
   function initReviews() {
     const grid = $('#reviews-grid');
@@ -269,6 +269,7 @@
   function initCarousels() { $$('[data-carousel]').forEach(initCarousel); }
 
   /* -------------------------------------------------------------------- boot */
+  $$('[data-year]').forEach((el) => { if (!el.textContent) el.textContent = new Date().getFullYear(); });
   initNav();
   initFormLinks();
   initQuickForms();

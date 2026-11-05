@@ -22,18 +22,20 @@
     "title": "Contact Caliber Home Solutions | Request a Quote",
     "description": "Contact Caliber Home Solutions for bathroom remodeling, walk-in showers, walk-in tubs, stair lifts, and home elevators. Call (208) 552-3037 or request a quote.",
     "type": "page",
-    "h1": "Contact Us",
+    "h1": "Call us today",
     "crumb": "Contact Us",
-    "ready": true
+    "ready": true,
+    "template": "contact-us"
   },
   {
     "path": "/locations/",
     "title": "Home Remodeling & Lift Locations | Caliber",
     "description": "Find a Caliber Home Solutions location for aging-in-place remodeling, accessible bathrooms, stair lifts, and home elevators. Contact your local office.",
     "type": "page",
-    "h1": "Locations",
+    "h1": "Serving the Mountain West",
     "crumb": "Locations",
-    "ready": false
+    "ready": true,
+    "template": "locations"
   },
   {
     "path": "/service-area/",
@@ -59,9 +61,10 @@
     "title": "Bathroom Remodeling & Home Lift Financing | Caliber",
     "description": "Review financing information for walk-in showers, walk-in tubs, bathroom remodeling, stair lifts, and home accessibility projects. Contact our team to discuss options.",
     "type": "page",
-    "h1": "Financing",
+    "h1": "Financing and Promotions",
     "crumb": "Financing",
-    "ready": false
+    "ready": true,
+    "template": "financing"
   },
   {
     "path": "/pricing/",
@@ -77,9 +80,10 @@
     "title": "Walk-In Shower & Bathroom Remodeling Offers | Caliber",
     "description": "View current offers on walk-in showers, walk-in tubs, and bathroom remodeling. Contact Caliber Home Solutions for promotion details and eligibility.",
     "type": "page",
-    "h1": "Offers",
+    "h1": "Offers, Specials & Official Rules",
     "crumb": "Offers",
-    "ready": false
+    "ready": true,
+    "template": "offers"
   },
   {
     "path": "/design-tool/",
@@ -152,10 +156,11 @@
     "title": "Residential Home Elevator Installation | Caliber",
     "description": "Improve home access between floors with a residential elevator. Contact Caliber Home Solutions to discuss home elevator options and installation.",
     "type": "page",
-    "h1": "Residential Elevator Lifts",
-    "crumb": "Residential Elevator Lifts",
+    "h1": "Home Elevator Lifts",
+    "crumb": "Elevator Lifts",
     "parent": "/service/lifts/",
-    "ready": false
+    "ready": true,
+    "template": "elevator-lifts"
   },
   {
     "path": "/locations/boise-id/",

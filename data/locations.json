@@ -1,0 +1,14 @@
+[
+  { "n": 1, "city": "Idaho Falls", "st": "ID", "label": "Corporate Headquarters", "street": "6025 South Yellowstone Highway", "locality": "Idaho Falls, Idaho", "phone": "(208) 552-3037", "lat": 43.49, "lon": -112.04, "href": "/locations/idaho-falls-id/", "hq": true },
+  { "n": 2, "city": "Las Vegas", "st": "NV", "label": "Regional Sales Office", "street": "400 South 4th Street", "locality": "Las Vegas, Nevada", "phone": "702-583-1148", "lat": 36.17, "lon": -115.14, "href": "/locations/las-vegas/" },
+  { "n": 3, "city": "Bozeman", "st": "MT", "label": "Regional Sales Office", "street": "274 Discovery Drive", "locality": "Bozeman, Montana", "phone": "(406) 206-7404", "lat": 45.68, "lon": -111.04, "href": "/locations/bozeman-mt/" },
+  { "n": 4, "city": "Salt Lake City", "st": "UT", "label": "Regional Sales Office", "street": "2245 South West Temple Street", "locality": "South Salt Lake, Utah", "phone": "(801) 823-6300", "lat": 40.76, "lon": -111.89, "href": "/locations/salt-lake-city-ut/" },
+  { "n": 5, "city": "Ogden", "st": "UT", "label": "Regional Sales Office", "street": "West 25th Street", "locality": "Ogden, Utah", "phone": "801-781-5203", "lat": 41.22, "lon": -111.97, "href": "/locations/ogden-ut/" },
+  { "n": 6, "city": "Boise", "st": "ID", "label": "Regional Sales Office", "street": "950 West Bannock Street", "locality": "Boise, Idaho", "phone": "(208) 900-3422", "lat": 43.62, "lon": -116.2, "href": "/locations/boise-id/" },
+  { "n": 7, "city": "Nampa", "st": "ID", "label": "Warehouse and Regional Sales Office", "street": "3653 East Comstock Avenue", "locality": "Nampa, Idaho", "phone": "(208) 505-6837", "lat": 43.54, "lon": -116.56, "href": "/locations/nampa-id/" },
+  { "n": 8, "city": "Bend", "st": "OR", "label": "Regional Sales Office", "street": "15031 Old Bend Redmond Highway", "locality": "Bend, Oregon", "phone": "(458) 306-4604", "lat": 44.06, "lon": -121.31, "href": "/locations/bend-or/" },
+  { "n": 9, "city": "Billings", "st": "MT", "label": "Regional Sales Office", "street": "1037 Wyoming Avenue", "locality": "Billings, Montana", "phone": "(406) 205-7434", "lat": 45.78, "lon": -108.5, "href": "/locations/billings-mt/" },
+  { "n": 10, "city": "Stevensville", "st": "MT", "label": "Regional Sales Office", "street": "89 Canyon Breeze Court", "locality": "Stevensville, Montana", "phone": "(406) 205-7484", "lat": 46.51, "lon": -114.09, "href": "/locations/stevensville-mt/" },
+  { "n": 11, "city": "Santaquin", "st": "UT", "label": "Regional Sales Office", "street": "180 South Canyon Road", "locality": "Santaquin, Utah", "phone": "(801) 823-6300", "lat": 39.97, "lon": -111.79, "href": "/locations/santaquin/" },
+  { "n": 12, "city": "Evansville", "st": "WY", "label": "Regional Sales Office", "street": "101 Pony Express Trail", "locality": "Evansville, Wyoming", "phone": "(307) 429-1493", "lat": 42.86, "lon": -106.27, "href": "/locations/evansville/" }
+]

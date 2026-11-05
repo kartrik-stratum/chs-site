@@ -486,3 +486,13 @@
 .page-links a { display: block; padding: 16px 18px; border-radius: 14px; background: var(--bg); border: 1px solid var(--line-2); color: var(--navy); font-weight: 600; font-size: 14px; text-decoration: none; transition: .15s; }
 .page-links a:hover { border-color: var(--blue); color: var(--blue); }
 @media (max-width: 720px) { .page-hero { padding: 44px 0 52px; } .page-hero__actions .btn { width: 100%; } }
+
+/* ---------- footer details (design v2) ---------- */
+.footer__cols ul.footer__hours { list-style: disc; padding-left: 16px; }
+.footer__hours li { color: #d5deea; }
+.footer__serving { font-size: 10.5px; font-weight: 700; letter-spacing: .14em; text-transform: uppercase; color: var(--teal); margin-right: 4px; }
+.footer__social { margin-left: auto; display: inline-flex; gap: 8px; }
+.footer .footer__social a { width: 34px; height: 34px; padding: 0; border-radius: 6px; display: grid; place-items: center; color: var(--gold); background: rgba(255, 255, 255, .04); border: 1px solid rgba(246, 178, 60, .35); }
+.footer .footer__social a:hover { background: var(--gold); color: var(--navy); }
+.footer__legal { display: flex; gap: 18px; flex-wrap: wrap; }
+@media (max-width: 720px) { .footer__social { margin-left: 0; width: 100%; margin-top: 8px; } }
