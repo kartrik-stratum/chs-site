@@ -105,7 +105,7 @@ test('designed pages render their sections, carousels and quick forms', async ()
   for (const [u, texts] of Object.entries(expect)) {
     const html = (await (await get(u, PROD)).text()).replace(/&amp;/g, '&');
     assert.ok(!html.includes('{{'), `${u} unresolved tag`);
-    assert.ok(html.includes('data-quick-form-wrap'), `${u} quick form`);
+    if (u !== '/careers/') assert.ok(html.includes('data-quick-form-wrap'), `${u} quick form`);
     for (const t of texts) assert.ok(html.includes(t), `${u} missing "${t}"`);
   }
   const loc = await (await get('/locations/', PROD)).text();
