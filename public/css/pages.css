@@ -469,3 +469,8 @@
 @media (max-width: 720px) {
   .brands.is-carousel > .brands__group { flex-basis: 88%; }
 }
+
+/* Elevator Lifts: benefit cards slide on mobile */
+@media (max-width: 720px) {
+  .checks2.is-carousel > li { flex-basis: 78%; }
+}
