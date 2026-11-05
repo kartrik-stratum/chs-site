@@ -39,8 +39,8 @@ const call = ({ label = 'Caliber Home Solutions', phone = PHONE }) => `
 /** Quick consultation card (filled by /js/home.js). */
 const quickForm = () => '<div class="quick-card" data-quick-form-wrap></div>';
 
-const getStarted = ({ title = 'Get Started Today', eyebrow = 'Get started today', text = 'Call today, our office is open Monday through Friday 8am to 5pm Mountain.' }) => `
-  <section class="gs" aria-label="${esc(title)}">
+const getStarted = ({ title = 'Get Started Today', eyebrow = 'Get started today', text = 'Call today, our office is open Monday through Friday 8am to 5pm Mountain.', variant = 'teal' }) => `
+  <section class="gs${variant === 'navy' ? ' gs--navy' : ''}" aria-label="${esc(title)}">
     <div class="gs__bg" aria-hidden="true"><img src="/images/pages/cta-bg.jpg" alt="" loading="lazy"></div>
     <div class="container gs__inner">
       <div class="gs__copy">
@@ -63,19 +63,20 @@ const finBanner = ({ variant = 'dark', title = 'Financing Available', text = '',
 
 /* ---------- inspiration gallery (masonry; swaps to a carousel on mobile) ---------- */
 const GALLERY = {
-  bath: [1, 8, 6, 11, 6, 4, 2, 7, 12, 9, 5, 10, 3, 2, 9, 1],
+  bath: [1, 8, 6, 11, 12, 4, 2, 9, 10, 6, 1, 4, 12, 8, 11, 2],
   mixed: [12, 9, 2, 1, 6, 4, 7, 10, 8, 11, 3, 5],
   lift: [3, 7, 5, 9, 10, 2, 3, 12, 5, 7, 6, 11, 1, 8, 3, 5]
 };
-const gallery = ({ set = 'bath', eyebrow = 'Real Caliber projects', title = 'Inspiration Gallery' }) => `
+const GSIZE = {1:[700,381],2:[700,654],3:[400,544],4:[700,433],5:[400,544],6:[700,438],7:[700,518],8:[700,518],9:[700,581],10:[700,525],11:[700,518],12:[700,518]};
+const gallery = ({ set = 'bath', eyebrow = 'Real Caliber projects', title = 'Inspiration Gallery', aside = '' }) => `
   <section class="section pg-gallery">
     <div class="container">
-      <div class="section-head section-head--center">
+      ${aside ? `<div class="section-head section-head--split"><div><p class="eyebrow eyebrow--plain">${esc(eyebrow)}</p><h2 class="h2">${esc(title)}</h2></div><p class="section-head__aside">${esc(aside)}</p></div>` : `<div class="section-head section-head--center">
         <p class="eyebrow eyebrow--plain">${esc(eyebrow)}</p>
         <h2 class="h2">${esc(title)}</h2>
-      </div>
+      </div>`}
       <div class="masonry" data-carousel>
-        ${(GALLERY[set] || GALLERY.bath).map((n, i) => `<figure class="masonry__item"><div class="media"><img src="/images/pages/g${n}.jpg" alt="Caliber Home Solutions project photo ${i + 1}" loading="lazy"></div></figure>`).join('')}
+        ${(GALLERY[set] || GALLERY.bath).map((n, i) => `<figure class="masonry__item"><div class="media"><img src="/images/pages/g${n}.jpg" width="${GSIZE[n][0]}" height="${GSIZE[n][1]}" alt="Caliber Home Solutions project photo ${i + 1}" loading="lazy"></div></figure>`).join('')}
       </div>
     </div>
   </section>`;
@@ -163,7 +164,9 @@ const reviews = ({ eyebrow = 'Our reviews', title = 'What our customers are sayi
 /* Brand marks (styled text placeholders – swap for official logo files) */
 const LOGO = {
   jacuzzi: '<span class="blogo blogo--jacuzzi"><b>Jacuzzi</b><i></i><span>Bath Remodel</span></span>',
+  jacuzziStack: '<span class="blogo blogo--jstack"><b>Jacuzzi</b><span>Bath Remodel</span></span>',
   stiltz: '<span class="blogo blogo--stiltz"><b>Stiltz</b><span>Homelifts</span></span>',
+  pollock: '<span class="blogo blogo--pollock"><b>pollock</b><small>Residential<br>Elevators Inc.</small></span>',
   bruno: '<span class="blogo blogo--bruno"><svg viewBox="0 0 30 24" width="30" height="24" aria-hidden="true"><path d="M2 20 C10 16 16 10 28 2 C22 10 18 15 14 22 L12 14 Z" fill="#2aa44a"/><path d="M13 13 L22 6 L15 16 Z" fill="#1c5fa8"/></svg><b>BRUNO</b></span>'
 };
 const logo = ({ name }) => LOGO[name] || '';
@@ -175,7 +178,27 @@ const brands = () => `
 
 const icon = ({ name, size = '18' }) => svg(I[name] || '', Number(size));
 
-const HELPERS = { call, quickForm, getStarted, finBanner, gallery, map, locationCards, reviews, brands, logo, icon };
+/** Full-width gold financing band with a big number (or a short headline only). */
+const goldBand = ({ big = '', eyebrow = 'Financing available', title, btn = 'Explore Financing Plans', href = '/financing/' }) => `
+  <section class="gband">
+    <div class="container gband__inner">
+      ${big ? `<span class="gband__big">${esc(big)}</span>` : ''}
+      <div class="gband__copy"><p class="gband__eyebrow">${esc(eyebrow)}</p><h2 class="gband__title">${esc(title)}</h2></div>
+      <a class="btn btn--blue gband__btn" href="${esc(href)}">${esc(btn)} ${svg(I.arrow, 14)}</a>
+    </div>
+  </section>`;
+
+/** "Authorized dealer: Jacuzzi" strip. */
+const dealer = ({ label = 'Authorized dealer:', text = '' }) => `
+  <div class="dealer${text ? ' dealer--text' : ''}">
+    ${text ? `<span class="dealer__logo">${LOGO.jacuzziStack}</span><div><p class="eyebrow eyebrow--plain">Authorized dealer</p><p class="dealer__text">${esc(text)}</p></div>`
+    : `<span class="dealer__label">${esc(label)}</span><span class="dealer__logo">${LOGO.jacuzziStack}</span>`}
+  </div>`;
+
+/** Jacuzzi badge used in bathroom heroes. */
+const heroDealer = () => `<span class="hdealer"><span class="hdealer__logo">${LOGO.jacuzziStack}</span><span class="hdealer__text">Authorized Dealer</span></span>`;
+
+const HELPERS = { call, quickForm, getStarted, finBanner, gallery, map, locationCards, reviews, brands, logo, icon, goldBand, dealer, heroDealer };
 
 function render(html, ctx = {}) {
   return html.replace(/\{\{(\w+)([^}]*)\}\}/g, (m, name, rest) => {

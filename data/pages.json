@@ -110,27 +110,30 @@
     "type": "page",
     "h1": "Bathroom Remodeling",
     "crumb": "Bathroom Remodeling",
-    "ready": false
+    "ready": true,
+    "template": "bathroom-remodeling"
   },
   {
     "path": "/services/walk-in-showers/",
     "title": "Walk-In Shower Installation | Caliber Home Solutions",
     "description": "Upgrade your bathroom with a walk-in shower featuring low-threshold entry, seating, and safety accessories. Contact Caliber to discuss installation options.",
     "type": "page",
-    "h1": "Walk-In Showers",
-    "crumb": "Walk-In Showers",
+    "h1": "Walk-in Shower",
+    "crumb": "Walk-in Showers",
     "parent": "/service/bathroom-remodeling/",
-    "ready": false
+    "ready": true,
+    "template": "walk-in-showers"
   },
   {
     "path": "/services/walk-in-tubs/",
     "title": "Walk-In Tub Installation | Caliber Home Solutions",
     "description": "Improve bathing access with a walk-in tub featuring an easy-entry door, comfortable seating, and safety features. Request a consultation from Caliber.",
     "type": "page",
-    "h1": "Walk-In Tubs",
-    "crumb": "Walk-In Tubs",
+    "h1": "Walk-in Tubs",
+    "crumb": "Walk-in Tubs",
     "parent": "/service/bathroom-remodeling/",
-    "ready": false
+    "ready": true,
+    "template": "walk-in-tubs"
   },
   {
     "path": "/service/lifts/",
@@ -139,17 +142,19 @@
     "type": "page",
     "h1": "Home Lift Systems",
     "crumb": "Home Lift Systems",
-    "ready": false
+    "ready": true,
+    "template": "lifts"
   },
   {
     "path": "/services/stairlifts/",
     "title": "Stair Lift Installation | Bruno Stair Lifts | Caliber",
     "description": "Improve access between floors with stair lift solutions for straight, curved, and outdoor staircases. Contact Caliber to discuss stair lift installation.",
     "type": "page",
-    "h1": "Stair Lifts",
+    "h1": "Premium Stair Lifts",
     "crumb": "Stair Lifts",
     "parent": "/service/lifts/",
-    "ready": false
+    "ready": true,
+    "template": "stairlifts"
   },
   {
     "path": "/services/elevator-lifts/",

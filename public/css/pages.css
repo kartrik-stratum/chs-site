@@ -279,3 +279,156 @@
   .locs.is-carousel > .loc { flex-basis: 78%; }
   .opts.is-carousel > .opt, .steps3.is-carousel > .step3, .why__grid.is-carousel > .why__card { flex-basis: 82%; }
 }
+
+/* ==========================================================================
+   Batch 2: Stair Lifts, Home Lift Systems, Walk-in Tubs, Walk-in Shower,
+   Bathroom Remodeling
+   ========================================================================== */
+.section--tight-y { padding: 40px 0; }
+.btn--sm { padding: 9px 16px; font-size: 12px; }
+
+/* hero Jacuzzi badge */
+.hdealer { display: flex; width: fit-content; align-items: center; gap: 12px; margin: -6px 0 22px; }
+.hdealer__logo { background: #fff; border-radius: 8px; padding: 5px 10px; }
+.hdealer__text { font-size: 12px; font-weight: 600; color: #fff; }
+.ph__sub--row { display: flex; align-items: center; gap: 14px; flex-wrap: wrap; }
+.ph__sub--row .hdealer { margin: 0; }
+.blogo--jstack { flex-direction: column; gap: 2px; line-height: 1; }
+.blogo--jstack b { font-family: Georgia, serif; font-style: italic; font-weight: 700; font-size: 20px; color: #111; letter-spacing: -.5px; padding-bottom: 3px; border-bottom: 1.5px solid #111; }
+.blogo--jstack span { font-size: 11px; color: #222; }
+.dealer .blogo--jstack b { font-size: 30px; }
+.dealer .blogo--jstack span { font-size: 15px; }
+.blogo--pollock { gap: 6px; }
+.blogo--pollock b { font-family: Arial, Helvetica, sans-serif; font-size: 26px; font-weight: 800; color: #1aa58a; letter-spacing: -.5px; }
+.blogo--pollock b span { color: #1aa58a; font-size: 22px; }
+.blogo--pollock small { font-size: 8px; line-height: 1.2; color: #6aa89a; }
+
+/* text + ticks inside promo cards */
+.promo__text { color: var(--muted); font-size: 13px; line-height: 1.75; margin: 0 0 16px; }
+.ticks { list-style: none; margin: 0 0 22px; padding: 0; display: grid; gap: 9px; }
+.ticks li { display: flex; gap: 10px; align-items: flex-start; font-size: 12.5px; color: var(--navy); line-height: 1.5; }
+.ticks .ico { flex: none; width: 18px; height: 18px; padding: 3px; border-radius: 50%; background: #fff; color: var(--teal-2); margin-top: 1px; }
+.promo--wide { grid-template-columns: 1.1fr 1fr; }
+.promo__media--inset { margin: 32px 0 32px 0; border-radius: 0; }
+.promo--white { background: #fff; border: 1px solid var(--line-2); box-shadow: var(--shadow-sm); }
+.promo--white .ticks .ico, .promo--flip .ticks .ico { background: var(--teal-soft); }
+.promo--tint { background: var(--bg); border: 0; box-shadow: none; }
+
+/* service image tiles (2-up) */
+.svc { display: grid; grid-template-columns: 1fr 1fr; gap: 18px; }
+.svc__tile { position: relative; display: block; border-radius: 18px; overflow: hidden; aspect-ratio: 16 / 10; isolation: isolate; text-decoration: none; box-shadow: var(--shadow); }
+.svc__tile .media { position: absolute; inset: 0; z-index: -1; }
+.svc__tile .media::after { background: var(--grad-overlay); }
+.svc__tile:hover .media > img { transform: scale(1.05); }
+.svc__body { position: absolute; left: 24px; right: 24px; bottom: 22px; display: flex; flex-direction: column; align-items: flex-start; gap: 12px; }
+.svc__title { font-family: var(--serif); font-weight: 600; font-size: clamp(24px, 2.8vw, 32px); color: #fff; }
+
+.split__actions { display: flex; gap: 12px; flex-wrap: wrap; margin-top: 24px; }
+.split--rev { grid-template-columns: minmax(0, 1.05fr) minmax(0, .95fr); }
+
+/* brands narrow (Home Lift Systems) */
+.brands--narrow { max-width: 900px; margin: 0 auto; }
+.brands--narrow .brands__group { text-align: center; }
+.brands__eyebrow { font-size: 10px; font-weight: 700; letter-spacing: .14em; text-transform: uppercase; color: var(--teal); margin: 0 0 12px; }
+.brands__logo--duo { display: flex; gap: 22px; justify-content: center; }
+
+/* gold financing band */
+.gband { background: var(--gold); color: var(--navy); }
+.gband__inner { display: flex; align-items: center; gap: 22px; padding-top: 28px; padding-bottom: 28px; }
+.gband__big { font-family: var(--serif); font-weight: 600; font-size: clamp(48px, 6vw, 72px); line-height: 1; color: var(--navy); }
+.gband__copy { flex: 1; min-width: 0; }
+.gband__eyebrow { margin: 0 0 4px; font-size: 9.5px; font-weight: 700; letter-spacing: .14em; text-transform: uppercase; }
+.gband__title { font-family: var(--serif); font-weight: 600; font-size: clamp(20px, 2.4vw, 28px); margin: 0; line-height: 1.2; max-width: 620px; }
+.gband__btn { flex: none; }
+
+/* authorized dealer strip */
+.dealer { display: flex; align-items: center; justify-content: center; gap: 40px; max-width: 720px; margin: 40px auto 0; padding: 26px 32px; border-radius: 18px; background: var(--bg); }
+.dealer__label { font-family: var(--serif); font-weight: 600; font-size: 20px; color: var(--navy); }
+.dealer--text { max-width: none; justify-content: flex-start; }
+.dealer--text .eyebrow { margin-bottom: 4px; }
+.dealer__text { font-family: var(--serif); font-weight: 600; font-size: 18px; color: var(--navy); margin: 0; }
+.section--tight-y .dealer { margin-top: 0; }
+
+/* 01 Safety / 02 Comfort */
+.pillars { display: grid; grid-template-columns: 1fr 1fr; gap: 22px; }
+.pillar { border-radius: 20px; overflow: hidden; background: var(--bg); display: flex; flex-direction: column; }
+.pillar__media { aspect-ratio: 16 / 9; }
+.pillar__body { padding: 26px 28px 28px; }
+.pillar h3 { font-family: var(--serif); font-weight: 600; font-size: 28px; color: var(--navy); margin: 0 0 10px; }
+.pillar h3 em { color: var(--teal); font-weight: 500; margin-right: 6px; }
+.pillar p { color: var(--muted); font-size: 13px; line-height: 1.7; margin: 0 0 16px; }
+.pillar--dark { background: var(--navy); }
+.pillar--dark h3 { color: #fff; }
+.pillar--dark h3 em { color: #5fd3c9; }
+.pillar--dark p { color: #b8c7d8; }
+.pillar--dark .ticks li { color: #fff; }
+.pillar--dark .ticks .ico { background: rgba(255, 255, 255, .1); color: #fff; }
+
+/* feature box (safety features / advantages) */
+.featbox { background: var(--bg); border-radius: 20px; padding: 28px; margin-top: 36px; }
+.featbox__head { display: grid; grid-template-columns: .8fr 1.2fr; gap: 30px; margin-bottom: 22px; }
+.featbox__head h3 { font-family: var(--serif); font-weight: 600; font-size: 24px; color: var(--navy); margin: 0; line-height: 1.2; }
+.featbox__head p { margin: 0; color: var(--muted); font-size: 12.5px; line-height: 1.75; }
+.chips6 { list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 12px; }
+.chips6 li { display: flex; align-items: center; gap: 12px; background: #fff; border-radius: 12px; padding: 16px 18px; font-size: 13px; font-weight: 600; color: var(--navy); }
+.chips6__icon { width: 30px; height: 30px; border-radius: 8px; display: grid; place-items: center; background: var(--teal-soft); color: var(--teal-2); flex: none; }
+.adv { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 14px; }
+.adv__card { background: #fff; border-radius: 14px; padding: 20px; }
+.adv__card h4 { font-family: var(--serif); font-weight: 600; font-size: 17px; color: var(--navy); margin: 14px 0 8px; }
+.adv__card p { margin: 0; font-size: 12.5px; color: var(--muted); line-height: 1.7; }
+
+/* duo cards */
+.duo { display: grid; grid-template-columns: 1fr 1fr; gap: 22px; margin-top: 26px; align-items: stretch; }
+.duo__card { border: 1px solid var(--line-2); border-radius: 18px; padding: 28px; background: #fff; box-shadow: var(--shadow-sm); }
+.duo__card h3 { font-family: var(--serif); font-weight: 600; font-size: 21px; color: var(--navy); margin: 0 0 12px; }
+.duo__card p { color: var(--muted); font-size: 13px; line-height: 1.75; margin: 0 0 14px; }
+.duo__card--dark { background: var(--navy); border-color: var(--navy); }
+.duo__card--dark h3 { color: #fff; }
+.duo__card--dark p { color: #b8c7d8; }
+.duo__tags { display: flex; flex-wrap: wrap; gap: 8px; }
+.duo__tags .tag { background: var(--bg); border-color: transparent; color: var(--navy); }
+
+/* steps: flat variant (Walk-in Shower) */
+.steps3--flat .step3 { background: var(--bg); box-shadow: none; }
+.step3__label { font-size: 9.5px; font-weight: 700; letter-spacing: .14em; text-transform: uppercase; color: var(--teal); }
+.steps3--flat .step3__icon { background: #fff; width: 36px; height: 36px; }
+.step3--dark { background: var(--navy) !important; }
+.step3--dark h3 { color: #fff; }
+.step3--dark p { color: #b8c7d8; }
+.step3--dark .step3__label { color: #8fa3ba; }
+.step3--dark .step3__icon { background: var(--gold) !important; color: var(--navy); }
+
+.section-head__aside--light { color: #b8c7d8; }
+
+/* navy Get Started variant */
+.gs--navy { background: var(--navy); }
+.gs--navy .gs__bg::after { background: linear-gradient(90deg, rgba(10, 37, 64, .95), rgba(10, 37, 64, .82)); }
+.gs--navy .gs__text { color: #c8d4e3; }
+
+@media (max-width: 1024px) {
+  .promo--wide { grid-template-columns: 1fr; }
+  .promo__media--inset { margin: 0; }
+  .split--rev { grid-template-columns: 1fr; }
+  .split--rev .split__media { order: -1; }
+  .featbox__head { grid-template-columns: 1fr; gap: 12px; }
+  .duo { grid-template-columns: 1fr; }
+}
+@media (max-width: 720px) {
+  .gband__inner { flex-direction: column; align-items: flex-start; gap: 12px; padding-top: 30px; padding-bottom: 30px; }
+  .gband__btn { width: 100%; }
+  .dealer { flex-direction: column; gap: 14px; text-align: center; padding: 22px; }
+  .dealer--text { align-items: center; }
+  .featbox { padding: 20px 18px; }
+  .pillar h3 { font-size: 24px; }
+  .svc__tile { aspect-ratio: 4 / 3.4; }
+  .svc.is-carousel > .svc__tile, .pillars.is-carousel > .pillar { flex-basis: 86%; }
+  .chips6.is-carousel > li, .adv.is-carousel > .adv__card { flex-basis: 70%; }
+  .chips6.is-carousel, .adv.is-carousel { margin-left: -18px; margin-right: -18px; padding-left: 18px; padding-right: 18px; }
+}
+
+.ph__sub--row .hdealer__text { display: none; }
+.ph__sub--row .hdealer__logo { font-style: normal; }
+.promo--wide .promo__media--inset { align-self: center; aspect-ratio: 4 / 3; min-height: 0; margin: 32px 32px 32px 0; border-radius: 14px; }
+.promo--wide .promo__media--inset > img { object-position: center 30%; }
+@media (max-width: 1024px) { .promo--wide .promo__media--inset { margin: 0 22px 22px; } }
+.ph__sub--row .hdealer { font-family: var(--font); font-style: normal; font-size: 12px; font-weight: 400; }

@@ -71,7 +71,7 @@ test('header and footer links follow the navigation document', async () => {
 
 test('internal links only point at real pages', async () => {
   const known = new Set(PAGES.map((p) => p.path));
-  for (const u of ['/', '/locations/', '/locations/boise-id/']) {
+  for (const u of ['/', '/locations/', '/locations/boise-id/', '/service/lifts/', '/service/bathroom-remodeling/', '/services/walk-in-showers/']) {
     const html = await (await get(u, PROD)).text();
     for (const [, href] of html.matchAll(/href="(\/[^"#?]*)/g)) {
       if (/\.(css|svg|png|jpg|js)$/.test(href) || href.startsWith('/images/')) continue;
@@ -94,7 +94,12 @@ test('designed pages render their sections, carousels and quick forms', async ()
     '/financing/': ['Jacuzzi Bath Remodel Showers', '$2,500', 'It’s easy to get a custom shower', 'Inspiration Gallery'],
     '/contact-us/': ['Our Corporate Office', 'Our Home Lift Brands', 'About Us', 'Stormie Grogan', 'Call Today'],
     '/locations/': ['Our Locations', 'Evansville, WY', 'Walk In Bath Upgrade Options', 'Home Lift Upgrade Options'],
-    '/services/elevator-lifts/': ['Elevate Your Home with Stiltz Elevators', 'Why Choose Caliber', 'Home Elevator Lifts for Everyone', 'Learn More Today']
+    '/services/elevator-lifts/': ['Elevate Your Home with Stiltz Elevators', 'Why Choose Caliber', 'Home Elevator Lifts for Everyone', 'Learn More Today'],
+    '/services/stairlifts/': ['Premium Stair Lifts', 'Bruno Stair Lifts', 'Residential Platform Lifts', 'Inspiration Gallery'],
+    '/service/lifts/': ['Home Lift Systems Expertly Installed', 'Stair Lifts', 'Home Elevators', 'Learn more today about our financing options.'],
+    '/services/walk-in-tubs/': ['01</em> Safety', 'Walk-in Tub Safety Features', 'Expert Installation', 'Get Started on your Walk in Tub Upgrade'],
+    '/services/walk-in-showers/': ['Tub-To-Shower Conversion', '3 Easy Steps to a New Shower', 'Advantages of Jacuzzi Bath Remodel Showers', 'Walk-in Showers Installed in Just One Day'],
+    '/service/bathroom-remodeling/': ['Bathroom Remodeling Services', 'Comfortable Bathroom Remodeling for Every Home', 'Most Bathroom Upgrades are available at 12 Months Zero Interest', 'Start Your Bathroom Remodel']
   };
   for (const [u, texts] of Object.entries(expect)) {
     const html = (await (await get(u, PROD)).text()).replace(/&amp;/g, '&');
