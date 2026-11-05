@@ -52,9 +52,9 @@
     "title": "Aging-in-Place & Home Remodeling Advice | Caliber",
     "description": "Read practical articles on aging-in-place remodeling, bathroom upgrades, walk-in showers, walk-in tubs, stair lifts, and home accessibility.",
     "type": "page",
-    "h1": "Blog",
+    "h1": "Aging in Place Articles",
     "crumb": "Blog",
-    "ready": false
+    "ready": true
   },
   {
     "path": "/financing/",

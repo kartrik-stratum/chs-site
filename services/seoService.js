@@ -21,6 +21,7 @@ const PAGES = require('../data/pages.json');
 const BY_PATH = new Map(PAGES.map((p) => [p.path, p]));
 const APP_PATHS = { '/': 'landing', '/design-tool/': 'builder' };
 const parts = require('./pageParts');
+const blog = require('./blog');
 // Cache-busting: every server start gets a new version, so browsers always load the latest CSS/JS.
 const BUILD = Date.now().toString(36);
 const bust = (html) => html.replace(/((?:href|src)="\/(?:css|js)\/[^"?]+)"/g, `$1?v=${BUILD}"`);
@@ -91,6 +92,12 @@ function structuredData(page) {
       description: page.description, offers: { '@type': 'Offer', price: '0', priceCurrency: 'USD' }, provider: { '@id': `${siteUrl()}/#business` }
     });
   }
+  if (page.post) {
+    graph.push({ '@type': 'BlogPosting', headline: page.post.title, datePublished: page.post.date, dateModified: page.post.date, image: siteUrl() + page.post.image, mainEntityOfPage: url, author: { '@type': 'Organization', name: 'Caliber Home Solutions' }, publisher: { '@id': `${siteUrl()}/#business` }, description: page.description });
+  }
+  if (page.path === '/blog/') {
+    graph.push({ '@type': 'Blog', name: 'Aging in Place Articles', url, blogPost: blog.POSTS.map((x) => ({ '@type': 'BlogPosting', headline: x.title, datePublished: x.date, url: siteUrl() + blog.url(x) })) });
+  }
   if (page.path === '/contact-us/') {
     graph.push({ '@type': 'ContactPage', url, name: page.title, about: { '@id': `${siteUrl()}/#business` } });
   }
@@ -112,13 +119,14 @@ function structuredData(page) {
 function headTags(page, req) {
   const url = siteUrl() + page.path;
   const index = page.ready && isProductionHost(req);
-  const img = `${siteUrl()}/images/home/hero-banner.jpg`;
+  const img = siteUrl() + (page.post ? page.post.image : '/images/home/hero-banner.jpg');
   return [
     `<title>${esc(page.title)}</title>`,
     `<meta name="description" content="${esc(page.description)}">`,
     `<link rel="canonical" href="${esc(url)}">`,
     `<meta name="robots" content="${index ? 'index, follow, max-image-preview:large' : 'noindex, follow'}">`,
-    '<meta property="og:type" content="website">',
+    `<meta property="og:type" content="${page.post ? 'article' : 'website'}">`,
+    ...(page.post ? [`<meta property="article:published_time" content="${page.post.date}">`] : []),
     '<meta property="og:site_name" content="Caliber Home Solutions">',
     '<meta property="og:locale" content="en_US">',
     `<meta property="og:title" content="${esc(page.title)}">`,
@@ -178,11 +186,15 @@ const EXTRA_CTA = {
 function renderPage(page, req) {
   const t = templates();
   const crumbs = breadcrumbs(page);
-  if (t.designed[page.path]) {
+  const designed = page.post ? blog.postHtml(page.post)
+    : page.type === 'blog-list' ? blog.listHtml(page.n)
+    : page.path === '/blog/' ? blog.listHtml(1)
+    : t.designed[page.path];
+  if (designed) {
     const crumbLight = `<nav class="crumbs crumbs--slash" aria-label="Breadcrumb"><ol>${crumbs.map((c, i) => (i === crumbs.length - 1
       ? `<li aria-current="page">${esc(c.crumb)}</li>`
       : `<li><a href="${esc(c.path)}">${esc(c.crumb)}</a></li>`)).join('')}</ol></nav>`;
-    const body = parts.render(t.designed[page.path], { crumbs: crumbLight });
+    const body = parts.render(designed, { crumbs: crumbLight });
     return t.page
       .replace('<!--SEO-->', headTags(page, req))
       .replace('<!--HEADER-->', t.header)
@@ -213,8 +225,13 @@ function pagesMiddleware(req, res, next) {
     return res.redirect(301, p + '/' + q);
   }
   if (p === '/index.html') return res.redirect(301, '/');
-  const page = BY_PATH.get(p);
-  if (!page) return next();
+  if (p.startsWith('/blog/') && !p.endsWith('/') && blog.resolve(p + '/')) return res.redirect(301, p + '/');
+  let page = BY_PATH.get(p);
+  if (!page) {
+    const b = blog.resolve(p);
+    if (!b) return next();
+    page = { ...b.page, n: b.n };
+  }
   res.set('Cache-Control', 'no-cache');
   res.type('html').send(bust(APP_PATHS[page.path] ? renderApp(page, req) : renderPage(page, req)));
 }
