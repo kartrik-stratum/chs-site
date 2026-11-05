@@ -67,7 +67,10 @@ const GALLERY = {
   mixed: [12, 9, 2, 1, 6, 4, 7, 10, 8, 11, 3, 5],
   lift: [3, 7, 5, 9, 10, 2, 3, 12, 5, 7, 6, 11, 1, 8, 3, 5]
 };
-const GSIZE = {1:[700,381],2:[700,654],3:[400,544],4:[700,433],5:[400,544],6:[700,438],7:[700,518],8:[700,518],9:[700,581],10:[700,525],11:[700,518],12:[700,518]};
+// Per-page photos live in /images/pages/gallery/<name>.jpg; numbers are the shared g1–g12 tiles.
+const GFILE = (n) => (typeof n === 'number' ? `/images/pages/g${n}.jpg` : `/images/pages/gallery/${n}.jpg?v=1`);
+GALLERY.financing = ['financing-1', 'financing-2', 'financing-3', 'financing-4', 'financing-5', 1, 6, 11, 12, 4, 2, 9, 10, 8, 7, 3];
+const GSIZE = {1:[700,381],2:[700,654],3:[400,544],4:[700,433],5:[400,544],6:[700,438],7:[700,518],8:[700,518],9:[700,581],10:[700,525],11:[700,518],12:[700,518], 'financing-1':[546,328], 'financing-2':[546,388], 'financing-3':[546,346], 'financing-4':[546,362], 'financing-5':[546,334]};
 const gallery = ({ set = 'bath', eyebrow = 'Real Caliber projects', title = 'Inspiration Gallery', aside = '' }) => `
   <section class="section pg-gallery" id="inspiration-gallery">
     <div class="container">
@@ -76,7 +79,7 @@ const gallery = ({ set = 'bath', eyebrow = 'Real Caliber projects', title = 'Ins
         <h2 class="h2">${esc(title)}</h2>
       </div>`}
       <div class="masonry" data-carousel>
-        ${(GALLERY[set] || GALLERY.bath).map((n, i) => `<figure class="masonry__item"><div class="media"><img src="/images/pages/g${n}.jpg" width="${GSIZE[n][0]}" height="${GSIZE[n][1]}" alt="Caliber Home Solutions project photo ${i + 1}" loading="lazy"></div></figure>`).join('')}
+        ${(GALLERY[set] || GALLERY.bath).map((n, i) => `<figure class="masonry__item"><div class="media"><img src="${GFILE(n)}" width="${GSIZE[n][0]}" height="${GSIZE[n][1]}" alt="Caliber Home Solutions project photo ${i + 1}" loading="lazy"></div></figure>`).join('')}
       </div>
     </div>
   </section>`;
