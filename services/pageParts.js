@@ -172,7 +172,7 @@ const LOGO = {
 };
 const logo = ({ name }) => LOGO[name] || '';
 const brands = () => `
-  <div class="brands">
+  <div class="brands" data-carousel>
     <div class="brands__group"><h2 class="brands__title">Our Bathroom Remodeling Brands</h2><div class="brands__row"><div class="brands__logo">${LOGO.jacuzzi}</div></div></div>
     <div class="brands__group"><h2 class="brands__title">Our Home Lift Brands</h2><div class="brands__row brands__row--2"><div class="brands__logo">${LOGO.stiltz}</div><div class="brands__logo">${LOGO.bruno}</div></div></div>
   </div>`;

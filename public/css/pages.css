@@ -464,3 +464,8 @@
   .promos.is-carousel > .promo .promo__media { order: -1; min-height: 200px; flex: none; }
   .promos.is-carousel > .promo .promo__body { padding: 22px 20px; flex: 1; }
 }
+
+/* Contact: brand groups slide on mobile */
+@media (max-width: 720px) {
+  .brands.is-carousel > .brands__group { flex-basis: 88%; }
+}
