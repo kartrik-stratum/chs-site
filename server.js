@@ -64,7 +64,15 @@ function createApp() {
 function start() {
   const port = parseInt(process.env.PORT || '3000', 10);
   const app = createApp();
-  const server = app.listen(port, () => {
+  const server = app.listen(port, (err) => {
+    if (err) {
+      if (err.code === 'EADDRINUSE') {
+        logger.error(`Port ${port} is already in use - an OLD copy of the site is still running and is serving the old version. Stop it first (Windows PowerShell: Get-NetTCPConnection -LocalPort ${port} -State Listen | ForEach-Object { Stop-Process -Id $_.OwningProcess -Force }), then run npm start again.`);
+      } else {
+        logger.error('Server failed to start', { error: err.message });
+      }
+      process.exit(1);
+    }
     logger.info(`Vision Board running at http://localhost:${port}`);
     const settings = getEmailSettings();
     const problems = validateEmailSettings(settings);
