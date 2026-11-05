@@ -474,3 +474,6 @@
 @media (max-width: 720px) {
   .checks2.is-carousel > li { flex-basis: 78%; }
 }
+
+/* Grid columns must be allowed to shrink so carousels inside them stay phone-width */
+.split__copy, .split__media, .featbox, .feature__body, .promo__body, .duo__card, .gs__copy, .ph__copy { min-width: 0; }
