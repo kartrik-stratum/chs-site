@@ -483,3 +483,59 @@
 .office__map .map-img { min-height: 340px; object-position: 40% 35%; }
 .locmap .map-img { height: auto; }
 @media (max-width: 720px) { .office__map .map-img { min-height: 260px; } }
+
+/* ==========================================================================
+   Careers
+   ========================================================================== */
+.ph--careers .ph__inner { grid-template-columns: minmax(0, 1fr); min-height: 380px; }
+.ph--careers .ph__bg::after { background: linear-gradient(90deg, rgba(10, 37, 64, .92) 0%, rgba(10, 37, 64, .78) 45%, rgba(10, 37, 64, .45) 100%); }
+.ph__sub--top { margin: 18px 0 0; }
+.ph--careers .ph__title { margin-top: 6px; }
+.ph__actions { display: flex; align-items: center; gap: 14px; flex-wrap: wrap; margin-top: 8px; }
+.ph__jobchips { list-style: none; display: flex; gap: 8px; padding: 0; margin: 0; flex-wrap: wrap; }
+.ph__jobchips a { display: inline-block; padding: 7px 14px; border-radius: 999px; border: 1px solid rgba(255, 255, 255, .28); background: rgba(255, 255, 255, .06); color: #fff; font-size: 12px; font-weight: 500; text-decoration: none; }
+.ph__jobchips a:hover { background: var(--gold); border-color: var(--gold); color: var(--navy); }
+
+.perks { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 18px; }
+.perk { background: var(--bg); border-radius: 18px; padding: 26px 24px 28px; }
+.perk__icon { width: 40px; height: 40px; border-radius: 10px; display: grid; place-items: center; background: #fff; color: var(--blue); margin-bottom: 22px; box-shadow: var(--shadow-sm); }
+.perk h3 { font-family: var(--serif); font-weight: 600; font-size: 21px; color: var(--navy); margin: 0 0 10px; }
+.perk p { margin: 0; color: var(--muted); font-size: 13px; line-height: 1.7; }
+.perk--dark { background: var(--navy); }
+.perk--dark .perk__icon { background: var(--gold); color: var(--navy); }
+.perk--dark h3 { color: #fff; }
+.perk--dark p { color: #b8c7d8; }
+
+.jobs { display: grid; gap: 26px; }
+.job { display: grid; grid-template-columns: minmax(0, 1.25fr) minmax(0, 1fr); gap: 32px; background: #fff; border-radius: 22px; padding: 26px; box-shadow: var(--shadow-sm); align-items: center; }
+.job--flip { grid-template-columns: minmax(0, 1fr) minmax(0, 1.25fr); }
+.job--flip .job__media { order: -1; }
+.job__body { min-width: 0; padding: 8px 10px; }
+.job__media { border-radius: 14px; aspect-ratio: 1000 / 920; }
+.job__tags { display: flex; gap: 8px; margin: 0 0 14px; }
+.tag--open { font-size: 10px; }
+.tag--open::before { content: ''; display: inline-block; width: 6px; height: 6px; border-radius: 50%; background: var(--teal); margin-right: 6px; vertical-align: 1px; }
+.job__title { font-family: var(--serif); font-weight: 600; font-size: clamp(24px, 2.6vw, 30px); color: var(--navy); margin: 0 0 14px; line-height: 1.15; }
+.job__pay { display: inline-flex; align-items: center; gap: 10px; background: var(--gold-soft); border: 1px solid #f7e2bb; border-radius: 8px; padding: 7px 14px; margin: 0 0 16px; font-family: var(--serif); font-weight: 600; font-size: 19px; color: var(--navy); }
+.job__pay span { font-family: var(--font); font-size: 13px; color: var(--navy); }
+.job__text { color: var(--muted); font-size: 13px; line-height: 1.7; margin: 0 0 14px; max-width: 520px; }
+.job__label { font-size: 11px; font-weight: 600; color: var(--navy); margin: 0 0 8px; }
+.job__chips { list-style: none; display: flex; flex-wrap: wrap; gap: 8px; padding: 0; margin: 0 0 22px; }
+.job__chips li { display: inline-flex; align-items: center; gap: 6px; font-size: 11.5px; color: var(--navy); background: #fff; border: 1px solid var(--line); border-radius: 999px; padding: 5px 11px; }
+.job__chips .ico { color: var(--teal); }
+.job__actions { display: flex; align-items: center; gap: 14px; flex-wrap: wrap; }
+.job__ext { display: inline-flex; align-items: center; gap: 5px; font-size: 11.5px; color: var(--muted-2); }
+
+@media (max-width: 1024px) {
+  .job, .job--flip { grid-template-columns: 1fr; gap: 20px; }
+  .job--flip .job__media { order: -1; }
+  .job .job__media { order: -1; aspect-ratio: 16 / 10; }
+}
+@media (max-width: 720px) {
+  .ph--careers .ph__inner { min-height: 0; }
+  .ph__actions .btn { width: 100%; }
+  .perks.is-carousel > .perk { flex-basis: 82%; }
+  .job { padding: 16px; border-radius: 18px; }
+  .job__body { padding: 4px; }
+  .job__actions .btn { width: 100%; }
+}

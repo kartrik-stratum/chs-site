@@ -99,9 +99,10 @@
     "title": "Careers at Caliber Home Solutions | Join Our Team",
     "description": "Explore career opportunities at Caliber Home Solutions. Learn about available positions and take the next step toward joining our home remodeling and accessibility team.",
     "type": "page",
-    "h1": "Careers",
+    "h1": "Careers At Caliber Home Solutions",
     "crumb": "Careers",
-    "ready": false
+    "ready": true,
+    "template": "careers"
   },
   {
     "path": "/service/bathroom-remodeling/",

@@ -99,6 +99,7 @@ test('designed pages render their sections, carousels and quick forms', async ()
     '/service/lifts/': ['Home Lift Systems Expertly Installed', 'Stair Lifts', 'Home Elevators', 'Learn more today about our financing options.'],
     '/services/walk-in-tubs/': ['01</em> Safety', 'Walk-in Tub Safety Features', 'Expert Installation', 'Get Started on your Walk in Tub Upgrade'],
     '/services/walk-in-showers/': ['Tub-To-Shower Conversion', '3 Easy Steps to a New Shower', 'Advantages of Jacuzzi Bath Remodel Showers', 'Walk-in Showers Installed in Just One Day'],
+    '/careers/': ['We’re hiring!', 'Why Work for Caliber', 'In-Home Sales Specialist', 'Shower &amp; Bath Installer'.replace('&amp;', '&'), 'Sales Appointment Confirmer/ Setter'],
     '/service/bathroom-remodeling/': ['Bathroom Remodeling Services', 'Comfortable Bathroom Remodeling for Every Home', 'Most Bathroom Upgrades are available at 12 Months Zero Interest', 'Start Your Bathroom Remodel']
   };
   for (const [u, texts] of Object.entries(expect)) {
